@@ -107,6 +107,13 @@ function showPage(pageId, pushHistory = true) {
   // Close mobile menu
   const navMenu = document.getElementById('navMenu');
   navMenu.classList.remove('active');
+  
+  // 페이지 전환 시 항상 상단으로 스크롤
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // 모바일 호환성을 위해 즉시 스크롤도 추가
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 100);
 }
 
 // Mobile Menu Toggle

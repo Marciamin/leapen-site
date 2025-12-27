@@ -4403,6 +4403,13 @@
       window.showPage = function(pageId, pushHistory = true) {
         currentShowPage(pageId, pushHistory);
         
+        // 페이지 전환 시 항상 상단으로 스크롤
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // 모바일 호환성을 위해 즉시 스크롤도 추가
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+        
         // 보이스룸 100일 챌린지 페이지 열 때 전체 필터로 초기화
         if (pageId === 'voice-room-category-01') {
           setTimeout(() => {

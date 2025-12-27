@@ -1692,6 +1692,10 @@ footer {
 
   nav {
     padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #ffffff;
   }
 
   .logo {
@@ -1721,6 +1725,20 @@ footer {
     padding: 0 1rem;
     max-width: 100%;
     width: 100%;
+  }
+
+  .back-button {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    min-height: 40px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  .back-button.active-verbs-back-btn {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    min-height: 40px;
   }
 
   .resource-download-grid {
@@ -2327,8 +2345,17 @@ footer {
 
   .back-button.voice-room-back-btn {
     align-self: flex-end;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    min-height: 40px;
+  }
+  
+  .back-button {
     font-size: 0.8rem;
-    padding: 0.35rem 0.9rem;
+    padding: 0.5rem 1rem;
+    min-height: 40px;
+    white-space: normal;
+    line-height: 1.3;
   }
 }
 
