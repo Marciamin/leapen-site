@@ -87,7 +87,7 @@ function showPage(pageId, pushHistory = true) {
       item.classList.add('active');
     } else if (itemText === 'Contact' && pageId === 'contact') {
       item.classList.add('active');
-    } else if (itemText === 'Join' && pageId === 'join') {
+    } else if ((itemText === 'Login' || itemText === 'Logout') && pageId === 'login') {
       item.classList.add('active');
     }
     // Check dropdown items
@@ -122,15 +122,7 @@ function toggleMobileMenu() {
   navMenu.classList.toggle('active');
 }
 
-// Initialize - show page based on URL hash or home
-window.addEventListener('DOMContentLoaded', function() {
-  const hash = window.location.hash.slice(1); // # 제거
-  if (hash && document.getElementById(hash)) {
-    showPage(hash, false);
-  } else {
-    showPage('home', false);
-  }
-});
+// Initialize는 아래의 인증 상태 확인과 통합됨
 
 // 뒤로가기/앞으로가기 지원
 window.addEventListener('popstate', function(event) {
@@ -150,3 +142,186 @@ window.addEventListener('popstate', function(event) {
 function flipCard(card) {
   card.classList.toggle('flipped');
 }
+
+// Authentication System
+let isAdmin = false;
+
+// 로그인 상태 확인
+function checkAuthStatus() {
+  const authStatus = localStorage.getItem('leapen_auth');
+  if (authStatus === 'admin') {
+    isAdmin = true;
+    updateMenuForAuth();
+    return true;
+  }
+  isAdmin = false;
+  updateMenuForGuest();
+  return false;
+}
+
+// 로그인 처리
+function handleLogin(event) {
+  event.preventDefault();
+  const id = document.getElementById('loginId').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errorDiv = document.getElementById('loginError');
+  
+  if (id === 'Admin' && password === 'admin0415') {
+    localStorage.setItem('leapen_auth', 'admin');
+    isAdmin = true;
+    errorDiv.style.display = 'none';
+    updateMenuForAuth();
+    showPage('home');
+    alert('로그인 성공! 모든 메뉴에 접근할 수 있습니다.');
+  } else {
+    errorDiv.textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
+    errorDiv.style.display = 'block';
+  }
+}
+
+// 로그아웃
+function logout() {
+  if (confirm('로그아웃 하시겠습니까?')) {
+    localStorage.removeItem('leapen_auth');
+    isAdmin = false;
+    updateMenuForGuest();
+    showPage('home');
+    alert('로그아웃되었습니다. 게스트 모드로 전환됩니다.');
+  }
+}
+
+// Admin용 메뉴 표시
+function updateMenuForAuth() {
+  // 모든 메뉴 항목 표시
+  const allMenuItems = document.querySelectorAll('.nav-menu > li');
+  allMenuItems.forEach(item => {
+    item.style.display = '';
+  });
+  
+  // 드롭다운 내 모든 항목 표시
+  const allDropdownItems = document.querySelectorAll('.dropdown li');
+  allDropdownItems.forEach(item => {
+    item.style.display = '';
+  });
+  
+  // Login/Logout 버튼 전환
+  const loginBtn = document.getElementById('loginMenuBtn');
+  const logoutBtn = document.getElementById('logoutMenuBtn');
+  if (loginBtn) loginBtn.style.display = 'none';
+  if (logoutBtn) logoutBtn.style.display = '';
+}
+
+// 게스트용 메뉴 제한
+function updateMenuForGuest() {
+  // Daily Practice - Today's One Sentence만 표시
+  const dailyPracticeItems = document.querySelectorAll('.nav-menu > li.has-dropdown');
+  dailyPracticeItems.forEach(dropdown => {
+    const text = dropdown.textContent.trim();
+    if (text.includes('Daily Practice')) {
+      const items = dropdown.querySelectorAll('.dropdown li');
+      items.forEach(item => {
+        const itemText = item.textContent.trim();
+        if (itemText === 'Today\'s One Sentence') {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+    // English Study - LEAPEN 보이스룸, 52주 필사만 표시
+    else if (text.includes('English Study')) {
+      const items = dropdown.querySelectorAll('.dropdown li');
+      items.forEach(item => {
+        const itemText = item.textContent.trim();
+        if (itemText === 'LEAPEN 보이스룸' || itemText === '52주 필사') {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+    // Career Mentor - Active Verbs만 표시
+    else if (text.includes('Career Mentor')) {
+      const items = dropdown.querySelectorAll('.dropdown li');
+      items.forEach(item => {
+        const itemText = item.textContent.trim();
+        if (itemText === 'Active Verbs') {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  });
+  
+  // Login/Logout 버튼 전환
+  const loginBtn = document.getElementById('loginMenuBtn');
+  const logoutBtn = document.getElementById('logoutMenuBtn');
+  if (loginBtn) loginBtn.style.display = '';
+  if (logoutBtn) logoutBtn.style.display = 'none';
+}
+
+// 페이지 접근 제어
+function checkPageAccess(pageId) {
+  // Admin은 모든 페이지 접근 가능
+  if (isAdmin) {
+    return true;
+  }
+  
+  // 게스트 모드에서 접근 가능한 페이지
+  const guestAllowedPages = [
+    'home',
+    'daily-one-sentence',
+    'leapen-openchat',
+    'voice-room-category-01',
+    'voice-room-category-02',
+    '52weeks',
+    'Activeverbs',
+    'resources',
+    'about',
+    'contact',
+    'login'
+  ];
+  
+  if (guestAllowedPages.includes(pageId)) {
+    return true;
+  }
+  
+  // 접근 불가 페이지
+  alert('이 페이지는 로그인이 필요합니다.');
+  showPage('login');
+  return false;
+}
+
+// showPage 함수 수정 - 접근 제어 추가
+// DOMContentLoaded 이벤트가 발생하기 전에 래핑해야 함
+(function() {
+  const originalShowPage = window.showPage;
+  window.showPage = function(pageId, pushHistory = true) {
+    // 접근 제어 확인
+    if (!checkPageAccess(pageId)) {
+      return;
+    }
+    
+    // 원래 showPage 함수 호출
+    if (originalShowPage) {
+      originalShowPage(pageId, pushHistory);
+    }
+  };
+})();
+
+// 페이지 로드 시 인증 상태 확인 및 메뉴 업데이트
+window.addEventListener('DOMContentLoaded', function() {
+  checkAuthStatus();
+  
+  const hash = window.location.hash.slice(1);
+  if (hash && document.getElementById(hash)) {
+    if (checkPageAccess(hash)) {
+      showPage(hash, false);
+    } else {
+      showPage('home', false);
+    }
+  } else {
+    showPage('home', false);
+  }
+});

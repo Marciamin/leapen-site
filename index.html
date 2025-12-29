@@ -23,10 +23,10 @@
         <li class="has-dropdown">
           ⭐ Daily Practice
           <ul class="dropdown">
-            <li onclick="showPage('daily-one-sentence')">Today's One Sentence</li>
-            <li onclick="showPage('daily-word-phrase')">Today's Word / Phrase</li>
+            <li onclick="showPage('daily-one-sentence')">Today’s English Focus</li>
             <li onclick="showPage('daily-5min-writing')">Today's 5-Minute Writing</li>
             <li onclick="showPage('daily-article-news')">Today's Article/News</li>
+            <li onclick="showPage('daily-word-phrase')">Today's update-pending</li>
           </ul>
         </li>
         <li class="has-dropdown">
@@ -51,7 +51,8 @@
         <li onclick="showPage('resources')">✅ Resources</li>
         <li onclick="showPage('about')">🌱 About</li>
         <li onclick="showPage('contact')">📞 Contact</li>
-        <li class="cta" onclick="showPage('join')">Join</li>
+        <li class="cta" id="loginMenuBtn" onclick="showPage('login')">Login</li>
+        <li class="cta" id="logoutMenuBtn" onclick="logout()" style="display: none;">Logout</li>
       </ul>
     </div>
   </nav>
@@ -68,7 +69,7 @@
             <h1 class="hero-title">Your daily English,<br>ALL in ONE Place.</h1>
             <p class="hero-subtitle">Study English together, one day at a time.<br><br>영어, 뭘 어떻게 공부해야 할지 모르겠다면<br>여기서 하루 루틴부터 시작하세요!</p>
             <div class="hero-buttons">
-              <button class="btn btn-primary" onclick="showPage('contact')">CONTACT US</button>
+              <button class="btn btn-primary" onclick="showPage('contact')">CONTACT</button>
               <button class="btn btn-secondary" onclick="showPage('about')">LEARN MORE</button>
             </div>
           </div>
@@ -130,8 +131,10 @@
         <div class="voice-room-header-content">
           <div class="voice-room-header-text">
             <p class="category-label">Daily Practice</p>
-            <h2>✅ Today's One Sentence<br>(Daily English Practice)</h2>
-            <p>Every day, improve your English skills with one sentence. <br>매일 하나의 문장으로 영어 실력을 향상시켜보세요.</p>
+            <h2>✅ Today’s English Focus<br>(Self English Practice)</h2><br>
+            <p>Improve your English every day with one key sentence and a useful word or phrase.
+              Small practice, real progress. <br>하루 한 문장과 핵심 단어, 표현으로
+              매일 조금씩, 확실하게 영어 실력을 키워보세요.</p>
           </div>
           <div class="voice-room-header-image">
             <img src="PIC/Main_Sentence.png" alt="1 Sentence Practice">
@@ -178,10 +181,45 @@
     </div>
 
     <div id="daily-5min-writing" class="page-section">
-      <div class="content-card">
-      <h2>✅ Today's 5-Minute Writing</h2>
-      <p>Invest 5 minutes to improve your English writing skills. 5분만 투자해서 영어 쓰기 실력을 기르세요.</p>
-      <!-- 여기에 콘텐츠 추가 -->
+      <!-- 상단: 헤더, 설명, 사진 -->
+      <div class="voice-room-header-section">
+        <div class="voice-room-header-content">
+          <div class="voice-room-header-text">
+            <p class="category-label">Daily Practice</p>
+            <h2>✅ Today's 5-Minute Writing<br>(Self English Practice)</h2><br>
+            <p>Invest 5 minutes to improve your English writing skills. <br>5분만 투자해서 영어 쓰기 실력을 기르세요.</p>
+          </div>
+          <div class="voice-room-header-image">
+            <img src="PIC/Main_Writing.png" alt="5-Minute Writing Practice">
+          </div>
+        </div>
+      </div>
+      <div class="one-sentence-layout" style="margin-top: 1.5rem;">
+        <!-- 왼쪽 컬럼: 달력 -->
+        <div class="content-card one-sentence-left-col">
+          <p style="margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700; color: var(--text-secondary); text-align: center;">*Click the date in the calendar</p>
+          <div class="one-sentence-calendar">
+            <div class="calendar-header">
+              <button class="calendar-nav" onclick="changeWritingMonth(-1)">&#8249;</button>
+              <span id="writingMonthYear"></span>
+              <button class="calendar-nav" onclick="changeWritingMonth(1)">&#8250;</button>
+            </div>
+            <div class="calendar-body">
+              <div class="calendar-weekdays">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+              <div class="calendar-days" id="writingCalendarDays"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 오른쪽 컬럼: Writing Content Area -->
+        <div class="content-card one-sentence-right-col" id="writingContent">
+          <h3 id="writingDateTitle">📅 Select a date</h3>
+          <div id="writingDateContent">
+            <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 1.1rem;">달력에서 날짜를 선택하면 오늘의 쓰기 주제가 표시됩니다.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -197,34 +235,46 @@
     <div id="about" class="page-section">
       <div class="content-card">
         <h2>About LEAPEN</h2>
-        <p>LEAPEN'은 영어를 '공부만 하는 것'에서<br>'꾸준히 사용하는 것'으로 바꾸는 영어 커뮤니티입니다. 🌱</p>
+        <p>LEAPEN'은 영어를 '공부만 하는 것'에서 '꾸준히 사용하는 것'으로 바꾸는 영어 커뮤니티입니다. 🌱</p>
         
-        <p>카카오톡 오픈채팅에서 시작된 LEAPEN'은<br>영어에 관심 있는 사람들이 모여<br>함께 말하고, 듣고, 나누며 성장하는 공간입니다.</p>
+        <p>카카오톡 오픈채팅에서 시작된 LEAPEN'은 영어에 관심 있는 사람들이 모여 함께 말하고, 듣고, 나누며 성장하는 공간입니다.</p>
         
-        <p>완벽한 문장보다 시도하는 용기,<br>단기 성과보다 지속 가능한 영어 습관을 더 중요하게 생각합니다.</p>
+        <p>완벽한 문장보다 시도하는 용기, 단기 성과보다 지속 가능한 영어 습관을 더 중요하게 생각합니다.</p>
         
         <h3>LEAPEN's Philosophy 🌍</h3>
-        <p>LEAPEN'은 영어를 혼자서 버티는 공부가 아니라<br>함께 이어가는 과정으로 바라봅니다.</p>
+        <p>LEAPEN'은 영어를 혼자서 버티는 공부가 아니라 함께 이어가는 과정으로 바라봅니다.</p>
         
-        <p>영어 실력은 어느 순간 갑자기 늘기보다,<br>작은 사용 경험들이 쌓이면서 자연스럽게 성장한다고 믿습니다.</p>
+        <p>영어 실력은 어느 순간 갑자기 늘기보다 작은 사용 경험들이 쌓이면서 자연스럽게 성장한다고 믿습니다.</p>
         
-        <p>그래서 LEAPEN'은<br>학습자들이 부담 없이 영어를 쓰고,<br>실수해도 안전한 환경에서<br>계속 참여할 수 있는 구조를 만드는 데 집중합니다.</p>
+        <p>그래서 LEAPEN'은 학습자들이 부담 없이 영어를 쓰고 실수해도 안전한 환겵에서 계속 참여할 수 있는 구조를 만드는 데 집중합니다.</p>
         
         <h3>What We Pursue 🚀</h3>
         <p><strong>LEAPEN'이 추구하는 3가지</strong></p>
         
-        <h4>1️⃣ Consistency over Perfection</h4>
-        <p><strong>완벽함보다 꾸준함</strong></p>
-        <p>틀려도 괜찮고, 느려도 괜찮습니다.<br>LEAPEN'은 "잘 말하는 영어"보다<br>"계속 말하는 영어"를 목표로 합니다.</p>
-        
-        <h4>2️⃣ Real Use, Real Growth</h4>
-        <p><strong>실제로 쓰는 영어</strong></p>
-        <p>기사, 영상, 스몰토크, 토론 등<br>다양한 콘텐츠를 통해<br>실제 상황에 가까운 영어 사용 경험을 제공합니다.</p>
-        <p>영어는 책 속에만 있을 때보다<br>입 밖으로 나올 때 가장 빠르게 성장합니다.</p>
-        
-        <h4>3️⃣ Learn Together, Grow Together</h4>
-        <p><strong>혼자가 아닌, 함께 성장</strong></p>
-        <p>LEAPEN'은 경쟁보다 서로의 성장을 응원하는 커뮤니티입니다.<br>비슷한 목표를 가진 사람들과 함께하며<br>동기와 자신감을 자연스럽게 키워갑니다. 🤝</p>
+        <div class="pursue-grid">
+          <div class="pursue-column">
+            <h4>1️⃣ Consistency over Perfection</h4>
+            <p><strong>완벽함보다 꾸준함</strong></p>
+            <p>틀려도 괜찮고, 느려도 괜찮습니다.<br>LEAPEN'은 "잘 말하는 영어"보다<br>"계속 말하는 영어"를 목표로 합니다.</p>
+          </div>
+          
+          <div class="pursue-divider"></div>
+          
+          <div class="pursue-column">
+            <h4>2️⃣ Real Use, Real Growth</h4>
+            <p><strong>실제로 쓰는 영어</strong></p>
+            <p>기사, 영상, 스몰토크, 토론 등<br>다양한 콘텐츠를 통해<br>실제 상황에 가까운 영어 사용 경험을 제공합니다.</p>
+            <p>영어는 책 속에만 있을 때보다<br>입 밖으로 나올 때 가장 빠르게 성장합니다.</p>
+          </div>
+          
+          <div class="pursue-divider"></div>
+          
+          <div class="pursue-column">
+            <h4>3️⃣ Learn Together, Grow Together</h4>
+            <p><strong>혼자가 아닌, 함께 성장</strong></p>
+            <p>LEAPEN'은 경쟁보다 서로의 성장을 응원하는 커뮤니티입니다.<br>비슷한 목표를 가진 사람들과 함께하며<br>동기와 자신감을 자연스럽게 키워갑니다. 🤝</p>
+          </div>
+        </div>
         
         <h3>Who LEAPEN' Is For ✨</h3>
         <ul>
@@ -236,9 +286,9 @@
         <p>👉 영어에 진지하지만, 부담 없이 시작하고 싶은 모든 분들을 환영합니다.</p>
         
         <h3>More Than a Study Group 💬</h3>
-        <p>LEAPEN'은 단순한 스터디 그룹을 넘어,<br>영어를 일상 속에서 자연스럽게 사용하는<br>지속 가능한 영어 학습 커뮤니티를 지향합니다.</p>
+        <p>LEAPEN'은 단순한 스터디 그룹을 넘어, 영어를 일상 속에서 자연스럽게 사용하는 지속 가능한 영어 학습 커뮤니티를 지향합니다.</p>
         
-        <p>영어 실력뿐 아니라<br>말할 수 있다는 자신감,<br>그리고 계속 이어갈 수 있는 힘을 함께 키워갑니다.</p>
+        <p>영어 실력뿐 아니라 말할 수 있다는 자신감, 그리고 계속 이어갈 수 있는 힘을 함께 키워갑니다!</p>
       </div>
     </div>
 
@@ -3498,22 +3548,56 @@
     <div id="contact" class="page-section">
       <div class="content-card">
         <h2>Contact</h2>
-        <p>문의사항이나 상담이 필요하시면 언제든지 연락주세요!</p>
+        <p>문의사항이 있으시면 언제든지 연락주세요!</p>
         <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg); border-radius: 16px; border: 1px solid var(--stroke);">
           <h3>Contact Marcia 💁🏻‍♀️</h3>
           <p><strong>✉️ 이메일:</strong> leap.english0415@gmail.com</p>
           <p><strong>🗨️ 카카오톡:</strong> https://open.kakao.com/me/Marcia313</p>
           <p><strong>📸 인스타그램/스레드:</strong> @leapen.10</p>
-          <p><strong>🕒 운영 시간:</strong> 평일 10:00 - 18:00</p>
         </div>
       </div>
 
     </div>
 
-    <div id="join" class="page-section">
+    <div id="login" class="page-section">
       <div class="content-card">
-        <h2>Join</h2>
-        <p>LEAPEN 멤버십은 추후 오픈될 예정입니다. Stay Tuned!</p>
+        <h2>🔐 Login</h2>
+        <div class="login-container">
+          <!-- 왼쪽: LEAPEN 멤버 로그인 -->
+          <div class="login-column login-member">
+            <h3>👥 LEAPEN 멤버 로그인</h3>
+            <div class="login-notice">
+              <p style="color: var(--muted); line-height: 1.8; margin-top: 1rem;">
+                멤버십 로그인은 현재 준비 중입니다.<br>
+                <strong style="color: var(--text);">곧 오픈될 예정</strong>입니다. (카카오톡 오픈챗 공지를 확인해주세요.)
+              </p>
+              <p style="color: var(--muted); line-height: 1.8; margin-top: 1.5rem; font-size: 0.95rem;">
+                그동안 게스트 모드로 오픈된 페이지의 자료를<br>
+                자유롭게 활용하실 수 있습니다.
+              </p>
+            </div>
+          </div>
+          
+          <!-- 가운데 디바이더 -->
+          <div class="login-divider"></div>
+          
+          <!-- 오른쪽: 어드민 로그인 -->
+          <div class="login-column login-admin">
+            <h3>🔧 Admin 로그인</h3>
+            <form id="loginForm" style="margin-top: 1.5rem;" onsubmit="handleLogin(event)">
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">아이디</label>
+                <input type="text" id="loginId" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;" placeholder="아이디를 입력하세요">
+              </div>
+              <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">비밀번호</label>
+                <input type="password" id="loginPassword" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;" placeholder="비밀번호를 입력하세요">
+              </div>
+              <div id="loginError" style="color: #d32f2f; margin-bottom: 1rem; display: none; font-size: 0.9rem;"></div>
+              <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">로그인</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -3534,6 +3618,10 @@
     let currentSmallTalkCalendarDate = new Date();
     let selectedSmallTalkDate = null;
     let smallTalkData = {};
+
+    // Calendar for Writing Page
+    let currentWritingCalendarDate = new Date();
+    let selectedWritingDate = null;
     
     // Small Talk 데이터를 Notion에서 불러오기
     async function loadSmallTalkFromNotion() {
@@ -3546,15 +3634,83 @@
         
         console.log('Small Talk Notion data:', data);
         
+        // API 응답 형식에 따라 데이터 배열 추출
+        const items = data.results || data;
+        
+        if (!Array.isArray(items)) {
+          console.error('Invalid data format:', data);
+          return;
+        }
+        
         // 데이터를 날짜별로 정리
-        data.forEach(item => {
-          if (item.date) {
-            // 날짜 형식이 YYYY-MM-DD인지 확인
-            const dateStr = item.date.split('T')[0]; // 시간 부분 제거
-            smallTalkData[dateStr] = {
-              question: item.question || ''
-            };
+        items.forEach((item, index) => {
+          let dateStr = '';
+          let props = item;
+          
+          // Notion API 형식인 경우 (page.properties 구조)
+          if (item.properties) {
+            props = item.properties;
+            const dateValue = props.Date?.date?.start || props.Date?.rich_text?.[0]?.plain_text || '';
+            if (dateValue) {
+              dateStr = dateValue.split('T')[0]; // 시간 부분 제거
+            }
+            console.log(`Item ${index} properties keys:`, Object.keys(props));
+          } else {
+            // 직접 배열 형식인 경우
+            if (item.date) {
+              dateStr = item.date.split('T')[0]; // 시간 부분 제거
+            }
+            console.log(`Item ${index} keys:`, Object.keys(item));
           }
+          
+          if (!dateStr) {
+            console.warn(`Item ${index} has no date:`, item);
+            return;
+          }
+          
+          // 필드 추출 (Cloudflare Worker 형식 또는 Notion properties 형식)
+          let link = '';
+          let summary = '';
+          let summaryAudioValue = '';
+          let discussionQuestion = '';
+          
+          // Cloudflare Worker에서 변환된 형식 (직접 필드)
+          if (item.link !== undefined) {
+            link = item.link || '';
+            summary = item.summary || '';
+            summaryAudioValue = item.summaryAudio || '';
+            discussionQuestion = item.discussionQuestion || '';
+          } else {
+            // Notion API 직접 형식 (properties 구조)
+            link = props['링크']?.url || props.Link?.url || props.link || '';
+            summary = props.Summary?.rich_text?.[0]?.plain_text || props.summary || '';
+            summaryAudioValue = props['summary audio']?.rich_text?.[0]?.plain_text || 
+                               props['Summary Audio']?.rich_text?.[0]?.plain_text || 
+                               props.summaryAudio || '';
+            discussionQuestion = props['Discussion Questions']?.rich_text?.[0]?.plain_text || 
+                                props['Discussion Question']?.rich_text?.[0]?.plain_text || 
+                                props.discussionQuestion || '';
+          }
+          
+          // Summary Audio 경로 설정 (파일명에서 확장자 자동 처리)
+          let summaryAudioPath = '';
+          if (summaryAudioValue) {
+            const audioFileName = summaryAudioValue.trim();
+            // 확장자가 이미 포함되어 있는지 확인
+            if (audioFileName.endsWith('.mp3') || audioFileName.endsWith('.mp4')) {
+              summaryAudioPath = `Audio/PMVR/${audioFileName}`;
+            } else {
+              // 확장자가 없으면 .mp3를 기본으로 사용
+              summaryAudioPath = `Audio/PMVR/${audioFileName}.mp3`;
+            }
+          }
+          
+          smallTalkData[dateStr] = {
+            link: link,
+            summary: summary,
+            summaryAudio: summaryAudioPath,
+            discussionQuestion: discussionQuestion
+          };
         });
         
         console.log('Small Talk data loaded:', smallTalkData);
@@ -3574,15 +3730,52 @@
           const dateValue = props.Date?.date?.start;
           if (!dateValue) return;
           
-          const sentenceAudioFile = props.SentenceAudio?.rich_text?.[0]?.plain_text || '';
-          const exampleAudioFile = props['ExampleAudio ']?.rich_text?.[0]?.plain_text || '';
+          // 필드명 확인 (공백 문제 해결)
+          const sentenceAudioFile = props.SentenceAudio?.rich_text?.[0]?.plain_text || 
+                                    props['SentenceAudio']?.rich_text?.[0]?.plain_text || '';
+          const exampleAudioFile = props['ExampleAudio ']?.rich_text?.[0]?.plain_text || 
+                                   props['ExampleAudio']?.rich_text?.[0]?.plain_text ||
+                                   props.ExampleAudio?.rich_text?.[0]?.plain_text || '';
+          
+          // 디버깅: 필드명 확인
+          console.log('Date:', dateValue);
+          console.log('SentenceAudio field:', sentenceAudioFile);
+          console.log('ExampleAudio field:', exampleAudioFile);
+          
+          // Sentence Audio 경로 설정 (Daily1Sentence 폴더, 확장자 자동 처리)
+          let sentenceAudioPath = '';
+          if (sentenceAudioFile) {
+            const audioFileName = sentenceAudioFile.trim();
+            // 확장자가 이미 포함되어 있는지 확인
+            if (audioFileName.endsWith('.mp3') || audioFileName.endsWith('.mp4')) {
+              sentenceAudioPath = `Audio/Daily1Sentence/${audioFileName}`;
+            } else {
+              // 확장자가 없으면 .mp3를 기본으로 사용
+              sentenceAudioPath = `Audio/Daily1Sentence/${audioFileName}.mp3`;
+            }
+            console.log('SentenceAudio path:', sentenceAudioPath);
+          }
+          
+          // Example Audio 경로 설정 (Daily1Sentence 폴더, 확장자 자동 처리)
+          let exampleAudioPath = '';
+          if (exampleAudioFile) {
+            const audioFileName = exampleAudioFile.trim();
+            // 확장자가 이미 포함되어 있는지 확인
+            if (audioFileName.endsWith('.mp3') || audioFileName.endsWith('.mp4')) {
+              exampleAudioPath = `Audio/Daily1Sentence/${audioFileName}`;
+            } else {
+              // 확장자가 없으면 .mp3를 기본으로 사용
+              exampleAudioPath = `Audio/Daily1Sentence/${audioFileName}.mp3`;
+            }
+            console.log('ExampleAudio path:', exampleAudioPath);
+          }
           
           sentenceData[dateValue] = {
             sentence: props['Today\'s Sentence']?.title?.[0]?.plain_text || '',
-            sentenceAudio: sentenceAudioFile ? 'Audio/' + sentenceAudioFile : '',
+            sentenceAudio: sentenceAudioPath,
             meaning: props.Meaning?.rich_text?.[0]?.plain_text || '',
             example: props.Example?.rich_text?.[0]?.plain_text || '',
-            exampleAudio: exampleAudioFile ? 'Audio/' + exampleAudioFile : ''
+            exampleAudio: exampleAudioPath
           };
         });
         
@@ -3659,17 +3852,31 @@
       
       if (sentenceData[dateStr]) {
         const data = sentenceData[dateStr];
+        
+        // 디버깅: 데이터 확인
+        console.log('Selected date data:', dateStr, data);
+        console.log('SentenceAudio path:', data.sentenceAudio);
+        console.log('ExampleAudio path:', data.exampleAudio);
+        
+        // 오디오 버튼 (경로가 있을 때만 표시)
+        const sentenceAudioBtn = data.sentenceAudio 
+          ? `<button class="audio-btn" onclick="playAudio('${data.sentenceAudio}')" title="듣기">🔊</button>`
+          : '';
+        const exampleAudioBtn = data.exampleAudio 
+          ? `<button class="audio-btn" onclick="playAudio('${data.exampleAudio}')" title="듣기">🔊</button>`
+          : '';
+        
         contentEl.innerHTML = `
           <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem;">
             <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1.3rem;">Today's Sentence</h4>
             <p style="font-size: 1.5rem; font-weight: 600; line-height: 1.6;">
-              <button class="audio-btn" onclick="playAudio('${data.sentenceAudio}')" title="듣기">🔊</button>
+              ${sentenceAudioBtn}
               "${data.sentence}"
             </p>
             <p style="margin-top: 1.25rem; font-size: 1.1rem;"><strong>의미:</strong> ${data.meaning}</p>
             <p style="margin-top: 0.75rem; font-size: 1.1rem;">
               <strong>예문:</strong> ${data.example}
-              <button class="audio-btn" onclick="playAudio('${data.exampleAudio}')" title="듣기">🔊</button>
+              ${exampleAudioBtn}
             </p>
           </div>
         `;
@@ -3678,6 +3885,78 @@
       }
       
     }
+      // Writing Calendar 렌더링 함수
+      function renderWritingCalendar() {
+        const year = currentWritingCalendarDate.getFullYear();
+        const month = currentWritingCalendarDate.getMonth();
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                            'July', 'August', 'September', 'October', 'November', 'December'];
+        
+        document.getElementById('writingMonthYear').textContent = `${monthNames[month]} ${year}`;
+        
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+        
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+        
+        let html = '';
+        
+        // Previous month days
+        for (let i = firstDay - 1; i >= 0; i--) {
+          html += `<div class="calendar-day other-month">${daysInPrevMonth - i}</div>`;
+        }
+        
+        // Current month days
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          const isToday = dateStr === todayStr ? 'today' : '';
+          const isSelected = dateStr === selectedWritingDate ? 'selected' : '';
+          html += `<div class="calendar-day ${isToday} ${isSelected}" onclick="selectWritingDate('${dateStr}')">${day}</div>`;
+        }
+        
+        // Next month days
+        const totalCells = firstDay + daysInMonth;
+        const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+        for (let i = 1; i <= remaining; i++) {
+          html += `<div class="calendar-day other-month">${i}</div>`;
+        }
+        
+        document.getElementById('writingCalendarDays').innerHTML = html;
+      }
+
+        function changeWritingMonth(delta) {
+        currentWritingCalendarDate.setMonth(currentWritingCalendarDate.getMonth() + delta);
+        renderWritingCalendar();
+      }
+
+        function selectWritingDate(dateStr) {
+        // 기존 오디오 정지
+        stopAudio();
+  
+        selectedWritingDate = dateStr;
+        renderWritingCalendar();
+        
+        const titleEl = document.getElementById('writingDateTitle');
+        const contentEl = document.getElementById('writingDateContent');
+        
+        const [year, month, day] = dateStr.split('-');
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                            'July', 'August', 'September', 'October', 'November', 'December'];
+        const dayNum = parseInt(day);
+        const suffix = (dayNum === 1 || dayNum === 21 || dayNum === 31) ? 'st' : 
+                       (dayNum === 2 || dayNum === 22) ? 'nd' : 
+                       (dayNum === 3 || dayNum === 23) ? 'rd' : 'th';
+        if (titleEl) {
+          titleEl.innerHTML = `<h2>📅 ${monthNames[parseInt(month)-1]} ${dayNum}${suffix}, ${year}</h2>`;
+        }
+        
+        // 여기에 Writing 데이터를 표시하는 로직 추가
+        if (contentEl) {
+          contentEl.innerHTML = `<p style="color: var(--text-secondary); margin-top: 1rem; font-size: 1.1rem;">이 날짜의 쓰기 주제는 아직 준비되지 않았습니다.</p>`;
+        }
+      }
 
     // Small Talk 달력 렌더링 함수
     function renderSmallTalkCalendar() {
@@ -3755,30 +4034,49 @@
       if (smallTalkData[dateStr]) {
         const data = smallTalkData[dateStr];
         if (contentEl) {
-          // 질문을 줄바꿈으로 분리하여 각각 표시
-          const questions = data.question ? data.question.split('\n').filter(q => q.trim()) : [];
+          // 원문 기사 바로가기 버튼 (오른쪽 정렬)
+          const linkButton = data.link 
+            ? `<div style="text-align: right; margin-bottom: 2rem;"><a href="${data.link}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: var(--primary); color: #fff; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.3s;">원문 기사 바로가기</a></div>`
+            : '';
           
-          let questionsHTML = '';
-          if (questions.length > 0) {
-            questionsHTML = questions.map((q, index) => 
-              `<p style="font-size: 1.5rem; font-weight: 600; line-height: 1.8; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: ${index < questions.length - 1 ? '1px solid var(--stroke)' : 'none'};">
-                ${q.trim()}
-              </p>`
-            ).join('');
-          } else {
-            questionsHTML = `<p style="font-size: 1.5rem; font-weight: 600; line-height: 1.6;">질문이 아직 준비되지 않았습니다.</p>`;
-          }
+          // Summary 듣기 버튼
+          const summaryAudioButton = data.summaryAudio 
+            ? `<button class="audio-btn" onclick="playAudio('${data.summaryAudio}')" title="듣기">🔊</button>`
+            : '';
+          
+          // Summary 내용 (전체 문단이 하나의 섹션으로)
+          const summaryHTML = data.summary 
+            ? `
+              <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem; margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                  <h4 style="color: var(--primary); margin: 0; font-size: 1.3rem;">Summary</h4>
+                  ${summaryAudioButton}
+                </div>
+                <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic;">기사 원문 저작권은 Engoo에 있으며, 본 요약은 학습 목적에 따라 재작성되었습니다.</p>
+                <div style="font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap;">${data.summary}</div>
+              </div>
+            `
+            : '';
+          
+          // Discussion Question (Summary와 동일한 스타일)
+          const discussionHTML = data.discussionQuestion 
+            ? `
+              <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem;">
+                <h4 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.3rem;">Discussion Question</h4>
+                <div style="font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap;">${data.discussionQuestion}</div>
+              </div>
+            `
+            : '';
           
           contentEl.innerHTML = `
-            <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem;">
-              <h4 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.3rem;">Today's Question</h4>
-              ${questionsHTML}
-            </div>
+            ${linkButton}
+            ${summaryHTML}
+            ${discussionHTML}
           `;
         }
       } else {
         if (contentEl) {
-          contentEl.innerHTML = `<p style="color: var(--text-secondary); margin-top: 1rem; font-size: 1.1rem;">이 날짜의 질문은 아직 준비되지 않았습니다.</p>`;
+          contentEl.innerHTML = `<p style="color: var(--text-secondary); margin-top: 1rem; font-size: 1.1rem;">이 날짜의 내용은 아직 준비되지 않았습니다.</p>`;
         }
       }
     }
@@ -3787,13 +4085,99 @@
     let currentAudio = null;
     
     function playAudio(audioSrc) {
+      // 디버깅: 오디오 경로 확인
+      console.log('playAudio called with:', audioSrc);
+      
+      // 빈 경로 체크
+      if (!audioSrc || audioSrc.trim() === '') {
+        console.error('Empty audio source');
+        alert('오디오 파일 경로가 없습니다.');
+        return;
+      }
+      
       // 기존 오디오 정지
       if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
       }
-      currentAudio = new Audio(audioSrc);
-      currentAudio.play();
+      
+      // 100DAYVR 폴더의 오디오 파일인 경우, 확장자 자동 처리
+      if (audioSrc.includes('100DAYVR/')) {
+        const tryPlayAudio = (src) => {
+          return new Promise((resolve, reject) => {
+            const audio = new Audio(src);
+            audio.oncanplaythrough = () => resolve(audio);
+            audio.onerror = (e) => {
+              console.error('Audio load error:', e, 'for:', src);
+              reject(new Error('Failed to load audio'));
+            };
+            audio.load();
+          });
+        };
+        
+        // .mp3 파일 시도
+        if (!audioSrc.endsWith('.mp4')) {
+          tryPlayAudio(audioSrc)
+            .then(audio => {
+              currentAudio = audio;
+              audio.play().catch(e => {
+                console.error('Audio play error:', e);
+                alert('오디오 파일을 재생할 수 없습니다.');
+              });
+            })
+            .catch(() => {
+              // .mp3 실패 시 .mp4 시도
+              const mp4Src = audioSrc.replace(/\.mp3$/, '.mp4');
+              tryPlayAudio(mp4Src)
+                .then(audio => {
+                  currentAudio = audio;
+                  audio.play().catch(e => {
+                    console.error('Audio play error:', e);
+                    alert('오디오 파일을 재생할 수 없습니다.');
+                  });
+                })
+                .catch(() => {
+                  console.error('Failed to load audio:', audioSrc);
+                  alert('오디오 파일을 불러올 수 없습니다.');
+                });
+            });
+        } else {
+          // 이미 .mp4인 경우 그대로 재생
+          currentAudio = new Audio(audioSrc);
+          currentAudio.play().catch((e) => {
+            console.error('Failed to play audio:', audioSrc, e);
+            alert('오디오 파일을 재생할 수 없습니다.');
+          });
+        }
+      } else {
+        // 다른 경로의 오디오는 기존 방식대로 (Daily1Sentence 포함)
+        console.log('Playing audio from path:', audioSrc);
+        currentAudio = new Audio(audioSrc);
+        
+        // 오디오 로드 성공 확인
+        currentAudio.oncanplaythrough = () => {
+          console.log('Audio can play:', audioSrc);
+        };
+        
+        currentAudio.onerror = (e) => {
+          console.error('Audio load error:', e, 'Source:', audioSrc);
+          console.error('Audio error details:', currentAudio.error);
+          // 더 자세한 에러 정보
+          let errorMsg = '오디오 파일을 불러올 수 없습니다.\n';
+          errorMsg += '경로: ' + audioSrc + '\n\n';
+          errorMsg += '파일이 해당 경로에 존재하는지 확인해주세요.';
+          alert(errorMsg);
+        };
+        
+        // 오디오 로드 시작
+        currentAudio.load();
+        
+        // 재생 시도
+        currentAudio.play().catch((e) => {
+          console.error('Failed to play audio:', audioSrc, e);
+          // load()와 play()가 거의 동시에 일어나므로, 에러는 onerror에서 처리됨
+        });
+      }
     }
     
     function stopAudio() {
@@ -3818,6 +4202,15 @@
         const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
         setTimeout(() => {
           selectSmallTalkDate(todayStr);
+        }, 100);
+      }
+      if (document.getElementById('smallTalkCalendarDays')) {
+        renderWritingCalendar();
+        // 오늘 날짜를 기본으로 선택
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+        setTimeout(() => {
+          selectWritingDate(todayStr);
         }, 100);
       }
       // 52주 필사 초기화
@@ -4109,9 +4502,11 @@
         const dayModal = document.getElementById('dayModal');
         if (weekModal && weekModal.classList.contains('active')) {
           closeWeekModal();
-        }
-        if (dayModal && dayModal.classList.contains('active')) {
+        } else if (dayModal && dayModal.classList.contains('active')) {
           closeDayModal();
+        } else {
+          // 모달이 열려있지 않을 때는 오디오만 정지
+          stopAudio();
         }
       }
     });
@@ -4168,6 +4563,19 @@
           // Reading Audio: Rich Text 타입 (파일명)
           const readingAudio = props['Reading Audio']?.rich_text?.[0]?.plain_text || '';
           
+          // Reading Audio 경로 설정 (100DAYVR 폴더, 확장자 자동 처리)
+          let readingAudioPath = '';
+          if (readingAudio) {
+            const audioFileName = readingAudio.trim();
+            // 확장자가 이미 포함되어 있는지 확인
+            if (audioFileName.endsWith('.mp3') || audioFileName.endsWith('.mp4')) {
+              readingAudioPath = `Audio/100DAYVR/${audioFileName}`;
+            } else {
+              // 확장자가 없으면 .mp3를 기본으로 사용
+              readingAudioPath = `Audio/100DAYVR/${audioFileName}.mp3`;
+            }
+          }
+          
           // Vocabulary: Rich Text 타입 (형식: "단어 - 정의\n단어2 - 정의2")
           const vocabularyText = props.Vocabulary?.rich_text?.[0]?.plain_text || '';
           const vocabularyItems = vocabularyText
@@ -4202,7 +4610,7 @@
             reading: {
               title: "📘 Reading Material",
               content: readingContent,
-              audio: readingAudio ? 'Audio/' + readingAudio : ''
+              audio: readingAudioPath
             },
             vocabulary: {
               title: "🧠 Key Vocabulary",
@@ -4361,6 +4769,8 @@
       const modal = document.getElementById('dayModal');
       modal.classList.remove('active');
       document.body.style.overflow = '';
+      // 모달이 닫힐 때 오디오 정지
+      stopAudio();
     }
 
     // Day 필터 함수 (보이스룸 100일 챌린지)
@@ -4396,19 +4806,12 @@
     }
 
     // 보이스룸 100일 챌린지 페이지 열 때 필터 초기화
-    const originalShowPage = window.showPage;
-    if (typeof originalShowPage === 'function') {
-      // 이미 래핑된 경우를 대비해 확인
-      const currentShowPage = window.showPage;
+    // (showPage는 script.js에서 이미 래핑되어 있으므로 여기서는 필터 초기화만 처리)
+    const originalShowPageWrapper = window.showPage;
+    if (typeof originalShowPageWrapper === 'function') {
       window.showPage = function(pageId, pushHistory = true) {
-        currentShowPage(pageId, pushHistory);
-        
-        // 페이지 전환 시 항상 상단으로 스크롤
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // 모바일 호환성을 위해 즉시 스크롤도 추가
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 100);
+        // script.js의 접근 제어를 통과한 경우에만 실행
+        originalShowPageWrapper(pageId, pushHistory);
         
         // 보이스룸 100일 챌린지 페이지 열 때 전체 필터로 초기화
         if (pageId === 'voice-room-category-01') {
