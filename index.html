@@ -23,8 +23,8 @@
         <li class="has-dropdown">
           ⭐ Daily Practice
           <ul class="dropdown">
-            <li onclick="showPage('daily-one-sentence')">Today’s English Focus</li>
-            <li onclick="showPage('daily-5min-writing')">Today's 5-Minute Writing</li>
+            <li id="menuDailyOneSentence" onclick="showPage('daily-one-sentence')">Today's English Focus</li>
+            <li id="menuDailyWriting" onclick="showPage('daily-5min-writing')">Today's 5-Minute Writing</li>
             <li onclick="showPage('daily-article-news')">Today's Article/News</li>
             <li onclick="showPage('daily-word-phrase')">Today's update-pending</li>
           </ul>
@@ -33,8 +33,8 @@
           📚 English Study
           <ul class="dropdown">
             <li onclick="showPage('leapen-openchat')">LEAPEN 보이스룸</li>
-            <li onclick="showPage('discover')">나를 발견하는 시간</li>
             <li onclick="showPage('52weeks')">52주 필사</li>
+            <li onclick="showPage('discover')">나를 발견하는 시간</li>
             <li onclick="showPage('business')">비즈니스 영어</li>
             <li onclick="showPage('bookclub')">북클럽</li>
           </ul>
@@ -42,10 +42,10 @@
         <li class="has-dropdown">
           🎓 Career Mentor
           <ul class="dropdown">
+            <li onclick="showPage('Activeverbs')">Active Verbs</li>
             <li onclick="showPage('resume')">Resume</li>
             <li onclick="showPage('coverletter')">Cover Letter</li>
             <li onclick="showPage('interview')">Interview</li>
-            <li onclick="showPage('Activeverbs')">Active Verbs</li>
           </ul>
         </li>
         <li onclick="showPage('resources')">✅ Resources</li>
@@ -105,19 +105,19 @@
               <div class="daily-card-image">
                 <img src="PIC/Main_Sentence.png" alt="One Sentence">
               </div>
-              <h3>✅ Today's One Sentence</h3>
-            </div>
-            <div class="home-grid-card daily-card" onclick="showPage('daily-word-phrase')" style="cursor: pointer;">
-              <div class="daily-card-image">
-                <img src="PIC/Main_Word.png" alt="Word Phrase">
-              </div>
-              <h3>✅ Today's Word / Phrase</h3>
+              <h3>✅ Today's English Focus</h3>
             </div>
             <div class="home-grid-card daily-card" onclick="showPage('daily-5min-writing')" style="cursor: pointer;">
               <div class="daily-card-image">
                 <img src="PIC/Main_Writing.png" alt="5-Min Writing">
               </div>
               <h3>✅ Today's 5-Minute Writing</h3>
+            </div>
+            <div class="home-grid-card daily-card" onclick="showPage('daily-word-phrase')" style="cursor: pointer;">
+              <div class="daily-card-image">
+                <img src="PIC/ComingSoon.png" alt="Coming Soon">
+              </div>
+              <h3>❓ Coming Soon</h3>
             </div>
           </div>
         </div>
@@ -3515,9 +3515,15 @@
               <span class="download-label">Download</span>
             </a>
             <a class="resource-download-card" href="downloads/writing-practice.pdf" download>
-              <div class="resource-card-icon">✍️</div>
-              <h4>쓰기 연습 워크북 (업데이트 예정)</h4>
-              <p>비즈니스 상황별 예시와 템플릿이 포함된 단계별 라이팅 워크북.</p>
+              <div class="resource-card-icon">⭐</div>
+              <h4>업데이트 예정</h4>
+              <p>Coming Soon! 🤗</p>
+              <span class="download-label">Download</span>
+            </a>
+            <a class="resource-download-card" href="downloads/writing-practice.pdf" download>
+              <div class="resource-card-icon">⭐</div>
+              <h4>업데이트 예정</h4>
+              <p>Coming Soon! 🤗</p>
               <span class="download-label">Download</span>
             </a>
             </div>

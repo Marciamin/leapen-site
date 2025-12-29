@@ -76,6 +76,25 @@ function showPage(pageId, pushHistory = true) {
     item.classList.remove('active');
   });
   
+  // 로그인 페이지일 때 Today's English Focus와 Today's 5-Minute Writing 메뉴 숨기기
+  const menuDailyOneSentence = document.getElementById('menuDailyOneSentence');
+  const menuDailyWriting = document.getElementById('menuDailyWriting');
+  if (pageId === 'login') {
+    if (menuDailyOneSentence) menuDailyOneSentence.style.display = 'none';
+    if (menuDailyWriting) menuDailyWriting.style.display = 'none';
+  } else {
+    // 로그인 페이지가 아닐 때는 게스트 모드에 따라 표시/숨김
+    if (!isAdmin) {
+      // 게스트 모드일 때는 표시
+      if (menuDailyOneSentence) menuDailyOneSentence.style.display = '';
+      if (menuDailyWriting) menuDailyWriting.style.display = '';
+    } else {
+      // Admin 모드일 때는 항상 표시
+      if (menuDailyOneSentence) menuDailyOneSentence.style.display = '';
+      if (menuDailyWriting) menuDailyWriting.style.display = '';
+    }
+  }
+  
   // Find and activate the corresponding menu item
   menuItems.forEach(item => {
     const itemText = item.textContent.trim().split('\n')[0];
@@ -98,7 +117,9 @@ function showPage(pageId, pushHistory = true) {
           (dropdownText === '비즈니스 영어' && pageId === 'business') ||
           (dropdownText === 'Resume' && pageId === 'resume') ||
           (dropdownText === 'Cover Letter' && pageId === 'coverletter') ||
-          (dropdownText === 'Interview' && pageId === 'interview')) {
+          (dropdownText === 'Interview' && pageId === 'interview') ||
+          (dropdownText === 'Today\'s English Focus' && pageId === 'daily-one-sentence') ||
+          (dropdownText === 'Today\'s 5-Minute Writing' && pageId === 'daily-5min-writing')) {
         item.classList.add('active');
       }
     });
@@ -213,7 +234,7 @@ function updateMenuForAuth() {
 
 // 게스트용 메뉴 제한
 function updateMenuForGuest() {
-  // Daily Practice - Today's One Sentence만 표시
+  // Daily Practice - Today's English Focus와 Today's 5-Minute Writing 표시
   const dailyPracticeItems = document.querySelectorAll('.nav-menu > li.has-dropdown');
   dailyPracticeItems.forEach(dropdown => {
     const text = dropdown.textContent.trim();
@@ -221,7 +242,7 @@ function updateMenuForGuest() {
       const items = dropdown.querySelectorAll('.dropdown li');
       items.forEach(item => {
         const itemText = item.textContent.trim();
-        if (itemText === 'Today\'s One Sentence') {
+        if (itemText === 'Today\'s English Focus' || itemText === 'Today\'s 5-Minute Writing') {
           item.style.display = '';
         } else {
           item.style.display = 'none';
@@ -272,6 +293,7 @@ function checkPageAccess(pageId) {
   const guestAllowedPages = [
     'home',
     'daily-one-sentence',
+    'daily-5min-writing',
     'leapen-openchat',
     'voice-room-category-01',
     'voice-room-category-02',
