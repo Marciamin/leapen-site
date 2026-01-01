@@ -234,7 +234,7 @@ function updateMenuForAuth() {
 
 // 게스트용 메뉴 제한
 function updateMenuForGuest() {
-  // Daily Practice - Today's English Focus와 Today's 5-Minute Writing 표시
+  // Daily Practice - Today's English Focus만 표시
   const dailyPracticeItems = document.querySelectorAll('.nav-menu > li.has-dropdown');
   dailyPracticeItems.forEach(dropdown => {
     const text = dropdown.textContent.trim();
@@ -242,7 +242,7 @@ function updateMenuForGuest() {
       const items = dropdown.querySelectorAll('.dropdown li');
       items.forEach(item => {
         const itemText = item.textContent.trim();
-        if (itemText === 'Today\'s English Focus' || itemText === 'Today\'s 5-Minute Writing') {
+        if (itemText === 'Today\'s English Focus') {
           item.style.display = '';
         } else {
           item.style.display = 'none';
@@ -293,7 +293,6 @@ function checkPageAccess(pageId) {
   const guestAllowedPages = [
     'home',
     'daily-one-sentence',
-    'daily-5min-writing',
     'leapen-openchat',
     'voice-room-category-01',
     'voice-room-category-02',

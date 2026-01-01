@@ -3793,12 +3793,17 @@
             console.log('ExampleAudio path:', exampleAudioPath);
           }
           
+          // Writing 필드 읽기
+          const writing = props.writing?.rich_text?.[0]?.plain_text || 
+                         props.Writing?.rich_text?.[0]?.plain_text || '';
+          
           sentenceData[dateValue] = {
             sentence: props['Today\'s Sentence']?.title?.[0]?.plain_text || '',
             sentenceAudio: sentenceAudioPath,
             meaning: props.Meaning?.rich_text?.[0]?.plain_text || '',
             example: props.Example?.rich_text?.[0]?.plain_text || '',
-            exampleAudio: exampleAudioPath
+            exampleAudio: exampleAudioPath,
+            writing: writing
           };
         });
         
@@ -3889,6 +3894,30 @@
           ? `<button class="audio-btn" onclick="playAudio('${data.exampleAudio}')" title="듣기">🔊</button>`
           : '';
         
+        // Today's Question 섹션 (writing 필드가 있을 때만)
+        const questionSection = data.writing 
+          ? (() => {
+              // writing 필드를 줄바꿈으로 분리 (첫 줄: 영어 질문, 나머지: 한글 설명)
+              const lines = data.writing.split('\n').filter(line => line.trim());
+              const englishQuestion = lines[0] || '';
+              const koreanDescription = lines.slice(1).join('\n').trim();
+              
+              return `
+            <div style="border-top: 1px solid var(--stroke); margin-top: 2rem; padding-top: 2rem;">
+              <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1.3rem;">Today's Question</h4>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--muted); font-style: italic;">Write freely for 5 minutes. Don't worry about grammar. Just keep writing.</p>
+              <p style="font-size: 1.5rem; font-weight: 600; line-height: 1.6; color: var(--text); margin-bottom: 1rem;">${englishQuestion}</p>
+              ${koreanDescription ? `<p style="font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap; margin-bottom: 1.5rem;">${koreanDescription}</p>` : ''}
+              <div style="background: linear-gradient(135deg, #fef9e7 0%, #fef3c7 100%); border-left: 4px solid var(--primary); padding: 1.25rem; border-radius: 8px; margin-top: 1.5rem;">
+                <p style="font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.75rem;">📍 AI를 이용한 셀프 첨삭 방법</p>
+                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text); margin-bottom: 0.75rem;">아래 프롬프트와 내가 쓴 문장을 넣어 질문해 보세요. 😉</p>
+                <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text); font-family: 'Courier New', monospace; background: rgba(255, 255, 255, 0.6); padding: 0.75rem; border-radius: 6px; white-space: pre-wrap;">Please revise my writing to sound more natural and conversational, like something a native speaker would say/write. Keep my original meaning, don't rewrite everything.</p>
+              </div>
+            </div>
+          `;
+            })()
+          : '';
+        
         contentEl.innerHTML = `
           <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem;">
             <h4 style="color: var(--primary); margin-bottom: 0.75rem; font-size: 1.3rem;">Today's Sentence</h4>
@@ -3901,6 +3930,7 @@
               <strong>예문:</strong> ${data.example}
               ${exampleAudioBtn}
             </p>
+            ${questionSection}
           </div>
         `;
       } else {
