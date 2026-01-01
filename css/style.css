@@ -36,10 +36,14 @@ nav {
   background: #ffffff;
   color: var(--text);
   padding: 1.5rem 0;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
   border-bottom: 1px solid var(--stroke);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -181,6 +185,7 @@ nav {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0;
+  padding-top: 7rem; /* 네비게이션 바 높이만큼 상단 여백 추가 */
   min-height: calc(100vh - 200px);
 }
 

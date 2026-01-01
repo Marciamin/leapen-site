@@ -76,18 +76,20 @@ function showPage(pageId, pushHistory = true) {
     item.classList.remove('active');
   });
   
-  // 로그인 페이지일 때 Today's English Focus와 Today's 5-Minute Writing 메뉴 숨기기
+  // 로그인 페이지일 때 Today's 5-Minute Writing만 숨기기 (Today's English Focus는 표시)
   const menuDailyOneSentence = document.getElementById('menuDailyOneSentence');
   const menuDailyWriting = document.getElementById('menuDailyWriting');
   if (pageId === 'login') {
-    if (menuDailyOneSentence) menuDailyOneSentence.style.display = 'none';
+    // 로그인 페이지에서도 Today's English Focus는 표시
+    if (menuDailyOneSentence) menuDailyOneSentence.style.display = '';
+    // Today's 5-Minute Writing은 숨김
     if (menuDailyWriting) menuDailyWriting.style.display = 'none';
   } else {
     // 로그인 페이지가 아닐 때는 게스트 모드에 따라 표시/숨김
     if (!isAdmin) {
-      // 게스트 모드일 때는 표시
+      // 게스트 모드일 때는 Today's English Focus만 표시
       if (menuDailyOneSentence) menuDailyOneSentence.style.display = '';
-      if (menuDailyWriting) menuDailyWriting.style.display = '';
+      if (menuDailyWriting) menuDailyWriting.style.display = 'none';
     } else {
       // Admin 모드일 때는 항상 표시
       if (menuDailyOneSentence) menuDailyOneSentence.style.display = '';
@@ -303,6 +305,11 @@ function checkPageAccess(pageId) {
     'contact',
     'login'
   ];
+  
+  // Active Verbs 알파벳별 상세 페이지도 접근 가능
+  if (pageId.startsWith('active-verbs-')) {
+    return true;
+  }
   
   if (guestAllowedPages.includes(pageId)) {
     return true;
