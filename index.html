@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEAPEN</title>
   <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M6YBD2ER6B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M6YBD2ER6B');
+  </script>
 </head>
 <body>
   <!-- Navigation -->
@@ -528,7 +537,7 @@
           <div class="voice-room-header-text">
             <button class="back-button voice-room-back-btn" onclick="showPage('leapen-openchat')" style="margin-bottom: 1.5rem;">← LEAPEN 보이스룸으로 돌아가기</button>
             <p class="category-label">월~금: KST 07:30 ~ 08:30</p>
-            <h2>보이스룸 100일 챌린지<br>(100 Days Challenge)</h2>
+            <h2>보이스룸 100일 챌린지<br>(100 Days Challenge)</h2><BR>
             <p>DJ님과 함께하는 보이스룸 100일 챌린지 질문들입니다. <br>매일 새로운 질문으로 영어 실력을 향상시켜보세요.</p>
           </div>
           <div class="voice-room-header-image">
@@ -606,7 +615,7 @@
           <div class="voice-room-header-text">
             <button class="back-button voice-room-back-btn" onclick="showPage('leapen-openchat')" style="margin-bottom: 1.5rem;">← LEAPEN 보이스룸으로 돌아가기</button>
             <p class="category-label">월~금: KST 07:30 ~ 08:30</p>
-            <h2>💬 Small Talk 보이스룸<br>(Small Talk Voice Room)</h2>
+            <h2>💬 Small Talk 보이스룸<br>(Small Talk Voice Room)</h2><BR>
             <p>Benher님과 함께하는 Small Talk 보이스룸 질문들입니다. <br>매일 새로운 질문으로 영어 실력을 향상시켜보세요.</p>
           </div>
           <div class="voice-room-header-image">
@@ -647,27 +656,35 @@
 
     <!-- Category 03 Page -->
     <div id="voice-room-category-03" class="page-section">
-      <div class="category-header-box voice-room-header-box">
-        <div class="category-board-header">
-          <p class="category-label">카테고리 03</p>
-          <h2>회복탄력성 & 도전<br>(Resilience & Challenges)</h2>
-          <p class="category-subtitle">넘어져도 다시 일어서는 힘을 길러주는 질문들.</p>
+      <!-- 상단: 헤더, 설명, 사진 -->
+      <div class="voice-room-header-section">
+        <div class="voice-room-header-content">
+          <div class="voice-room-header-text">
+            <button class="back-button voice-room-back-btn" onclick="showPage('leapen-openchat')" style="margin-bottom: 1.5rem;">← LEAPEN 보이스룸으로 돌아가기</button>
+            <p class="category-label">주말: KST 10:00 ~ 11:00</p>
+            <h2>주말 깜짝 보이스룸<br>(Weekend Random Voice Room)</h2><BR>
+            <p>주말에만 열리는 특별한 보이스룸입니다. <br>다양한 주제로 영어 실력을 향상시켜보세요.</p>
+          </div>
+          <div class="voice-room-header-image">
+            <img src="PIC/RandomVR.png" alt="Weekend Random Voice Room">
+          </div>
         </div>
-        <button class="back-button voice-room-back-btn" onclick="showPage('leapen-openchat')">← LEAPEN 보이스룸으로 돌아가기</button>
       </div>
-      <div class="voice-room-cards-grid">
+      
+      <!-- 하단: 질문 카드 그리드 -->
+      <div class="voice-room-cards-grid" style="margin-top: 1.5rem;">
         <!-- 질문 카드들 - 추후 내용 추가 예정 -->
         <div class="voice-room-question-card">
           <div class="question-number">01</div>
-          <p class="question-text">질문 내용은 추후 추가 예정입니다.</p>
+          <p class="question-text" style="font-size: 0.9rem;">질문 내용은 추후 추가 예정입니다.</p>
         </div>
         <div class="voice-room-question-card">
           <div class="question-number">02</div>
-          <p class="question-text">질문 내용은 추후 추가 예정입니다.</p>
+          <p class="question-text" style="font-size: 0.9rem;">질문 내용은 추후 추가 예정입니다.</p>
         </div>
         <div class="voice-room-question-card">
           <div class="question-number">03</div>
-          <p class="question-text">질문 내용은 추후 추가 예정입니다.</p>
+          <p class="question-text" style="font-size: 0.9rem;">질문 내용은 추후 추가 예정입니다.</p>
         </div>
       </div>
     </div>

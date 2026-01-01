@@ -1121,13 +1121,14 @@ nav {
 }
 
 .voice-room-header-text h2 {
-  font-size: 3rem; /* 기본 2rem * 1.5 */
+  font-size: 2.2rem; /* 보이스룸 페이지와 동일 */
   line-height: 1.3;
+  font-weight: 700;
 }
 
 .voice-room-header-text p {
-  font-size: 1.5rem; /* 기본 1rem * 1.5 */
-  line-height: 1.6;
+  font-size: 1rem; /* 보이스룸 페이지와 동일 */
+  line-height: 1.8;
 }
 
 .voice-room-header-text .back-button.voice-room-back-btn {
