@@ -4135,29 +4135,46 @@
             ? `<button class="audio-btn" onclick="playAudio('${data.summaryAudio}')" title="듣기">🔊</button>`
             : '';
           
-          // Summary 내용 (전체 문단이 하나의 섹션으로)
-          const summaryHTML = data.summary 
-            ? `
+          // Summary 내용 (첫 줄을 제목으로 처리)
+          let summaryHTML = '';
+          if (data.summary) {
+            const summaryLines = data.summary.split('\n').filter(line => line.trim() !== '');
+            const firstLine = summaryLines[0] || '';
+            const restContent = summaryLines.slice(1).join('\n');
+            
+            summaryHTML = `
               <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem; margin-bottom: 2rem;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                  <h4 style="color: var(--primary); margin: 0; font-size: 1.3rem;">Summary</h4>
+                  <h4 style="color: var(--primary); margin: 0; font-size: 1.5rem; font-weight: 700;">Summary</h4>
                   ${summaryAudioButton}
                 </div>
                 <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; font-style: italic;">기사 원문 저작권은 Engoo에 있으며, 본 요약은 학습 목적에 따라 재작성되었습니다.</p>
-                <div style="font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap;">${data.summary}</div>
+                ${firstLine ? `<div style="font-size: 1.35rem; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 1rem;">${firstLine}</div>` : ''}
+                ${restContent ? `<div style="font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap;">${restContent}</div>` : ''}
               </div>
-            `
-            : '';
+            `;
+          }
           
-          // Discussion Question (Summary와 동일한 스타일)
-          const discussionHTML = data.discussionQuestion 
-            ? `
+          // Discussion Question (리스트 형식으로 변환)
+          let discussionHTML = '';
+          if (data.discussionQuestion) {
+            const discussionLines = data.discussionQuestion.split('\n')
+              .filter(line => line.trim() !== '')
+              .map(line => line.trim());
+            
+            const discussionItems = discussionLines.map(item => 
+              `<li style="list-style: none; padding-left: 0;">${item}</li>`
+            ).join('');
+            
+            discussionHTML = `
               <div style="background: var(--surface); padding: 2rem; border-radius: 12px; margin-top: 1rem;">
-                <h4 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.3rem;">Discussion Question</h4>
-                <div style="font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap;">${data.discussionQuestion}</div>
+                <h4 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 700;">Discussion Question</h4>
+                <ul class="discussion-list" style="list-style: none; padding: 0; margin: 1rem 0;">
+                  ${discussionItems}
+                </ul>
               </div>
-            `
-            : '';
+            `;
+          }
           
           contentEl.innerHTML = `
             ${linkButton}
