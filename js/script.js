@@ -70,6 +70,13 @@ function showPage(pageId, pushHistory = true) {
     selectedPage.classList.add('active');
   }
 
+  // 홈 페이지로 이동 시 팝업 체크
+  if (pageId === 'home' && typeof checkAndShowPopups === 'function') {
+    setTimeout(() => {
+      checkAndShowPopups();
+    }, 300);
+  }
+
   // Update active menu item
   const menuItems = document.querySelectorAll('.nav-menu > li');
   menuItems.forEach(item => {

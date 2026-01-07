@@ -66,6 +66,69 @@
     </div>
   </nav>
 
+  <!-- Popup Modals -->
+  <!-- Popup 1: 카카오톡 오픈채팅 -->
+  <div class="popup-overlay" id="popup1">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closePopup(1)">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">혼자 하지 마세요 🙂<br>같이하는 영어 스터디</h2>
+        <div class="popup-body">
+          <p>영어 공부, 혼자 하면 흐지부지되기 쉽죠.<br>
+          150명이 함께하는 카카오톡 영어 스터디 오픈채팅에서<br>
+          함께 공부하고, 자극도 받고, 꾸준히 성장해요!</p>
+          
+          <div class="popup-features">
+            <div class="popup-feature-item">✔️ 부담 없는 참여</div>
+            <div class="popup-feature-item">✔️ 혼자서도, 같이도 OK</div>
+            <div class="popup-feature-item">✔️ 꾸준함이 목표</div>
+          </div>
+          
+          <p class="popup-cta"> 👇 지금 바로 참여해보세요!</p>
+        </div>
+        <a href="https://open.kakao.com/o/gHv55emg" target="_blank" class="popup-button" onclick="handlePopupButtonClick(1); return true;">카카오톡 오픈채팅 참여하기</a>
+        <div class="popup-checkbox-container">
+          <label class="popup-checkbox-label">
+            <input type="checkbox" id="popup1-checkbox" class="popup-checkbox">
+            <span>오늘은 더 이상 보지 않기</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 2: 52주 필사 -->
+  <div class="popup-overlay" id="popup2">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closePopup(2)">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">52주 필사, 시작하셨나요? ✍️</h2>
+        <div class="popup-body">
+          <p>1년 동안,<br>
+          일주일에 딱 한 번<br>
+          영어를 옮겨 적으며<br>
+          단어, 표현, 문장 감각을 차곡차곡 쌓는<br>
+          <strong>52주 필사 프로그램</strong>입니다.</p>
+          
+          <p>혼자서도 충분히 따라올 수 있게<br>
+          구성되어 있어요.</p>
+          
+          <p>아직 시작 안 했다면,<br>
+          지금이 딱 좋은 타이밍이에요.</p>
+          
+          <p class="popup-cta">👇 52주 필사 바로 보기</p>
+        </div>
+        <button class="popup-button" onclick="handlePopupButtonClick(2)">52주 필사 보기</button>
+        <div class="popup-checkbox-container">
+          <label class="popup-checkbox-label">
+            <input type="checkbox" id="popup2-checkbox" class="popup-checkbox">
+            <span>오늘은 더 이상 보지 않기</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Content -->
   <div class="container">
     <!-- Home Page -->
@@ -4297,7 +4360,165 @@
     }
 
     // Initialize calendar when page loads
+    // Popup Control Functions
+    function getTodayDateString() {
+      const today = new Date();
+      return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    }
+
+    function isPopupDismissedToday(popupNumber) {
+      const dismissedDate = localStorage.getItem(`popup${popupNumber}-dismissed`);
+      const today = getTodayDateString();
+      return dismissedDate === today;
+    }
+
+    function dismissPopupForToday(popupNumber) {
+      const today = getTodayDateString();
+      localStorage.setItem(`popup${popupNumber}-dismissed`, today);
+    }
+
+    function showPopup(popupNumber) {
+      // 오늘 체크박스로 닫았는지 확인
+      if (isPopupDismissedToday(popupNumber)) {
+        return false; // 표시하지 않음
+      }
+
+      const popup = document.getElementById(`popup${popupNumber}`);
+      if (popup) {
+        popup.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        return true;
+      }
+      return false;
+    }
+
+    function closePopup(popupNumber) {
+      const popup = document.getElementById(`popup${popupNumber}`);
+      if (popup) {
+        // 체크박스 상태 확인
+        const checkbox = document.getElementById(`popup${popupNumber}-checkbox`);
+        if (checkbox && checkbox.checked) {
+          dismissPopupForToday(popupNumber);
+        }
+
+        popup.classList.remove('active');
+      }
+      
+      // 첫 번째 팝업을 닫으면 두 번째 팝업 표시
+      if (popupNumber === 1) {
+        setTimeout(() => {
+          const shown = showPopup(2);
+          // 두 번째 팝업도 오늘 닫았으면 body overflow 복구
+          if (!shown) {
+            document.body.style.overflow = '';
+          }
+        }, 300);
+      } else if (popupNumber === 2) {
+        // 두 번째 팝업도 닫으면 body overflow 복구
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handlePopupButtonClick(popupNumber) {
+      // 체크박스 상태 확인
+      const checkbox = document.getElementById(`popup${popupNumber}-checkbox`);
+      if (checkbox && checkbox.checked) {
+        dismissPopupForToday(popupNumber);
+      }
+
+      if (popupNumber === 1) {
+        // 첫 번째 팝업: 외부 링크로 이동 (이미 링크에 있음)
+        // closePopup은 링크 클릭 시 자동으로 호출됨
+        closePopup(1);
+      } else if (popupNumber === 2) {
+        // 두 번째 팝업: 내부 페이지로 이동
+        closePopup(2);
+        if (typeof showPage === 'function') {
+          showPage('52weeks');
+        } else {
+          // showPage 함수가 없는 경우 해시로 이동
+          window.location.hash = '#52weeks';
+        }
+      }
+    }
+
+    // 체크박스 변경 시 자동으로 팝업 닫기
+    function setupPopupCheckboxListeners() {
+      const checkbox1 = document.getElementById('popup1-checkbox');
+      const checkbox2 = document.getElementById('popup2-checkbox');
+
+      if (checkbox1) {
+        checkbox1.addEventListener('change', function() {
+          if (this.checked) {
+            dismissPopupForToday(1);
+            // 자동으로 팝업 닫고 다음 팝업 표시
+            setTimeout(() => {
+              closePopup(1);
+            }, 300);
+          }
+        });
+      }
+
+      if (checkbox2) {
+        checkbox2.addEventListener('change', function() {
+          if (this.checked) {
+            dismissPopupForToday(2);
+            // 자동으로 팝업 닫기
+            setTimeout(() => {
+              closePopup(2);
+            }, 300);
+          }
+        });
+      }
+    }
+
+    // 팝업 오버레이 클릭 시 닫기
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('popup-overlay')) {
+        const popupNumber = parseInt(e.target.id.replace('popup', ''));
+        closePopup(popupNumber);
+      }
+    });
+
+    // ESC 키로 팝업 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (document.getElementById('popup1').classList.contains('active')) {
+          closePopup(1);
+        } else if (document.getElementById('popup2').classList.contains('active')) {
+          closePopup(2);
+        }
+      }
+    });
+
+    // 홈 페이지로 이동 시 팝업 표시 함수
+    function checkAndShowPopups() {
+      const isHomePage = window.location.hash === '' || window.location.hash === '#home' || !window.location.hash;
+      if (isHomePage) {
+        setTimeout(() => {
+          // 첫 번째 팝업이 오늘 닫혔는지 확인
+          if (!isPopupDismissedToday(1)) {
+            showPopup(1);
+          } else if (!isPopupDismissedToday(2)) {
+            // 첫 번째는 닫혔지만 두 번째는 안 닫혔다면 두 번째만 표시
+            showPopup(2);
+          }
+        }, 500);
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', async function() {
+      // 체크박스 이벤트 리스너 설정
+      setupPopupCheckboxListeners();
+
+      // 홈 페이지일 때만 팝업 표시
+      checkAndShowPopups();
+
+      // 페이지 해시 변경 시 (페이지 이동 시) 팝업 체크
+      window.addEventListener('hashchange', function() {
+        checkAndShowPopups();
+      });
+
       await loadSentencesFromNotion();
       await loadSmallTalkFromNotion();
       if (document.getElementById('calendarDays')) {
