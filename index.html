@@ -27,6 +27,11 @@
         <span></span>
         <span></span>
       </div>
+      <div class="nav-actions">
+        <button id="myPageBtnMobile" class="nav-btn nav-btn-primary" onclick="openMyPageGate()">마이페이지</button>
+        <button id="loginMenuBtnMobile" class="nav-btn" onclick="showPage('login')">Login</button>
+        <button id="logoutMenuBtnMobile" class="nav-btn" onclick="logout()" style="display: none;">Logout</button>
+      </div>
       <ul class="nav-menu" id="navMenu">
         <li onclick="showPage('home')">Home</li>
         <li class="has-dropdown">
@@ -60,8 +65,9 @@
         <li onclick="showPage('resources')">✅ Resources</li>
         <li onclick="showPage('about')">🌱 About</li>
         <li onclick="showPage('contact')">📞 Contact</li>
-        <li class="cta" id="loginMenuBtn" onclick="showPage('login')">Login</li>
-        <li class="cta" id="logoutMenuBtn" onclick="logout()" style="display: none;">Logout</li>
+        <li id="myPageBtn" class="nav-auth-item" onclick="openMyPageGate()" style="margin-left: 0.5rem; background: #1e3a8a; color: #ffffff; padding: 0.45rem 0.9rem; border-radius: 8px; font-weight: 600; cursor: pointer;">마이페이지</li>
+        <li class="cta nav-auth-item" id="loginMenuBtn" onclick="showPage('login')">Login</li>
+        <li class="cta nav-auth-item" id="logoutMenuBtn" onclick="logout()" style="display: none;">Logout</li>
       </ul>
     </div>
   </nav>
@@ -119,6 +125,423 @@
           <p class="popup-cta">👇 52주 필사 바로 보기</p>
         </div>
         <a href="https://www.leapen.ca/#52weeks" class="popup-button" onclick="closePopup(2)">52주 필사 보기</a>
+        <div class="popup-checkbox-container">
+          <label class="popup-checkbox-label">
+            <input type="checkbox" id="popup2-checkbox" class="popup-checkbox">
+            <span>오늘은 더 이상 보지 않기</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 3: 로그아웃 확인 -->
+  <div class="popup-overlay" id="popup-logout">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-logout')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">로그아웃 하시겠습니까?</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>로그아웃하면 다시 로그인해야 이용할 수 있어요.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+          <button class="btn btn-primary" style="flex: 1;" onclick="handleLogoutConfirm(true)">예</button>
+          <button class="btn btn-secondary" style="flex: 1;" onclick="handleLogoutConfirm(false)">아니오</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 4: 개인정보처리방침 -->
+  <div class="popup-overlay" id="popup-privacy">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-privacy')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">개인정보처리방침</h2>
+        <div class="popup-body" style="margin-top: 1rem; line-height: 1.8;">
+          <p><strong>최종 수정일:</strong> 2026년 1월 28일</p>
+          <p>LEAPEN(이하 “본 서비스”)은 이용자의 개인정보를 중요하게 생각하며, 관련 법령을 준수합니다.</p>
+          <p>본 개인정보처리방침은 이용자가 Google 로그인을 통해 본 서비스를 이용할 때 수집되는 정보와 그 이용 목적을 설명합니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">1. 수집하는 개인정보</h3>
+          <p>본 서비스는 직접 회원가입을 받지 않으며, Google 로그인을 통해 최소한의 정보만 수집합니다.</p>
+          <p><strong>Google 로그인 (Supabase Auth) 이용 시</strong></p>
+          <ul>
+            <li>Google 계정 고유 식별자(ID)</li>
+            <li>이메일 주소</li>
+            <li>프로필 이름 및 프로필 이미지 (설정에 따라)</li>
+            <li>로그인 일시 및 접속 기록</li>
+          </ul>
+          <p><strong>서비스 이용 과정에서 자동 생성·저장되는 정보</strong></p>
+          <ul>
+            <li>학습 기록 (학습 진행률, 학습량, 이용 시간 등)</li>
+            <li>사용자별 대시보드 표시를 위한 내부 식별 정보</li>
+            <li>서비스 이용 로그 및 기능 사용 이력</li>
+          </ul>
+          <p>※ 비밀번호는 수집·저장하지 않습니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">2. 개인정보의 이용 목적</h3>
+          <ul>
+            <li>사용자 인증 및 로그인 처리</li>
+            <li>회원 식별 및 서비스 접근 권한 관리</li>
+            <li>개별 사용자 대시보드 제공</li>
+            <li>학습 진행 상황 및 학습량 추적·표시</li>
+            <li>서비스 운영 및 기능 개선</li>
+            <li>비정상적 접근 및 보안 사고 방지</li>
+            <li>사용자 문의 대응 및 공지 전달</li>
+            <li>향후 멤버십 기능 또는 유료 서비스 도입 시 사용자 식별</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">3. 개인정보 처리 및 보관</h3>
+          <p>본 서비스는 <strong>Supabase (Auth &amp; Database)</strong>를 이용하여 개인정보를 안전하게 저장·관리합니다.</p>
+          <ul>
+            <li>인증 정보: Supabase Auth</li>
+            <li>학습 데이터 및 사용자 정보: Supabase Database</li>
+          </ul>
+          <p>개인정보는 서비스 제공에 필요한 최소 기간 동안만 보관됩니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">4. 개인정보의 제3자 제공</h3>
+          <p>본 서비스는 이용자의 개인정보를 제3자에게 판매하거나 임의로 제공하지 않습니다.</p>
+          <p>다만, 다음의 경우에 한해 정보가 처리됩니다.</p>
+          <ul>
+            <li>Google OAuth 로그인 과정에서 Google에 의해 처리되는 정보</li>
+            <li>Supabase 서비스 제공을 위한 필수 처리</li>
+          </ul>
+          <p>각 서비스는 각자의 개인정보처리방침을 따릅니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">5. 쿠키(Cookie) 사용</h3>
+          <p>본 서비스는 로그인 상태 유지 및 기본적인 서비스 제공을 위해 쿠키를 사용할 수 있습니다.</p>
+          <p>이용자는 브라우저 설정을 통해 쿠키 저장을 거부할 수 있으나, 이 경우 로그인 기능이 제한될 수 있습니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">6. 이용자의 권리</h3>
+          <p>이용자는 언제든지 다음을 요청할 수 있습니다.</p>
+          <ul>
+            <li>개인정보 열람</li>
+            <li>개인정보 수정</li>
+            <li>개인정보 삭제 및 계정 삭제 요청</li>
+          </ul>
+          <p>요청은 아래 이메일을 통해 접수할 수 있습니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">7. 개인정보 보호를 위한 조치</h3>
+          <ul>
+            <li>인증 토큰 기반 접근 제어</li>
+            <li>관리자 접근 제한</li>
+            <li>Supabase 보안 정책 준수</li>
+            <li>(추가) 향후 관리자용 계정 분리 및 접근 로그 관리</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">8. 문의</h3>
+          <p>개인정보 보호와 관련한 문의는 아래로 연락해 주세요.</p>
+          <p>📧 이메일: leap.english0415@gmail.com</p>
+
+          <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--stroke);">
+
+          <h2 style="margin-top: 0;">Privacy Policy (ENG)</h2>
+          <p><strong>Last Updated:</strong> January 28, 2026</p>
+          <p>LEAPEN (“the Service”) values the privacy of its users and complies with applicable data protection laws.</p>
+          <p>This Privacy Policy explains what information is collected when users access the Service through Google login, and how that information is used.</p>
+
+          <h3 style="margin-top: 1.5rem;">1. Information We Collect</h3>
+          <p>The Service does not offer direct sign-up. User authentication is provided only through Google login, and only the minimum necessary information is collected.</p>
+          <p><strong>When Using Google Login (Supabase Auth)</strong></p>
+          <ul>
+            <li>Google account unique identifier (ID)</li>
+            <li>Email address</li>
+            <li>Profile name and profile image (depending on user settings)</li>
+            <li>Login date/time and access records</li>
+          </ul>
+          <p><strong>Information Automatically Generated During Service Use</strong></p>
+          <ul>
+            <li>Learning records (learning progress, learning volume, time spent, etc.)</li>
+            <li>Internal identifiers used to display user-specific dashboards</li>
+            <li>Service usage logs and feature interaction history</li>
+          </ul>
+          <p>Passwords are not collected or stored.</p>
+
+          <h3 style="margin-top: 1.5rem;">2. Purpose of Information Use</h3>
+          <ul>
+            <li>User authentication and login processing</li>
+            <li>User identification and access control</li>
+            <li>Providing individual user dashboards</li>
+            <li>Tracking and displaying learning progress and activity</li>
+            <li>Service operation and feature improvement</li>
+            <li>Prevention of unauthorized access and security incidents</li>
+            <li>Responding to user inquiries and delivering service notices</li>
+            <li>User identification for potential future membership or paid services</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">3. Data Processing and Storage</h3>
+          <p>The Service uses Supabase (Auth &amp; Database) to securely store and manage personal information.</p>
+          <ul>
+            <li>Authentication data: Supabase Auth</li>
+            <li>Learning data and user information: Supabase Database</li>
+          </ul>
+          <p>Personal data is retained only for the minimum period necessary to provide the Service.</p>
+
+          <h3 style="margin-top: 1.5rem;">4. Sharing of Personal Information with Third Parties</h3>
+          <p>The Service does not sell or arbitrarily share personal information with third parties.</p>
+          <p>However, information may be processed in the following cases:</p>
+          <ul>
+            <li>Information processed by Google during the Google OAuth login process</li>
+            <li>Processing required for providing the Supabase service</li>
+          </ul>
+          <p>Each service operates in accordance with its own privacy policy.</p>
+
+          <h3 style="margin-top: 1.5rem;">5. Use of Cookies</h3>
+          <p>The Service may use cookies to maintain login sessions and provide basic service functionality.</p>
+          <p>Users may disable cookies through their browser settings; however, doing so may limit login-related features.</p>
+
+          <h3 style="margin-top: 1.5rem;">6. User Rights</h3>
+          <p>Users may request the following at any time:</p>
+          <ul>
+            <li>Access to personal information</li>
+            <li>Correction of personal information</li>
+            <li>Deletion of personal information and account deletion</li>
+          </ul>
+          <p>Requests may be submitted via the contact email below.</p>
+
+          <h3 style="margin-top: 1.5rem;">7. Data Protection Measures</h3>
+          <ul>
+            <li>Access control based on authentication tokens</li>
+            <li>Restricted administrator access</li>
+            <li>Compliance with Supabase security policies</li>
+            <li>(Additional) Future separation of administrator accounts and access log management</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">8. Contact</h3>
+          <p>If you have any questions regarding this Privacy Policy or data protection practices, please contact us at:</p>
+          <p>📧 Email: leap.english0415@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 5: 이용약관 -->
+  <div class="popup-overlay" id="popup-terms">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-terms')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">이용약관</h2>
+        <div class="popup-body" style="margin-top: 1rem; line-height: 1.8;">
+          <p><strong>최종 수정일:</strong> 2026년 1월 28일</p>
+          <p>본 이용약관은 LEAPEN(이하 “본 서비스”)이 제공하는 웹 기반 영어 학습 서비스의 이용 조건 및 절차를 규정합니다.</p>
+          <p>본 서비스를 이용함으로써 이용자는 본 약관에 동의한 것으로 간주됩니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">1. 서비스 개요</h3>
+          <p>본 서비스는 영어 학습을 목적으로 한 웹 기반 플랫폼입니다.</p>
+          <p>이용자는 Google 로그인을 통해서만 본 서비스를 이용할 수 있으며, 로그인 후 개별 대시보드를 통해 자신의 학습 기록과 학습량을 확인할 수 있습니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">2. 계정 및 로그인</h3>
+          <ul>
+            <li>본 서비스는 Google 계정을 통한 로그인만 제공합니다.</li>
+            <li>하나의 Google 계정은 하나의 사용자 계정으로 사용됩니다.</li>
+            <li>타인의 계정을 무단으로 사용하는 행위는 금지됩니다.</li>
+            <li>부정 사용이 확인될 경우, 사전 통보 없이 서비스 이용이 제한될 수 있습니다.</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">3. 콘텐츠 및 저작권 / 지적재산권</h3>
+          <p>본 서비스에 게시된 모든 콘텐츠는 LEAPEN이 직접 제작한 콘텐츠입니다.</p>
+          <p><strong>LEAPEN의 지적재산권 범위</strong></p>
+          <ul>
+            <li>학습 콘텐츠</li>
+            <li>학습 구조 및 커리큘럼</li>
+            <li>대시보드 화면 구성 및 학습 데이터 시각화 방식</li>
+            <li>텍스트, 예문, 설명 자료 등</li>
+          </ul>
+          <p>위 모든 요소에 대한 저작권 및 지적재산권은 LEAPEN에 귀속됩니다.</p>
+          <p>이용자는 개인적인 학습 목적에 한해 콘텐츠를 이용할 수 있으며, 다음 행위는 금지됩니다.</p>
+          <ul>
+            <li>무단 복제, 배포, 전송</li>
+            <li>상업적 이용</li>
+            <li>학습 데이터 또는 대시보드 화면의 무단 캡처·재배포</li>
+            <li>콘텐츠의 일부 또는 전체를 재가공하여 재배포하는 행위</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">4. 사용자 책임</h3>
+          <ul>
+            <li>관련 법령 및 본 약관을 준수할 것</li>
+            <li>서비스의 정상적인 운영을 방해하지 않을 것</li>
+            <li>타인의 계정, 학습 데이터 또는 대시보드에 접근을 시도하지 않을 것</li>
+            <li>시스템 보안에 위협이 되는 행위를 하지 않을 것</li>
+            <li>자동화된 수단(스크래핑, 크롤링 등)을 통한 데이터 수집 또는 시스템 접근을 하지 않을 것</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">5. 서비스 변경 및 중단</h3>
+          <p>본 서비스는 운영상 또는 기술상의 필요에 따라 서비스의 전부 또는 일부를 변경하거나 중단할 수 있습니다.</p>
+          <p>중대한 변경이 있을 경우, 가능한 한 사전에 공지합니다.</p>
+          <p>시스템 점검, 서버 장애 등의 사유로 일시적인 서비스 중단이 발생할 수 있습니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">6. 책임의 제한</h3>
+          <p>본 서비스는 무료 또는 베타 성격의 서비스로 제공될 수 있습니다.</p>
+          <p>본 서비스 이용과 관련하여 발생한 간접적 손해에 대해서는 책임을 제한합니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">7. 약관 변경</h3>
+          <p>본 약관은 사전 통지 없이 변경될 수 있으며, 변경된 약관은 본 페이지에 게시됩니다.</p>
+          <p>변경 이후에도 서비스를 계속 이용하는 경우, 변경된 약관에 동의한 것으로 간주됩니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">8. 준거법 및 관할</h3>
+          <p>본 약관은 캐나다 또는 대한민국 법률 중 서비스 운영 주체의 기준 법률에 따라 해석됩니다.</p>
+
+          <h3 style="margin-top: 1.5rem;">9. 문의</h3>
+          <p>서비스 및 약관 관련 문의는 아래로 연락해 주세요.</p>
+          <p>📧 이메일: leap.english0415@gmail.com</p>
+
+          <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--stroke);">
+
+          <h2 style="margin-top: 0;">Terms of Service (ENG)</h2>
+          <p><strong>Last Updated:</strong> January 28, 2026</p>
+          <p>These Terms of Service govern the conditions and procedures for using LEAPEN (“the Service”), a web-based English learning platform.</p>
+          <p>By accessing or using the Service, you agree to these Terms.</p>
+
+          <h3 style="margin-top: 1.5rem;">1. Service Overview</h3>
+          <p>The Service is a web-based platform for English learning.</p>
+          <p>Users may access the Service only through Google login, and after logging in, users can view their individual dashboard to track learning progress and activity.</p>
+
+          <h3 style="margin-top: 1.5rem;">2. Account &amp; Login</h3>
+          <ul>
+            <li>The Service supports Google login only.</li>
+            <li>One Google account corresponds to one user account.</li>
+            <li>Unauthorized use of another person’s account is strictly prohibited.</li>
+            <li>If misuse is detected, access to the Service may be restricted without prior notice.</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">3. Content, Copyright &amp; Intellectual Property</h3>
+          <p>All content provided on the Service is original content created by LEAPEN.</p>
+          <p><strong>LEAPEN Intellectual Property Includes:</strong></p>
+          <ul>
+            <li>Learning content</li>
+            <li>Learning structure and curriculum</li>
+            <li>Dashboard layout and learning data visualization</li>
+            <li>Text, examples, explanations, and related materials</li>
+          </ul>
+          <p>All copyrights and intellectual property rights belong to LEAPEN.</p>
+          <p>Users may use the content for personal learning purposes only. The following actions are strictly prohibited:</p>
+          <ul>
+            <li>Unauthorized copying, distribution, or transmission</li>
+            <li>Commercial use of content</li>
+            <li>Unauthorized capture or redistribution of dashboard screens or learning data</li>
+            <li>Reproduction or redistribution of content in whole or in part</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">4. User Responsibilities</h3>
+          <ul>
+            <li>Comply with applicable laws and these Terms</li>
+            <li>Not interfere with the normal operation of the Service</li>
+            <li>Not attempt to access another user’s account or learning data</li>
+            <li>Not engage in activities that threaten system security</li>
+            <li>Not use automated methods (e.g., scraping or crawling) to access the Service or its data</li>
+          </ul>
+
+          <h3 style="margin-top: 1.5rem;">5. Service Changes &amp; Suspension</h3>
+          <p>The Service may modify or suspend all or part of its features due to operational or technical needs.</p>
+          <p>Significant changes will be announced in advance whenever possible.</p>
+          <p>Temporary interruptions may occur due to system maintenance or server issues.</p>
+
+          <h3 style="margin-top: 1.5rem;">6. Limitation of Liability</h3>
+          <p>The Service may be provided free of charge or in a beta format.</p>
+          <p>LEAPEN limits liability for indirect damages arising from the use of the Service.</p>
+
+          <h3 style="margin-top: 1.5rem;">7. Changes to These Terms</h3>
+          <p>These Terms may be updated without prior notice.</p>
+          <p>Continued use of the Service after changes constitutes acceptance of the revised Terms.</p>
+
+          <h3 style="margin-top: 1.5rem;">8. Governing Law &amp; Jurisdiction</h3>
+          <p>These Terms shall be interpreted in accordance with the laws of Canada or the Republic of Korea, based on the operating entity of the Service.</p>
+
+          <h3 style="margin-top: 1.5rem;">9. Contact</h3>
+          <p>For inquiries regarding the Service or these Terms, please contact:</p>
+          <p>📧 Email: leap.english0415@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 6: 마이페이지 안내 -->
+  <div class="popup-overlay" id="popup-mypage">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeMyPageGate()">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">마이페이지</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>로그인 후 사용할 수 있습니다.</p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeMyPageGate()">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 7: 로그아웃 완료 -->
+  <div class="popup-overlay" id="popup-logout-success">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-logout-success')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">로그아웃 완료</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>로그아웃이 성공적으로 되었습니다.</p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeModal('popup-logout-success')">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 8: 닉네임 변경 -->
+  <div class="popup-overlay" id="popup-nickname">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-nickname')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">닉네임 변경</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <input id="nicknameInput" type="text" placeholder="닉네임을 입력하세요" style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;">
+          <p style="margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.9rem;">
+            *리핑 카카오톡에서 사용하는 닉네임으로 바꿔주세요.
+          </p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="saveNickname()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 9: 개인정보 저장 완료 -->
+  <div class="popup-overlay" id="popup-profile-save">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-profile-save')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">저장 완료</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>개인정보 수정이 완료되었습니다.</p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeModal('popup-profile-save')">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 10: 회원 탈퇴 확인 -->
+  <div class="popup-overlay" id="popup-withdraw-confirm">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-withdraw-confirm')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">회원 탈퇴</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>회원 탈퇴 시 학습데이터 복구가 어려울 수 있습니다. <BR>정말 탈퇴하시겠습니까?</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+          <button id="withdrawConfirmYes" class="btn btn-primary" style="flex: 1;" onclick="window.handleWithdrawConfirm(true)">예</button>
+          <button id="withdrawConfirmNo" class="btn btn-secondary" style="flex: 1;" onclick="window.handleWithdrawConfirm(false)">아니오</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup 11: 회원 탈퇴 완료 -->
+  <div class="popup-overlay" id="popup-withdraw-success">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="finalizeWithdrawal()">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">회원 탈퇴 완료</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>그동안 이용해 주셔서 감사합니다.</p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="finalizeWithdrawal()">확인</button>
       </div>
     </div>
   </div>
@@ -671,7 +1094,7 @@
         <div class="voice-room-header-content">
           <div class="voice-room-header-text">
             <button class="back-button voice-room-back-btn" onclick="showPage('leapen-openchat')" style="margin-bottom: 1.5rem;">← LEAPEN 보이스룸으로 돌아가기</button>
-            <p class="category-label">월~금: KST 21:00 ~ 22:00</p>
+            <p class="category-label">월~금: KST 20:00 ~ 21:00</p>
             <h2>💬 Small Talk 보이스룸<br>(Small Talk Voice Room)</h2><BR>
             <p>Benher님과 함께하는 Small Talk 보이스룸 질문들입니다. <br>매일 새로운 질문으로 영어 실력을 향상시켜보세요.</p>
           </div>
@@ -1223,7 +1646,7 @@
         <div class="category-card">
           <div class="category-header">
             <div class="category-top">
-              <p class="category-label">KST 월~금: 오후 09:00 ~ 10:00</p>
+              <p class="category-label">KST 월~금: 오후 08:00 ~ 09:00</p>
               <button class="view-more" onclick="showPage('voice-room-category-02')">More</button>
             </div>
             <h3>Small Talk 보이스룸</h3>
@@ -3644,19 +4067,47 @@
       <div class="content-card">
         <h2>🔐 Login</h2>
         <div class="login-container">
-          <!-- 왼쪽: 뉴스레터 구독 -->
-          <div class="login-column login-member">
+          <div class="login-column login-member login-member-block">
+            <h3>👥 LEAPEN 멤버 로그인</h3>
+            <div class="login-notice" style="margin-top: 0.5rem;">
+              <p style="color: var(--text); line-height: 1.6; font-size: 0.95rem; margin-top: 1rem; margin-bottom: 0.75rem;">
+                LEAPEN 멤버가 되면 학습이 더 체계적으로 달라져요!<br>
+                📊 나의 영어 학습 기록 &amp; progress 관리<br>
+                🎁 멤버 전용 무료 자료 제공<br>
+                🔥 영어 챌린지 &amp; 특별 콘텐츠 참여 가능
+              </p>
+              <p style="color: #d32f2f; font-weight: 700; font-size: 0.9rem; text-align: left; margin: 0.25rem 0 0.75rem;">
+                *Google 로그인 시 개인정보처리방침 및 이용약관에 동의한 것으로 간주합니다.
+              </p>
+              <div style="margin-top: 0.25rem; font-size: 0.9rem; color: var(--text-secondary); text-align: right;">
+                <a href="javascript:void(0)" onclick="openModal('popup-privacy')" style="color: inherit; text-decoration: underline;">개인정보처리방침</a>
+                <span style="margin: 0 0.5rem;">|</span>
+                <a href="javascript:void(0)" onclick="openModal('popup-terms')" style="color: inherit; text-decoration: underline;">이용약관</a>
+              </div>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" onclick="signInWithGoogle()">
+                Google로 로그인
+              </button>
+          
+              <button id="memberLogoutBtn" class="btn btn-secondary" style="width: 100%; display: none;" onclick="signOutMember()">
+                로그아웃
+              </button>
+            </div>
+          </div>
+
+          <div class="login-divider"></div>
+
+          <div class="login-column login-member login-newsletter-block">
             <h3>📧 LEAPEN 뉴스레터 구독하기</h3>
             <p style="color: var(--text); line-height: 1.6; font-size: 0.95rem; margin-top: 1rem; margin-bottom: 0.75rem;">
               새로 추가되는 영어 공부 콘텐츠와<br>
               스터디 소식(모집 및 일정 알림), LEAPEN의 주요 업데이트를 이메일로 알려드려요.<br>
               이메일만 수집하며, 불필요한 메일은 보내지 않아요.
             </p>
-            <p style="color: #d32f2f; font-size: 0.85rem; margin-bottom: 1.5rem;">
+            <p style="color: #d32f2f; font-size: 0.85rem; margin-bottom: 0.25rem; font-weight: 700;">
               *이메일 주소는 뉴스레터 발송 목적 외에는 사용하지 않습니다.
             </p>
             
-            <form id="newsletterForm" onsubmit="handleNewsletterSubscribe(event)" style="margin-top: 1.5rem;">
+            <form id="newsletterForm" onsubmit="handleNewsletterSubscribe(event)" style="margin-top: 0;">
               <div style="margin-bottom: 1rem;">
                 <input 
                   type="email" 
@@ -3674,47 +4125,251 @@
               <!-- 메시지가 동적으로 표시됨 -->
             </div>
           </div>
-          
-          <!-- 가운데 디바이더 -->
-          <div class="login-divider"></div>
-          
-          <!-- 오른쪽: 멤버 로그인 및 Admin 로그인 -->
-          <div style="display: flex; flex-direction: column; gap: 2rem;">
-            <!-- 멤버 로그인 -->
-            <div class="login-column login-member">
-              <h3>👥 LEAPEN 멤버 로그인</h3>
-              <div class="login-notice">
-                <p style="color: var(--muted); line-height: 1.8; margin-top: 1rem;">
-                  멤버십 로그인은 현재 준비 중입니다.<br>
-                  <strong style="color: var(--text);">곧 오픈될 예정</strong>입니다. (카카오톡 오픈챗 공지를 확인해주세요.)
-                </p>
-                <p style="color: var(--muted); line-height: 1.8; margin-top: 1.5rem; font-size: 0.95rem;">
-                  그동안 게스트 모드로 오픈된 페이지의 자료를<br>
-                  자유롭게 활용하실 수 있습니다.
-                </p>
+
+          <div class="login-column login-admin login-admin-block">
+            <h3>🔧 Admin 로그인</h3>
+            <form id="loginForm" style="margin-top: 1.5rem;" onsubmit="handleLogin(event)">
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">아이디</label>
+                <input type="text" id="loginId" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;" placeholder="아이디를 입력하세요">
+              </div>
+              <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">비밀번호</label>
+                <input type="password" id="loginPassword" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;" placeholder="비밀번호를 입력하세요">
+              </div>
+              <div id="loginError" style="color: #d32f2f; margin-bottom: 1rem; display: none; font-size: 0.9rem;"></div>
+              <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">로그인</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="member-dashboard" class="page-section">
+      <div class="content-card" style="padding: 0;">
+        <div class="member-dashboard-layout" style="display: flex; min-height: 70vh;">
+          <!-- Left Sidebar -->
+          <aside class="member-dashboard-sidebar" style="width: 280px; border-right: 1px solid var(--stroke); padding: 1.5rem; background: #fafafa;">
+            <!-- 첫 번째 박스: Welcome -->
+            <div class="member-welcome-box" style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke); margin-bottom: 1.25rem;">
+              <div style="font-weight: 700; font-size: 1.05rem;">Welcome👋</div>
+              <div id="memberWelcomeMessage" style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">멤버 전용 페이지입니다.</div>
+            </div>
+
+            <!-- 두 번째 박스: 오늘의 학습 달성률 -->
+            <div class="member-progress-box" style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke); margin-bottom: 1.25rem;" title="준비중입니다.">
+              <h3 style="margin: 0 0 0.75rem; font-size: 1rem;">오늘의 학습 달성률</h3>
+              <div style="display: flex; justify-content: center; margin-bottom: 0.75rem;">
+                <div style="width: 140px; height: 140px; border-radius: 50%; border: 10px solid #dbe7ff; border-top-color: #dbe7ff; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #94a3b8; background: #fff;" title="준비중입니다.">
+                  0%
+                </div>
+              </div>
+              <p style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
+                목표 시간 0분 중 0분 달성
+              </p>
+            </div>
+
+            <!-- 세 번째 박스: 서브 메뉴 -->
+            <div class="member-menu-box" style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke);">
+              <button class="member-menu-toggle" onclick="toggleMemberMenu()">메뉴 보기</button>
+              <div id="memberMenuList" class="member-menu-list">
+                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; background: #eef2ff; color: #1d4ed8; font-weight: 600; cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('home')">🏠 Home</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('My Learning')">📚 My Learning</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('Learning Progress')">🗂 Learning Progress</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('Expressions &amp; Notes')">💬 Expressions &amp; Notes</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('Goals &amp; Challenges')">🎯 Goals &amp; Challenges</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer;" onclick="showMemberDashboardSection('Profile &amp; Settings')">👤 Profile &amp; Settings</div>
               </div>
             </div>
-            
-            <!-- 멤버 로그인과 Admin 로그인 사이 디바이더 -->
-            <div style="width: 100%; height: 1px; background: var(--stroke);"></div>
-            
-            <!-- Admin 로그인 -->
-            <div class="login-column login-admin">
-              <h3>🔧 Admin 로그인</h3>
-              <form id="loginForm" style="margin-top: 1.5rem;" onsubmit="handleLogin(event)">
-                <div style="margin-bottom: 1rem;">
-                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">아이디</label>
-                  <input type="text" id="loginId" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;" placeholder="아이디를 입력하세요">
+          </aside>
+
+          <!-- Main Content -->
+          <main class="member-dashboard-main" style="flex: 1; padding: 2rem;">
+            <div class="member-top-section" style="position: sticky; top: 80px; z-index: 5; background: var(--bg); padding: 0 0 1.5rem;">
+              <div class="member-top-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: stretch;">
+                <div class="content-card" style="margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
+                  <h3 style="margin-top: 0; color: #ffffff; font-weight: 800;">오늘의 추천 표현 💡</h3>
+                  <p id="todaySentenceDisplay" style="margin-bottom: 0.75rem; color: #ffffff; font-size: 1.35rem; font-weight: 700;">로딩 중...</p>
+                  <button class="btn btn-secondary" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); color: #4c1d95; border: none; font-weight: 700;" onclick="showPage('daily-one-sentence')">Today’s English Focus 바로가기</button>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">비밀번호</label>
-                  <input type="password" id="loginPassword" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box;" placeholder="비밀번호를 입력하세요">
+                <div class="member-side-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                  <div class="content-card" style="margin: 0;">
+                    <h3 style="margin-top: 0;">👥 Community</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 0;">멤버 전용 커뮤니티 <BR> (준비중입니다.)</p>
+                  </div>
+                  <div class="content-card" style="margin: 0;">
+                    <h3 style="margin-top: 0;">💡 Q &amp; A</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 0;">질문과 답변 <BR> (준비중입니다.)</p>
+                  </div>
                 </div>
-                <div id="loginError" style="color: #d32f2f; margin-bottom: 1rem; display: none; font-size: 0.9rem;"></div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">로그인</button>
-              </form>
+              </div>
             </div>
-          </div>
+
+            <div id="memberDashboardGrid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem;">
+              <div class="content-card" style="margin: 0;">
+                <h3 style="margin-top: 0;">보이스룸 100일 챌린지</h3>
+                <div style="height: 8px; background: #eef2ff; border-radius: 999px; margin: 0.75rem 0;">
+                  <div style="width: 0%; height: 100%; background: #3b82f6; border-radius: 999px;" title="준비중입니다."></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="showPage('voice-room-category-01')">이어하기 ></button>
+              </div>
+              <div class="content-card" style="margin: 0;">
+                <h3 style="margin-top: 0;">52주 필사</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Week 12</p>
+                <div style="height: 8px; background: #eef2ff; border-radius: 999px; margin: 0.75rem 0;">
+                  <div style="width: 23%; height: 100%; background: #10b981; border-radius: 999px;" title="12/52 진행 중"></div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="showPage('52weeks')">이어하기 ></button>
+              </div>
+              <div class="content-card" style="margin: 0;">
+                <h3 style="margin-top: 0;">준비중입니다.</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">곧 업데이트 예정입니다.</p>
+              </div>
+              <div class="content-card" style="margin: 0;">
+                <h3 style="margin-top: 0;">준비중입니다.</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">곧 업데이트 예정입니다.</p>
+              </div>
+            </div>
+
+            <div id="memberDashboardPlaceholder" class="content-card" style="margin-top: 1.5rem; display: none; text-align: center;">
+              <p style="margin: 0; font-weight: 600;">곧 업데이트 예정입니다.</p>
+            </div>
+
+            <div id="memberLearningProgress" class="content-card" style="margin-top: 1.5rem; display: none;" title="준비중입니다.">
+              <h3 style="margin-top: 0;">오늘의 학습 달성률</h3>
+              <div style="display: flex; justify-content: center; margin: 1rem 0;">
+                <div style="width: 140px; height: 140px; border-radius: 50%; border: 10px solid #dbe7ff; border-top-color: #dbe7ff; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #94a3b8; background: #fff;" title="준비중입니다.">
+                  0%
+                </div>
+              </div>
+              <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+                목표 시간 0분 중 0분 달성
+              </p>
+            </div>
+
+            <div id="profileReauthPanel" class="content-card" style="margin-top: 1.5rem; display: none; text-align: center;">
+              <h3 style="margin-top: 0;">Profile &amp; Settings</h3>
+              <p style="color: var(--text-secondary); margin: 0.5rem 0 1.25rem;">
+                보안을 위해 Google 재인증이 필요합니다.
+              </p>
+              <button class="btn btn-primary" onclick="startProfileReauth()">Google로 재인증</button>
+            </div>
+
+            <div id="profileSettingsPanel" class="content-card" style="margin-top: 1.5rem; display: none;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                <h3 style="margin-top: 0;">개인정보 수정</h3>
+                <button class="btn btn-primary" style="background: #111111; color: #ffffff; border: none; padding: 0.6rem 1.2rem;" onclick="saveProfileSettings()">저장</button>
+              </div>
+              <div style="margin-top: 1rem;">
+                <div style="margin-bottom: 1rem;">
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">아이디 (이메일)</label>
+                  <div id="profileEmail" style="padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; background: #f9fafb;"></div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">이름</label>
+                  <div id="profileName" style="padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; background: #f9fafb;"></div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">닉네임</label>
+                  <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <div id="profileNickname" style="flex: 1; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; background: #f9fafb;"></div>
+                    <button class="btn btn-secondary" onclick="openNicknamePopup()">변경</button>
+                  </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">가입 경로 *</label>
+                  <select id="profileSignupPath" style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; background: #ffffff;">
+                    <option value="">선택해주세요</option>
+                    <option value="kakao">카카오톡 오픈채팅 검색</option>
+                    <option value="referral">지인 소개</option>
+                    <option value="social">소셜미디어(블로그, 인스타그램, 스레드, etc.)</option>
+                    <option value="other">기타</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="profileWithdrawPanel" class="content-card" style="margin-top: 1.5rem; display: none;">
+              <h3 style="margin-top: 0;">회원 탈퇴</h3>
+              <p style="color: var(--text-secondary); margin: 0.5rem 0 1rem;">
+                탈퇴 시 복구가 어려울 수 있습니다.
+              </p>
+              <button id="withdrawButton" class="btn btn-secondary" style="background: #111111; color: #ffffff; border: none; width: 100%;" onclick="window.requestAccountDeletion()">탈퇴하기</button>
+            </div>
+
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <div id="member-study-hub" class="page-section">
+      <div class="content-card" style="padding: 0;">
+        <div style="display: flex; min-height: 70vh;">
+          <!-- Left Sidebar -->
+          <aside style="width: 280px; border-right: 1px solid var(--stroke); padding: 1.5rem; background: #fafafa;">
+            <!-- 첫 번째 박스: Welcome -->
+            <div style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke); margin-bottom: 1.25rem;">
+              <div style="font-weight: 700; font-size: 1.05rem;">Welcome👋</div>
+              <div id="memberWelcomeMessageStudyHub" style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">멤버 전용 페이지입니다.</div>
+            </div>
+
+            <!-- 두 번째 박스: 오늘의 학습 달성률 -->
+            <div style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke); margin-bottom: 1.25rem;">
+              <h3 style="margin: 0 0 0.75rem; font-size: 1rem;">오늘의 학습 달성률</h3>
+              <div style="display: flex; justify-content: center; margin-bottom: 0.75rem;">
+                <div style="width: 140px; height: 140px; border-radius: 50%; border: 10px solid #dbe7ff; border-top-color: #3b82f6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #3b82f6; background: #fff;">
+                  75%
+                </div>
+              </div>
+              <p style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
+                목표 시간 60분 중 45분 달성
+              </p>
+            </div>
+
+            <!-- 세 번째 박스: 서브 메뉴 -->
+            <div style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke);">
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">🏠 Home</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">📚 My Learning</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">🗂 Learning Progress</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">💬 Expressions &amp; Notes</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">🎯 Goals &amp; Challenges</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer;">👤 Profile &amp; Settings</div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <main style="flex: 1; padding: 2rem;">
+            <div class="home-grid-top" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem;">
+              <div class="home-grid-card daily-card" onclick="showPage('voice-room-category-01')" style="cursor: pointer;">
+                <div class="daily-card-image">
+                  <img src="PIC/100VR.png" alt="Voiceroom 100-day Challenge">
+                </div>
+                <h3>📢 Voiceroom 100-day Challenge</h3>
+              </div>
+              <div class="home-grid-card daily-card" onclick="showPage('voice-room-category-02')" style="cursor: pointer;">
+                <div class="daily-card-image">
+                  <img src="PIC/PMVR.png" alt="Small Talk Voice Room">
+                </div>
+                <h3>💬 Small Talk Voice Room</h3>
+              </div>
+              <div class="home-grid-card daily-card" onclick="showPage('52weeks')" style="cursor: pointer;">
+                <div class="daily-card-image">
+                  <img src="PIC/52weekwriting.png" alt="52 Weeks Writing">
+                </div>
+                <h3>✍️ 52 Weeks Writing</h3>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
     </div>
@@ -3722,11 +4377,570 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 LEAPEN. All rights reserved.</p>
+    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      <p>&copy; 2025 LEAPEN. All rights reserved.</p>
+      <div style="margin-left: auto; display: flex; gap: 0.75rem; font-size: 0.9rem;">
+        <a href="javascript:void(0)" onclick="openModal('popup-privacy')" style="color: inherit; text-decoration: underline;">개인정보처리방침</a>
+        <span>|</span>
+        <a href="javascript:void(0)" onclick="openModal('popup-terms')" style="color: inherit; text-decoration: underline;">이용약관</a>
+      </div>
+    </div>
   </footer>
-
+  <button id="scrollTopBtn" class="scroll-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑ TOP</button>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/script.js"></script>
   <script>
+    (function () {
+      const SUPABASE_URL = "https://wyuepdmjbhibtyhtkwlm.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_2DeMELiiZ_-guEtBNP2fwQ_VBHYkmHv";
+      const IS_FILE_PROTOCOL = window.location.protocol === "file:";
+      const SUPABASE_REDIRECT_URL = window.location.origin;
+  
+      function validateSupabaseConfig() {
+        if (SUPABASE_URL.includes("YOUR_PROJECT") || SUPABASE_ANON_KEY.includes("YOUR_ANON_KEY")) {
+          alert("Supabase URL/Anon Key를 실제 값으로 교체해주세요.");
+          return false;
+        }
+        if (IS_FILE_PROTOCOL) {
+          alert("file://로 열면 OAuth가 동작하지 않습니다. 로컬 서버로 열어주세요.");
+          return false;
+        }
+        return true;
+      }
+  
+      if (!window.leapenSupabaseClient) {
+        window.leapenSupabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+      const supabase = window.leapenSupabaseClient;
+  
+      window.signInWithGoogle = async function () {
+        if (!validateSupabaseConfig()) return;
+        sessionStorage.removeItem('leapen_forced_logout');
+        sessionStorage.removeItem('leapen_profile_reauth');
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: { redirectTo: SUPABASE_REDIRECT_URL }
+        });
+        if (error) {
+          console.error("Google OAuth error:", error);
+          alert(error.message);
+        }
+      };
+  
+      function clearSupabaseSessionStorage() {
+        try {
+          const projectRef = SUPABASE_URL.replace("https://", "").split(".")[0];
+          const keyPrefix = `sb-${projectRef}-`;
+          Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith(keyPrefix)) {
+              localStorage.removeItem(key);
+            }
+          });
+          Object.keys(sessionStorage).forEach((key) => {
+            if (key.startsWith(keyPrefix)) {
+              sessionStorage.removeItem(key);
+            }
+          });
+        } catch (e) {
+          console.warn("Failed to clear Supabase storage:", e);
+        }
+      }
+
+      function timeout(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      window.openModal = function (modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }
+      };
+
+      window.closeModal = function (modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.classList.remove("active");
+        }
+        const anyActive = document.querySelector(".popup-overlay.active");
+        if (!anyActive) {
+          document.body.style.overflow = "";
+        }
+      };
+
+      window.openMyPageGate = function () {
+        const forcedLogout = sessionStorage.getItem('leapen_forced_logout') === '1';
+        if (!forcedLogout && (window.isMember || window.isAdmin)) {
+          if (typeof showPage === "function") {
+            showPage("member-dashboard");
+          }
+          return;
+        }
+        window.openModal("popup-mypage");
+      };
+
+      window.closeMyPageGate = function () {
+        window.closeModal("popup-mypage");
+        if (typeof showPage === "function") {
+          showPage("login");
+        }
+      };
+
+      window.toggleMemberMenu = function () {
+        const list = document.getElementById("memberMenuList");
+        if (!list) return;
+        if (list.style.display === "block") {
+          list.style.display = "none";
+        } else {
+          list.style.display = "block";
+        }
+      };
+
+      window.startProfileReauth = async function () {
+        // 실제 재인증(redirect) 전에 플래그 설정
+        sessionStorage.setItem('leapen_profile_reauth', 'pending');
+        sessionStorage.removeItem('leapen_forced_logout');
+        try {
+          const redirectTo = `${window.location.origin}${window.location.pathname}`;
+          await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              prompt: "login",
+              redirectTo
+            }
+          });
+        } catch (error) {
+          console.warn("Reauth failed:", error);
+        }
+      };
+
+      window.openNicknamePopup = function () {
+        const input = document.getElementById('nicknameInput');
+        if (input) {
+          input.value = localStorage.getItem('leapen_member_display_name') || '';
+        }
+        openModal('popup-nickname');
+      };
+
+      window.saveNickname = function () {
+        const input = document.getElementById('nicknameInput');
+        if (!input) return;
+        const value = input.value.trim();
+        if (!value) {
+          alert('닉네임을 입력해주세요.');
+          return;
+        }
+        checkNicknameAvailability(value).then((isAvailable) => {
+          if (!isAvailable) {
+            alert('이미 사용 중인 닉네임입니다.');
+            return;
+          }
+          localStorage.setItem('leapen_member_display_name', value);
+          updateMemberLoginUI();
+          closeModal('popup-nickname');
+        }).catch(() => {
+          alert('닉네임 중복 확인에 실패했습니다.');
+        });
+      };
+
+      async function checkNicknameAvailability(nickname) {
+        if (!window.currentUser) return false;
+        const { data, error } = await supabase
+          .from('Users')
+          .select('id')
+          .eq('nickname', nickname)
+          .is('deleted_at', null)
+          .limit(1);
+
+        if (error) {
+          console.error('Nickname check error:', error);
+          return false;
+        }
+
+        if (!data || data.length === 0) return true;
+        return data[0].id === window.currentUser.id;
+      }
+
+      window.saveProfileSettings = async function () {
+        if (!window.currentUser) return;
+        const nickname = localStorage.getItem('leapen_member_display_name') || buildDefaultNickname(window.currentUser);
+        const signupPath = document.getElementById('profileSignupPath')?.value || '';
+        localStorage.setItem('leapen_signup_path', signupPath);
+
+        const payload = {
+          id: window.currentUser.id,
+          nickname,
+          updated_at: new Date().toISOString()
+        };
+
+        const { error } = await supabase
+          .from('Users')
+          .upsert(payload, { onConflict: 'id' });
+
+        if (error) {
+          console.error('Failed to save profile:', error);
+          alert('저장에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+          return;
+        }
+        if (typeof openModal === 'function') {
+          openModal('popup-profile-save');
+        }
+      }
+
+      window.requestAccountDeletion = async function () {
+        if (!window.currentUser) return;
+        if (typeof openModal === 'function') {
+          openModal('popup-withdraw-confirm');
+        }
+      }
+
+      window.handleWithdrawConfirm = async function (confirmed) {
+        closeModal('popup-withdraw-confirm');
+        if (!confirmed || !window.currentUser) return;
+
+        const { error } = await supabase
+          .from('Users')
+          .update({ deleted_at: new Date().toISOString() })
+          .eq('id', window.currentUser.id);
+
+        if (error) {
+          console.error('Failed to set deleted_at:', error);
+          alert('탈퇴 처리에 실패했습니다.');
+          return;
+        }
+
+        if (typeof openModal === 'function') {
+          openModal('popup-withdraw-success');
+        }
+        if (typeof showPage === "function") {
+          showPage("home");
+        }
+        if (window.location.hash !== "#home") {
+          window.location.hash = "#home";
+        }
+        sessionStorage.setItem('leapen_forced_logout', '1');
+        window.isMember = false;
+        updateTopMenuForMember(false);
+        setTimeout(() => {
+          if (typeof window.finalizeWithdrawal === 'function') {
+            window.finalizeWithdrawal();
+          }
+        }, 1200);
+      }
+
+      window.finalizeWithdrawal = async function () {
+        closeModal('popup-withdraw-success');
+        try {
+          await supabase.auth.signOut({ scope: "global" });
+        } catch (error) {
+          console.warn('Supabase global signOut failed:', error);
+        } finally {
+          clearSupabaseSessionStorage();
+          sessionStorage.setItem('leapen_forced_logout', '1');
+          window.isMember = false;
+          window.currentUser = null;
+          updateTopMenuForMember(false);
+          if (typeof showPage === "function") {
+            showPage("home");
+          }
+          const homeUrl = `${window.location.origin}${window.location.pathname}#home`;
+          window.location.replace(homeUrl);
+        }
+      }
+
+      function bindWithdrawButtons() {
+        const withdrawBtn = document.getElementById('withdrawButton');
+        const yesBtn = document.getElementById('withdrawConfirmYes');
+        const noBtn = document.getElementById('withdrawConfirmNo');
+
+        if (withdrawBtn && !withdrawBtn.dataset.bound) {
+          withdrawBtn.dataset.bound = '1';
+          withdrawBtn.addEventListener('click', () => window.requestAccountDeletion());
+        }
+        if (yesBtn && !yesBtn.dataset.bound) {
+          yesBtn.dataset.bound = '1';
+          yesBtn.addEventListener('click', () => window.handleWithdrawConfirm(true));
+        }
+        if (noBtn && !noBtn.dataset.bound) {
+          noBtn.dataset.bound = '1';
+          noBtn.addEventListener('click', () => window.handleWithdrawConfirm(false));
+        }
+      }
+
+      window.showMemberDashboardSection = function (sectionName) {
+        const grid = document.getElementById('memberDashboardGrid');
+        const placeholder = document.getElementById('memberDashboardPlaceholder');
+        const learningProgress = document.getElementById('memberLearningProgress');
+        const reauthPanel = document.getElementById('profileReauthPanel');
+        const profilePanel = document.getElementById('profileSettingsPanel');
+        if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel) return;
+
+        if (sectionName !== 'Profile & Settings') {
+          sessionStorage.removeItem('leapen_profile_reauth');
+        }
+
+        if (sectionName === 'home') {
+          grid.style.display = 'grid';
+          placeholder.style.display = 'none';
+          learningProgress.style.display = 'none';
+          reauthPanel.style.display = 'none';
+          profilePanel.style.display = 'none';
+        } else if (sectionName === 'Learning Progress') {
+          grid.style.display = 'none';
+          placeholder.style.display = 'none';
+          reauthPanel.style.display = 'none';
+          profilePanel.style.display = 'none';
+          if (window.innerWidth <= 900) {
+            learningProgress.style.display = 'block';
+          } else {
+            learningProgress.style.display = 'none';
+          }
+        } else if (sectionName === 'Profile & Settings') {
+          grid.style.display = 'none';
+          placeholder.style.display = 'none';
+          learningProgress.style.display = 'none';
+          const isAdminUser = window.isAdmin === true;
+          const verified = sessionStorage.getItem('leapen_profile_reauth') === 'verified';
+          if (isAdminUser || verified) {
+            reauthPanel.style.display = 'none';
+            profilePanel.style.display = 'block';
+            const withdrawPanel = document.getElementById('profileWithdrawPanel');
+            if (withdrawPanel) withdrawPanel.style.display = 'block';
+          } else {
+            reauthPanel.style.display = 'block';
+            profilePanel.style.display = 'none';
+            const withdrawPanel = document.getElementById('profileWithdrawPanel');
+            if (withdrawPanel) withdrawPanel.style.display = 'none';
+          }
+        } else {
+          grid.style.display = 'none';
+          placeholder.style.display = 'block';
+          learningProgress.style.display = 'none';
+          reauthPanel.style.display = 'none';
+          profilePanel.style.display = 'none';
+          const withdrawPanel = document.getElementById('profileWithdrawPanel');
+          if (withdrawPanel) withdrawPanel.style.display = 'none';
+        }
+      };
+
+      let logoutConfirmResolver = null;
+      window.openLogoutConfirm = function () {
+        return new Promise((resolve) => {
+          logoutConfirmResolver = resolve;
+          window.openModal("popup-logout");
+        });
+      };
+
+      window.handleLogoutConfirm = function (confirmed) {
+        window.closeModal("popup-logout");
+        if (logoutConfirmResolver) {
+          logoutConfirmResolver(confirmed);
+          logoutConfirmResolver = null;
+        }
+      };
+
+      window.signOutMember = async function () {
+        const shouldLogout = await window.openLogoutConfirm();
+        if (!shouldLogout) return;
+
+        try {
+          const signOutPromise = supabase.auth.signOut({ scope: "local" });
+          const result = await Promise.race([signOutPromise, timeout(1500)]);
+          if (result && result.error) {
+            alert(result.error.message);
+            return;
+          }
+        } catch (error) {
+          console.warn("Supabase signOut failed, forcing local clear:", error);
+        }
+
+        clearSupabaseSessionStorage();
+        sessionStorage.setItem('leapen_forced_logout', '1');
+        sessionStorage.removeItem('leapen_profile_reauth');
+
+        window.isMember = false;
+        updateTopMenuForMember(false);
+        const logoutBtn = document.getElementById("memberLogoutBtn");
+        if (logoutBtn) logoutBtn.style.display = "none";
+
+        // 로그아웃 후에는 홈으로 이동
+        if (typeof showPage === "function") {
+          showPage("home");
+        }
+        if (typeof openModal === "function") {
+          openModal("popup-logout-success");
+        }
+      };
+
+      function updateTopMenuForMember(isLoggedIn) {
+        const loginBtn = document.getElementById("loginMenuBtn");
+        const logoutBtn = document.getElementById("logoutMenuBtn");
+        const myPageBtn = document.getElementById("myPageBtn");
+        const loginBtnMobile = document.getElementById("loginMenuBtnMobile");
+        const logoutBtnMobile = document.getElementById("logoutMenuBtnMobile");
+        const myPageBtnMobile = document.getElementById("myPageBtnMobile");
+        if (!loginBtn || !logoutBtn) return;
+
+        if (myPageBtn) myPageBtn.style.display = "";
+        if (myPageBtnMobile) myPageBtnMobile.style.display = "";
+
+        if (isLoggedIn) {
+          loginBtn.style.display = "none";
+          logoutBtn.style.display = "";
+          if (myPageBtn) myPageBtn.style.display = "";
+          if (loginBtnMobile) loginBtnMobile.style.display = "none";
+          if (logoutBtnMobile) logoutBtnMobile.style.display = "";
+          if (myPageBtnMobile) myPageBtnMobile.style.display = "";
+          logoutBtn.textContent = "Logout";
+          if (logoutBtnMobile) logoutBtnMobile.textContent = "Logout";
+          logoutBtn.onclick = async (event) => {
+            event.preventDefault();
+            await window.signOutMember();
+          };
+        } else {
+          loginBtn.style.display = "";
+          logoutBtn.style.display = "none";
+          if (loginBtnMobile) loginBtnMobile.style.display = "";
+          if (logoutBtnMobile) logoutBtnMobile.style.display = "none";
+          loginBtn.textContent = "Login";
+          if (loginBtnMobile) loginBtnMobile.textContent = "Login";
+          loginBtn.onclick = () => {
+            if (typeof showPage === "function") {
+              showPage("login");
+            }
+          };
+        }
+      }
+  
+      function getMemberDisplayName(user) {
+        if (!user) return null;
+        
+        // 설정에서 저장된 이름이 있으면 우선 사용
+        const savedName = localStorage.getItem('leapen_member_display_name');
+        if (savedName) return savedName;
+        
+        // Google user_metadata에서 이름 가져오기
+        if (user.user_metadata?.full_name) return user.user_metadata.full_name;
+        if (user.user_metadata?.name) return user.user_metadata.name;
+        
+        // 이메일에서 @ 앞부분 추출
+        if (user.email) {
+          const emailName = user.email.split('@')[0];
+          return emailName;
+        }
+        
+        return null;
+      }
+
+      function buildDefaultNickname(user) {
+        if (!user) return '';
+        const emailPrefix = user.email ? user.email.split('@')[0] : 'member';
+        const idSuffix = user.id ? user.id.slice(0, 6) : 'user';
+        return `${emailPrefix}_${idSuffix}`;
+      }
+
+      async function upsertSupabaseUser(user) {
+        if (!user) return;
+        const nickname = localStorage.getItem('leapen_member_display_name') || buildDefaultNickname(user);
+        const fullName = user.user_metadata?.full_name || user.user_metadata?.name || null;
+        const provider = user.app_metadata?.provider || 'Google';
+
+        const payload = {
+          id: user.id,
+          email: user.email || null,
+          full_name: fullName,
+          nickname,
+          provider,
+          updated_at: new Date().toISOString()
+        };
+
+        const { error } = await supabase
+          .from('Users')
+          .upsert(payload, { onConflict: 'id' });
+
+        if (error) {
+          console.error('Failed to upsert Users record:', error);
+        }
+      }
+
+      window.updateMemberLoginUI = async function () {
+        const { data: { user } } = await supabase.auth.getUser();
+        const forcedLogout = sessionStorage.getItem('leapen_forced_logout') === '1';
+        const reauthState = sessionStorage.getItem('leapen_profile_reauth');
+        const effectiveUser = forcedLogout ? null : user;
+
+        // showPage 호출 전에 멤버 상태를 먼저 세팅
+        window.isMember = !!effectiveUser;
+
+        const logoutBtn = document.getElementById("memberLogoutBtn");
+        const welcomeMsg = document.getElementById("memberWelcomeMessage");
+  
+        if (effectiveUser) {
+          if (reauthState !== 'pending') {
+            sessionStorage.removeItem('leapen_profile_reauth');
+          }
+          if (logoutBtn) logoutBtn.style.display = "";
+
+          window.currentUser = effectiveUser;
+          await upsertSupabaseUser(effectiveUser);
+          
+          // 대시보드 환영 메시지 업데이트
+          const displayName = getMemberDisplayName(effectiveUser);
+          if (welcomeMsg) {
+            if (displayName) {
+              welcomeMsg.textContent = `${displayName} 님 환영합니다.🤗`;
+            } else {
+              welcomeMsg.textContent = "멤버 전용 페이지입니다.";
+            }
+          }
+          const welcomeMsgStudyHub = document.getElementById("memberWelcomeMessageStudyHub");
+          if (welcomeMsgStudyHub) {
+            if (displayName) {
+              welcomeMsgStudyHub.textContent = `${displayName} 님 환영합니다.🤗`;
+            } else {
+              welcomeMsgStudyHub.textContent = "멤버 전용 페이지입니다.";
+            }
+          }
+          const profileEmail = document.getElementById('profileEmail');
+          const profileName = document.getElementById('profileName');
+          const profileNickname = document.getElementById('profileNickname');
+          if (profileEmail) profileEmail.textContent = effectiveUser.email || '-';
+          if (profileName) profileName.textContent = effectiveUser.user_metadata?.full_name || effectiveUser.user_metadata?.name || '-';
+          if (profileNickname) profileNickname.textContent = localStorage.getItem('leapen_member_display_name') || displayName || '-';
+          const signupSelect = document.getElementById('profileSignupPath');
+          const savedPath = localStorage.getItem('leapen_signup_path');
+          if (signupSelect && savedPath) signupSelect.value = savedPath;
+
+          if (sessionStorage.getItem('leapen_profile_reauth') === 'pending') {
+            sessionStorage.setItem('leapen_profile_reauth', 'verified');
+            if (typeof showPage === "function") {
+              showPage("member-dashboard");
+            }
+            showMemberDashboardSection('Profile & Settings');
+          }
+          // 로그인 후에도 기존 홈/메뉴 유지 (자동 이동 없음)
+        } else {
+          if (logoutBtn) logoutBtn.style.display = "none";
+          if (welcomeMsg) welcomeMsg.textContent = "멤버 전용 페이지입니다.";
+          const welcomeMsgStudyHub = document.getElementById("memberWelcomeMessageStudyHub");
+          if (welcomeMsgStudyHub) welcomeMsgStudyHub.textContent = "멤버 전용 페이지입니다.";
+          const memberDashboardActive = document.getElementById('member-dashboard')?.classList.contains('active');
+          const memberStudyHubActive = document.getElementById('member-study-hub')?.classList.contains('active');
+          if ((forcedLogout || memberDashboardActive || memberStudyHubActive) && typeof showPage === "function") {
+            showPage("home");
+          }
+        }
+  
+        if (!window.isAdmin) {
+          updateTopMenuForMember(!!effectiveUser);
+        }
+      };
+  
+      supabase.auth.onAuthStateChange(() => window.updateMemberLoginUI());
+      window.updateMemberLoginUI();
+      bindWithdrawButtons();
+    })();
     // Calendar for One Sentence Page
     let currentCalendarDate = new Date();
     let selectedDate = null;
@@ -3903,8 +5117,24 @@
         });
         
         console.log('Notion data loaded:', sentenceData);
+        updateTodaySentence();
       } catch (error) {
         console.error('Failed to load from Notion:', error);
+      }
+    }
+
+    function updateTodaySentence() {
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+      const displayEl = document.getElementById('todaySentenceDisplay');
+      
+      if (!displayEl) return;
+      
+      if (sentenceData[todayStr] && sentenceData[todayStr].sentence) {
+        const sentence = sentenceData[todayStr].sentence;
+        displayEl.textContent = `"${sentence}"`;
+      } else {
+        displayEl.textContent = '오늘의 문장을 불러오는 중...';
       }
     }
 
@@ -4474,8 +5704,17 @@
     // 팝업 오버레이 클릭 시 닫기
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('popup-overlay')) {
-        const popupNumber = parseInt(e.target.id.replace('popup', ''));
-        closePopup(popupNumber);
+        const popupId = e.target.id;
+        if (popupId === 'popup-withdraw-success') {
+          finalizeWithdrawal();
+        } else if (popupId === 'popup-logout' || popupId === 'popup-privacy' || popupId === 'popup-terms' || popupId === 'popup-nickname' || popupId === 'popup-logout-success' || popupId === 'popup-profile-save' || popupId === 'popup-withdraw-confirm') {
+          closeModal(popupId);
+        } else if (popupId === 'popup-mypage') {
+          closeMyPageGate();
+        } else {
+          const popupNumber = parseInt(popupId.replace('popup', ''));
+          closePopup(popupNumber);
+        }
       }
     });
 
@@ -4486,6 +5725,20 @@
           closePopup(1);
         } else if (document.getElementById('popup2').classList.contains('active')) {
           closePopup(2);
+        } else if (document.getElementById('popup-logout').classList.contains('active')) {
+          closeModal('popup-logout');
+        } else if (document.getElementById('popup-privacy').classList.contains('active')) {
+          closeModal('popup-privacy');
+        } else if (document.getElementById('popup-terms').classList.contains('active')) {
+          closeModal('popup-terms');
+        } else if (document.getElementById('popup-profile-save').classList.contains('active')) {
+          closeModal('popup-profile-save');
+        } else if (document.getElementById('popup-withdraw-confirm').classList.contains('active')) {
+          closeModal('popup-withdraw-confirm');
+        } else if (document.getElementById('popup-withdraw-success').classList.contains('active')) {
+          finalizeWithdrawal();
+        } else if (document.getElementById('popup-mypage').classList.contains('active')) {
+          closeMyPageGate();
         }
       }
     });
@@ -4506,6 +5759,12 @@
       }
     }
 
+    function updateScrollTopButton() {
+      const btn = document.getElementById('scrollTopBtn');
+      if (!btn) return;
+      btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    }
+
     document.addEventListener('DOMContentLoaded', async function() {
       // 체크박스 이벤트 리스너 설정
       setupPopupCheckboxListeners();
@@ -4520,6 +5779,7 @@
 
       await loadSentencesFromNotion();
       await loadSmallTalkFromNotion();
+      updateTodaySentence();
       if (document.getElementById('calendarDays')) {
         renderCalendar();
       }
@@ -4549,7 +5809,10 @@
       if (document.getElementById('voiceRoomCardsGrid')) {
         await loadDaysData();
       }
+      updateScrollTopButton();
     });
+
+    window.addEventListener('scroll', updateScrollTopButton);
 
     // 52주 필사 관련 함수들
     let weeksData = [];

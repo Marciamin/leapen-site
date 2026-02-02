@@ -77,6 +77,13 @@ function showPage(pageId, pushHistory = true) {
     }, 300);
   }
 
+  // 멤버 대시보드로 이동 시 오늘의 문장 업데이트
+  if (pageId === 'member-dashboard' && typeof updateTodaySentence === 'function') {
+    setTimeout(() => {
+      updateTodaySentence();
+    }, 100);
+  }
+
   // Update active menu item
   const menuItems = document.querySelectorAll('.nav-menu > li');
   menuItems.forEach(item => {
@@ -179,12 +186,18 @@ let isAdmin = false;
 // 로그인 상태 확인
 function checkAuthStatus() {
   const authStatus = localStorage.getItem('leapen_auth');
-  if (authStatus === 'admin') {
+  const adminSession = sessionStorage.getItem('leapen_admin_session') === '1';
+  if (authStatus === 'admin' && adminSession) {
     isAdmin = true;
+    window.isAdmin = true;
     updateMenuForAuth();
     return true;
   }
+  if (authStatus === 'admin' && !adminSession) {
+    localStorage.removeItem('leapen_auth');
+  }
   isAdmin = false;
+  window.isAdmin = false;
   updateMenuForGuest();
   return false;
 }
@@ -198,7 +211,10 @@ function handleLogin(event) {
   
   if (id === 'Admin' && password === 'admin0415') {
     localStorage.setItem('leapen_auth', 'admin');
+    sessionStorage.setItem('leapen_admin_session', '1');
     isAdmin = true;
+    window.isAdmin = true;
+    sessionStorage.removeItem('leapen_forced_logout');
     errorDiv.style.display = 'none';
     updateMenuForAuth();
     showPage('home');
@@ -211,12 +227,22 @@ function handleLogin(event) {
 
 // 로그아웃
 function logout() {
+  // Supabase 멤버 로그아웃이 존재하면 우선 사용
+  if (typeof window.signOutMember === "function") {
+    window.signOutMember();
+    return;
+  }
+
   if (confirm('로그아웃 하시겠습니까?')) {
     localStorage.removeItem('leapen_auth');
+    sessionStorage.removeItem('leapen_admin_session');
     isAdmin = false;
+    window.isAdmin = false;
     updateMenuForGuest();
     showPage('home');
-    alert('로그아웃되었습니다. 게스트 모드로 전환됩니다.');
+    if (typeof openModal === "function") {
+      openModal("popup-logout-success");
+    }
   }
 }
 
@@ -298,6 +324,11 @@ function checkPageAccess(pageId) {
     return true;
   }
   
+  // 멤버 전용 페이지
+  if (pageId === 'member-dashboard' || pageId === 'member-study-hub') {
+    return !!window.isMember;
+  }
+
   // 게스트 모드에서 접근 가능한 페이지
   const guestAllowedPages = [
     'home',
