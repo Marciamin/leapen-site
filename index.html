@@ -4173,17 +4173,17 @@
             <div class="member-menu-box" style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke);">
               <button class="member-menu-toggle" onclick="toggleMemberMenu()">메뉴 보기</button>
               <div id="memberMenuList" class="member-menu-list">
-                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; background: #eef2ff; color: #1d4ed8; font-weight: 600; cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('home')">🏠 Home</div>
+                <div class="member-menu-item active" data-section="home" onclick="showMemberDashboardSection('home')">🏠 Home</div>
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
-                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('My Learning')">📚 My Learning</div>
+                <div class="member-menu-item" data-section="My Learning" onclick="showMemberDashboardSection('My Learning')">📚 My Learning</div>
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
-                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('Learning Progress')">🗂 Learning Progress</div>
+                <div class="member-menu-item" data-section="Learning Progress" onclick="showMemberDashboardSection('Learning Progress')">🗂 Learning Progress</div>
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
-                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('Expressions &amp; Notes')">💬 Expressions &amp; Notes</div>
+                <div class="member-menu-item" data-section="Expressions &amp; Notes" onclick="showMemberDashboardSection('Expressions &amp; Notes')">💬 Expressions &amp; Notes</div>
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
-                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;" onclick="showMemberDashboardSection('Goals &amp; Challenges')">🎯 Goals &amp; Challenges</div>
+                <div class="member-menu-item" data-section="Goals &amp; Challenges" onclick="showMemberDashboardSection('Goals &amp; Challenges')">🎯 Goals &amp; Challenges</div>
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
-                <div style="padding: 0.6rem 0.75rem; border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer;" onclick="showMemberDashboardSection('Profile &amp; Settings')">👤 Profile &amp; Settings</div>
+                <div class="member-menu-item" data-section="Profile &amp; Settings" onclick="showMemberDashboardSection('Profile &amp; Settings')">👤 Profile &amp; Settings</div>
               </div>
             </div>
           </aside>
@@ -4668,6 +4668,16 @@
         }
       }
 
+      function updateMemberMenuActive(sectionName) {
+        const menuItems = document.querySelectorAll('#memberMenuList .member-menu-item');
+        if (!menuItems.length) return;
+        menuItems.forEach((item) => {
+          const target = item.getAttribute('data-section');
+          const isActive = target === sectionName;
+          item.classList.toggle('active', isActive);
+        });
+      }
+
       window.showMemberDashboardSection = function (sectionName) {
         const grid = document.getElementById('memberDashboardGrid');
         const placeholder = document.getElementById('memberDashboardPlaceholder');
@@ -4675,6 +4685,8 @@
         const reauthPanel = document.getElementById('profileReauthPanel');
         const profilePanel = document.getElementById('profileSettingsPanel');
         if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel) return;
+
+        updateMemberMenuActive(sectionName);
 
         if (sectionName !== 'Profile & Settings') {
           sessionStorage.removeItem('leapen_profile_reauth');
