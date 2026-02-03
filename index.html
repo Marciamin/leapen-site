@@ -515,6 +515,115 @@
     </div>
   </div>
 
+  <!-- Popup: Level Up -->
+  <div class="popup-overlay" id="popup-levelup">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-levelup')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">🎉 Level Up!</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p id="popupLevelupMessage">Welcome to your new level.</p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeModal('popup-levelup')">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup: Growth Levels -->
+  <div class="popup-overlay" id="popup-growth-levels">
+    <div class="popup-modal" style="max-width: 860px;">
+      <button class="popup-close" onclick="closeModal('popup-growth-levels')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">⭐ 멤버 등급 자세히 보기 ⭐</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <div class="growth-levels-grid">
+            <div class="growth-level-item" style="border-color: #b7e4c7;">
+              <div class="growth-level-item-title">🌱 Rookie (3 visits)</div>
+              <div class="growth-level-item-desc">“첫 발을 내디뎠어요.”</div>
+              <ul class="growth-level-item-list">
+                <li>👀 기본 콘텐츠 열람</li>
+                <li>🔓 일부 무료 자료 접근</li>
+                <li>🧠 학습 흐름 살짝 맛보기</li>
+              </ul>
+              <div class="growth-level-item-quote">"Welcome aboard. Let’s get started."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #cfe1ff;">
+              <div class="growth-level-item-title">🔍 Explorer (10 visits)</div>
+              <div class="growth-level-item-desc">“이제 길을 찾는 중이에요.”</div>
+              <ul class="growth-level-item-list">
+                <li>📌 즐겨찾기 기능 사용</li>
+                <li>💬 댓글 / 리액션 참여 가능</li>
+                <li>📖 추천 콘텐츠 큐레이션 시작</li>
+              </ul>
+              <div class="growth-level-item-quote">"You’re exploring — keep going."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #ffd6a5;">
+              <div class="growth-level-item-title">🔁 Consistent (30 visits)</div>
+              <div class="growth-level-item-desc">“꾸준함이 실력이 되는 구간.”</div>
+              <ul class="growth-level-item-list">
+                <li>⭐ 콘텐츠 북마크 저장</li>
+                <li>📝 일부 프리미엄 미리보기</li>
+                <li>🎯 개인화 추천 강화</li>
+              </ul>
+              <div class="growth-level-item-quote">"Consistency beats motivation."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #f9c2ff;">
+              <div class="growth-level-item-title">💥 Breakthrough (70 visits)</div>
+              <div class="growth-level-item-desc">“확실한 전환점에 도달했어요.”</div>
+              <ul class="growth-level-item-list">
+                <li>📂 자료 다운로드 (일부)</li>
+                <li>🧩 미션 / 챌린지 참여</li>
+                <li>🗣️ 실전 표현 콘텐츠 우선 노출</li>
+              </ul>
+              <div class="growth-level-item-quote">"This is your breakthrough moment."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #c3f0ca;">
+              <div class="growth-level-item-title">🗣️ Fluent (150 visits)</div>
+              <div class="growth-level-item-desc">“언어가 도구가 되기 시작합니다.”</div>
+              <ul class="growth-level-item-list">
+                <li>🎓 프리미엄 콘텐츠 접근 확대</li>
+                <li>💬 Q&amp;A / 토론 참여</li>
+                <li>📬 신규 콘텐츠 얼리 알림</li>
+              </ul>
+              <div class="growth-level-item-quote">"You’re not just learning — you’re using it."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #e3d5ff;">
+              <div class="growth-level-item-title">🔒 Inner Circle (300 visits)</div>
+              <div class="growth-level-item-desc">“핵심 멤버로 인정받았어요.”</div>
+              <ul class="growth-level-item-list">
+                <li>🏅 Inner Circle 배지</li>
+                <li>📄 독점 자료 / 비공개 글 접근</li>
+                <li>🎤 라이브 / 이벤트 우선 초대</li>
+              </ul>
+              <div class="growth-level-item-quote">"You’re officially on the inside."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #ffd4e5;">
+              <div class="growth-level-item-title">👑 Elite Circle (700 visits)</div>
+              <div class="growth-level-item-desc">“진짜 팬, 진짜 성장자.”</div>
+              <ul class="growth-level-item-list">
+                <li>🌟 Elite Circle 전용 콘텐츠</li>
+                <li>🧠 심화 자료 &amp; 비하인드 인사이트</li>
+                <li>🤝 커뮤니티 내 하이라이트 표시</li>
+              </ul>
+              <div class="growth-level-item-quote">"Few make it this far. You did."</div>
+            </div>
+            <div class="growth-level-item" style="border-color: #cfe9ff;">
+              <div class="growth-level-item-title">🏛️ Legacy (1500 visits)</div>
+              <div class="growth-level-item-desc">“이 공간의 역사입니다.”</div>
+              <ul class="growth-level-item-list">
+                <li>🏆 Legacy 전용 배지</li>
+                <li>✍️ 콘텐츠 제작 참여 or 피드백 권한</li>
+                <li>💌 감사 메시지 &amp; 스페셜 혜택</li>
+              </ul>
+              <div class="growth-level-item-quote">"You didn’t just visit. You stayed."</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeModal('popup-growth-levels')">확인</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Popup 10: 회원 탈퇴 확인 -->
   <div class="popup-overlay" id="popup-withdraw-confirm">
     <div class="popup-modal">
@@ -4190,6 +4299,47 @@
 
           <!-- Main Content -->
           <main class="member-dashboard-main" style="flex: 1; padding: 2rem;">
+            <div id="memberGrowthJourney" class="content-card member-growth-journey">
+              <div id="growthLevelupBanner" class="growth-levelup-banner" style="display: none;"></div>
+              <div class="growth-header">
+                <div>
+                  <div class="growth-title">Growth Journey</div>
+                </div>
+                <div class="growth-visits">
+                  <div class="growth-visits-count" id="memberVisitCount">0</div>
+                  <div class="growth-visits-label">TOTAL VISITS</div>
+                </div>
+              </div>
+              <div class="growth-progress" id="growthProgress">
+                <div class="growth-tooltip" id="growthTooltip">Next level in 12 visits</div>
+                <div class="growth-progress-track">
+                  <div class="growth-progress-fill" id="growthProgressFill"></div>
+                </div>
+                <div class="growth-progress-ticks">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="growth-progress-labels">
+                  <span>START</span>
+                  <span>LEGACY (1500)</span>
+                </div>
+              </div>
+              <div class="growth-level-row">
+                <div class="growth-level-badge" id="memberLevelBadge">🌱 Rookie</div>
+                <button class="btn btn-secondary growth-details-btn" onclick="openModal('popup-growth-levels')">멤버등급 자세히보기</button>
+              </div>
+              <div class="growth-level-card" id="memberLevelCard">
+                <div class="growth-level-desc" id="memberLevelDesc">첫 발을 내디뎠어요.</div>
+                <ul class="growth-level-benefits" id="memberLevelBenefits"></ul>
+                <div class="growth-level-quote" id="memberLevelQuote">"Welcome aboard. Let’s get started."</div>
+              </div>
+            </div>
             <div class="member-top-section" style="position: sticky; top: 80px; z-index: 5; background: var(--bg); padding: 0 0 1.5rem;">
               <div class="member-top-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: stretch;">
                 <div class="content-card" style="margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
@@ -4687,6 +4837,7 @@
         if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel) return;
 
         updateMemberMenuActive(sectionName);
+        updateMemberGrowthUI();
 
         if (sectionName !== 'Profile & Settings') {
           sessionStorage.removeItem('leapen_profile_reauth');
@@ -4852,6 +5003,233 @@
         return `${emailPrefix}_${idSuffix}`;
       }
 
+      const MEMBER_LEVEL_MAX = 1500;
+      const MEMBER_LEVELS = [
+        {
+          name: 'Rookie',
+          emoji: '🌱',
+          min: 3,
+          color: '#b7e4c7',
+          desc: '첫 발을 내디뎠어요.',
+          quote: '"Welcome aboard. Let’s get started."',
+          benefits: ['👀 기본 콘텐츠 열람', '🔓 일부 무료 자료 접근', '🧠 학습 흐름 살짝 맛보기']
+        },
+        {
+          name: 'Explorer',
+          emoji: '🔍',
+          min: 10,
+          color: '#cfe1ff',
+          desc: '이제 길을 찾는 중이에요.',
+          quote: '"You’re exploring — keep going."',
+          benefits: ['📌 즐겨찾기 기능 사용', '💬 댓글 / 리액션 참여 가능', '📖 추천 콘텐츠 큐레이션 시작']
+        },
+        {
+          name: 'Consistent',
+          emoji: '🔁',
+          min: 30,
+          color: '#ffd6a5',
+          desc: '꾸준함이 실력이 되는 구간.',
+          quote: '"Consistency beats motivation."',
+          benefits: ['⭐ 콘텐츠 북마크 저장', '📝 일부 프리미엄 미리보기', '🎯 개인화 추천 강화']
+        },
+        {
+          name: 'Breakthrough',
+          emoji: '💥',
+          min: 70,
+          color: '#f9c2ff',
+          desc: '확실한 전환점에 도달했어요.',
+          quote: '"This is your breakthrough moment."',
+          benefits: ['📂 자료 다운로드 (일부)', '🧩 미션 / 챌린지 참여', '🗣️ 실전 표현 콘텐츠 우선 노출']
+        },
+        {
+          name: 'Fluent',
+          emoji: '🗣️',
+          min: 150,
+          color: '#c3f0ca',
+          desc: '언어가 도구가 되기 시작합니다.',
+          quote: '"You’re not just learning — you’re using it."',
+          benefits: ['🎓 프리미엄 콘텐츠 접근 확대', '💬 Q&A / 토론 참여', '📬 신규 콘텐츠 얼리 알림']
+        },
+        {
+          name: 'Inner Circle',
+          emoji: '🔒',
+          min: 300,
+          color: '#e3d5ff',
+          desc: '핵심 멤버로 인정받았어요.',
+          quote: '"You’re officially on the inside."',
+          benefits: ['🏅 Inner Circle 배지', '📄 독점 자료 / 비공개 글 접근', '🎤 라이브 / 이벤트 우선 초대']
+        },
+        {
+          name: 'Elite Circle',
+          emoji: '👑',
+          min: 700,
+          color: '#ffd4e5',
+          desc: '진짜 팬, 진짜 성장자.',
+          quote: '"Few make it this far. You did."',
+          benefits: ['🌟 Elite Circle 전용 콘텐츠', '🧠 심화 자료 & 비하인드 인사이트', '🤝 커뮤니티 내 하이라이트 표시']
+        },
+        {
+          name: 'Legacy',
+          emoji: '🏛️',
+          min: 1500,
+          color: '#cfe9ff',
+          desc: '이 공간의 역사입니다.',
+          quote: '"You didn’t just visit. You stayed."',
+          benefits: ['🏆 Legacy 전용 배지', '✍️ 콘텐츠 제작 참여 or 피드백 권한', '💌 감사 메시지 & 스페셜 혜택']
+        }
+      ];
+
+      function hexToRgba(hex, alpha) {
+        const cleaned = hex.replace('#', '');
+        const value = cleaned.length === 3
+          ? cleaned.split('').map((c) => c + c).join('')
+          : cleaned;
+        const r = parseInt(value.slice(0, 2), 16);
+        const g = parseInt(value.slice(2, 4), 16);
+        const b = parseInt(value.slice(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+
+      function resolveMemberLevel(visits) {
+        let currentIndex = -1;
+        MEMBER_LEVELS.forEach((level, index) => {
+          if (visits >= level.min) currentIndex = index;
+        });
+        if (currentIndex === -1) currentIndex = 0;
+        const current = MEMBER_LEVELS[currentIndex];
+        let next = null;
+        if (visits < MEMBER_LEVELS[0].min) {
+          next = MEMBER_LEVELS[0];
+        } else if (currentIndex < MEMBER_LEVELS.length - 1) {
+          next = MEMBER_LEVELS[currentIndex + 1];
+        }
+        const remaining = next ? Math.max(0, next.min - visits) : 0;
+        return { current, next, remaining };
+      }
+
+      function getCachedVisitCount() {
+        if (typeof window.memberVisitCount === 'number') return window.memberVisitCount;
+        const raw = localStorage.getItem('leapen_visit_count');
+        const parsed = parseInt(raw || '0', 10);
+        return Number.isNaN(parsed) ? 0 : parsed;
+      }
+
+      async function fetchMemberVisits(user) {
+        if (!user) return { visits: 0, updated: false };
+        const { data, error } = await supabase
+          .from('Users')
+          .select('visit_count, last_visit_date')
+          .eq('id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.warn('Failed to fetch visit count:', error);
+        }
+
+        const visits = data?.visit_count ?? 0;
+        window.memberVisitCount = visits;
+        localStorage.setItem('leapen_visit_count', String(visits));
+        return { visits, updated: false };
+      }
+
+      async function syncMemberVisits(user) {
+        if (!user) return { visits: 0, updated: false };
+        let visits = 0;
+        let updated = false;
+
+        const { visits: currentVisits } = await fetchMemberVisits(user);
+        visits = currentVisits;
+        const prevLevel = resolveMemberLevel(visits).current.name;
+
+        visits += 1;
+        updated = true;
+        const today = new Date().toISOString().slice(0, 10);
+        const { error: updateError } = await supabase
+          .from('Users')
+          .update({ visit_count: visits, last_visit_date: today, updated_at: new Date().toISOString() })
+          .eq('id', user.id);
+        if (updateError) {
+          console.warn('Failed to update visit count:', updateError);
+        }
+
+        window.memberVisitCount = visits;
+        localStorage.setItem('leapen_visit_count', String(visits));
+        const nextLevel = resolveMemberLevel(visits).current.name;
+        return { visits, updated, prevLevel, nextLevel };
+      }
+
+      function updateMemberGrowthUI({ visits, showLevelUp = false } = {}) {
+        const container = document.getElementById('memberGrowthJourney');
+        if (!container) return;
+
+        const visitCount = typeof visits === 'number' ? visits : getCachedVisitCount();
+        const { current, next, remaining } = resolveMemberLevel(visitCount);
+        const progressPercent = Math.min(visitCount, MEMBER_LEVEL_MAX) / MEMBER_LEVEL_MAX * 100;
+
+        const visitCountEl = document.getElementById('memberVisitCount');
+        const progressFill = document.getElementById('growthProgressFill');
+        const tooltip = document.getElementById('growthTooltip');
+        const badge = document.getElementById('memberLevelBadge');
+        const quote = document.getElementById('memberLevelQuote');
+        const desc = document.getElementById('memberLevelDesc');
+        const benefits = document.getElementById('memberLevelBenefits');
+        const banner = document.getElementById('growthLevelupBanner');
+        const popupMessage = document.getElementById('popupLevelupMessage');
+
+        if (visitCountEl) visitCountEl.textContent = String(visitCount);
+        if (progressFill) {
+          const visiblePercent = visitCount > 0 ? Math.max(progressPercent, 0.8) : 0;
+          progressFill.style.width = `${visiblePercent}%`;
+          progressFill.style.minWidth = visitCount > 0 ? '8px' : '0';
+        }
+        if (badge) badge.textContent = `${current.emoji} ${current.name}`;
+        if (quote) quote.textContent = current.quote;
+        if (desc) desc.textContent = current.desc;
+        if (benefits) {
+          benefits.innerHTML = '';
+          current.benefits.forEach((item) => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            benefits.appendChild(li);
+          });
+        }
+
+        const levelBg = hexToRgba(current.color, 0.15);
+        container.style.setProperty('--level-color', current.color);
+        container.style.setProperty('--level-bg', levelBg);
+
+        if (tooltip) {
+          if (!next) {
+            tooltip.textContent = 'Legacy unlocked. You’re at the top.';
+          } else if (next.name === 'Fluent' && remaining > 0 && remaining <= 5) {
+            tooltip.textContent = `Almost Fluent! Only ${remaining} visits left.`;
+          } else {
+            tooltip.textContent = `Next level in ${remaining} visits`;
+          }
+          const tooltipLeft = Math.max(6, Math.min(94, progressPercent));
+          tooltip.style.left = `${tooltipLeft}%`;
+        }
+
+        if (banner) {
+          banner.style.display = 'none';
+        }
+
+        if (showLevelUp) {
+          if (popupMessage) {
+            popupMessage.textContent = `Welcome to ${current.name}.`;
+          }
+          if (typeof openModal === 'function') {
+            openModal('popup-levelup');
+          }
+          container.classList.remove('level-up-shake');
+          void container.offsetWidth;
+          container.classList.add('level-up-shake');
+          setTimeout(() => {
+            container.classList.remove('level-up-shake');
+          }, 600);
+        }
+      }
+
       async function upsertSupabaseUser(user) {
         if (!user) return;
         const nickname = localStorage.getItem('leapen_member_display_name') || buildDefaultNickname(user);
@@ -4876,7 +5254,7 @@
         }
       }
 
-      window.updateMemberLoginUI = async function () {
+      window.updateMemberLoginUI = async function (authEvent) {
         const { data: { user } } = await supabase.auth.getUser();
         const forcedLogout = sessionStorage.getItem('leapen_forced_logout') === '1';
         const reauthState = sessionStorage.getItem('leapen_profile_reauth');
@@ -4896,6 +5274,14 @@
 
           window.currentUser = effectiveUser;
           await upsertSupabaseUser(effectiveUser);
+
+          const visitResult = authEvent === 'SIGNED_IN'
+            ? await syncMemberVisits(effectiveUser)
+            : await fetchMemberVisits(effectiveUser);
+          const levelState = resolveMemberLevel(visitResult.visits);
+          const shouldShowLevelUp = visitResult.updated && visitResult.prevLevel && visitResult.nextLevel && visitResult.prevLevel !== visitResult.nextLevel;
+          localStorage.setItem('leapen_last_level_name', levelState.current.name);
+          updateMemberGrowthUI({ visits: visitResult.visits, showLevelUp: shouldShowLevelUp });
           
           // 대시보드 환영 메시지 업데이트
           const displayName = getMemberDisplayName(effectiveUser);
@@ -4949,7 +5335,7 @@
         }
       };
   
-      supabase.auth.onAuthStateChange(() => window.updateMemberLoginUI());
+      supabase.auth.onAuthStateChange((event) => window.updateMemberLoginUI(event));
       window.updateMemberLoginUI();
       bindWithdrawButtons();
     })();
@@ -6415,6 +6801,10 @@
       window.showPage = function(pageId, pushHistory = true) {
         // script.js의 접근 제어를 통과한 경우에만 실행
         originalShowPageWrapper(pageId, pushHistory);
+
+        if (pageId === 'member-dashboard') {
+          updateMemberGrowthUI();
+        }
         
         // 보이스룸 100일 챌린지 페이지 열 때 전체 필터로 초기화
         if (pageId === 'voice-room-category-01') {
