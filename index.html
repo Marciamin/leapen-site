@@ -4265,17 +4265,11 @@
               <div id="memberWelcomeMessage" style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">멤버 전용 페이지입니다.</div>
             </div>
 
-            <!-- 두 번째 박스: 오늘의 학습 달성률 -->
-            <div class="member-progress-box" style="padding: 1rem; border-radius: 16px; background: #ffffff; border: 1px solid var(--stroke); margin-bottom: 1.25rem;" title="준비중입니다.">
-              <h3 style="margin: 0 0 0.75rem; font-size: 1rem;">오늘의 학습 달성률</h3>
-              <div style="display: flex; justify-content: center; margin-bottom: 0.75rem;">
-                <div style="width: 140px; height: 140px; border-radius: 50%; border: 10px solid #dbe7ff; border-top-color: #dbe7ff; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #94a3b8; background: #fff;" title="준비중입니다.">
-                  0%
-                </div>
-              </div>
-              <p style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
-                목표 시간 0분 중 0분 달성
-              </p>
+            <!-- 두 번째 박스: 오늘의 추천 표현 -->
+            <div class="content-card" style="margin: 0 0 1.25rem 0; padding: 0.9rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
+              <h3 style="margin: 0 0 0.35rem; color: #ffffff; font-weight: 800; font-size: 1.05rem;">오늘의 추천 표현 💡</h3>
+              <p id="todaySentenceDisplaySidebar" style="margin-bottom: 0.55rem; color: #ffffff; font-size: 1.15rem; font-weight: 700; line-height: 1.35;">로딩 중...</p>
+              <button class="btn btn-secondary" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); color: #4c1d95; border: none; font-weight: 700;" onclick="showPage('daily-one-sentence')">Today’s English Focus 바로가기</button>
             </div>
 
             <!-- 세 번째 박스: 서브 메뉴 -->
@@ -4341,12 +4335,7 @@
               </div>
             </div>
             <div class="member-top-section" style="position: sticky; top: 80px; z-index: 5; background: var(--bg); padding: 0 0 1.5rem;">
-              <div class="member-top-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: stretch;">
-                <div class="content-card" style="margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
-                  <h3 style="margin-top: 0; color: #ffffff; font-weight: 800;">오늘의 추천 표현 💡</h3>
-                  <p id="todaySentenceDisplay" style="margin-bottom: 0.75rem; color: #ffffff; font-size: 1.35rem; font-weight: 700;">로딩 중...</p>
-                  <button class="btn btn-secondary" style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%); color: #4c1d95; border: none; font-weight: 700;" onclick="showPage('daily-one-sentence')">Today’s English Focus 바로가기</button>
-                </div>
+              <div class="member-top-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; align-items: stretch;">
                 <div class="member-side-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
                   <div class="content-card" style="margin: 0;">
                     <h3 style="margin-top: 0;">👥 Community</h3>
@@ -4362,6 +4351,21 @@
 
             <div id="memberDashboardGrid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem;">
               <div class="content-card" style="margin: 0;">
+                <h3 style="margin-top: 0;">준비중입니다.</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">곧 업데이트 예정입니다.</p>
+              </div>
+              <div class="content-card" style="margin: 0;">
+                <h3 style="margin-top: 0;">준비중입니다.</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">곧 업데이트 예정입니다.</p>
+              </div>
+            </div>
+
+            <div id="memberDashboardPlaceholder" class="content-card" style="margin-top: 1.5rem; display: none; text-align: center;">
+              <p style="margin: 0; font-weight: 600;">곧 업데이트 예정입니다.</p>
+            </div>
+
+            <div id="memberMyLearningCards" style="margin-top: 1.5rem; display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem;">
+              <div class="content-card" style="margin: 0;">
                 <h3 style="margin-top: 0;">보이스룸 100일 챌린지</h3>
                 <div style="height: 8px; background: #eef2ff; border-radius: 999px; margin: 0.75rem 0;">
                   <div style="width: 0%; height: 100%; background: #3b82f6; border-radius: 999px;" title="준비중입니다."></div>
@@ -4376,18 +4380,6 @@
                 </div>
                 <button class="btn btn-primary" style="width: 100%;" onclick="showPage('52weeks')">이어하기 ></button>
               </div>
-              <div class="content-card" style="margin: 0;">
-                <h3 style="margin-top: 0;">준비중입니다.</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">곧 업데이트 예정입니다.</p>
-              </div>
-              <div class="content-card" style="margin: 0;">
-                <h3 style="margin-top: 0;">준비중입니다.</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">곧 업데이트 예정입니다.</p>
-              </div>
-            </div>
-
-            <div id="memberDashboardPlaceholder" class="content-card" style="margin-top: 1.5rem; display: none; text-align: center;">
-              <p style="margin: 0; font-weight: 600;">곧 업데이트 예정입니다.</p>
             </div>
 
             <div id="memberLearningProgress" class="content-card" style="margin-top: 1.5rem; display: none;" title="준비중입니다.">
@@ -4567,6 +4559,7 @@
         if (!validateSupabaseConfig()) return;
         sessionStorage.removeItem('leapen_forced_logout');
         sessionStorage.removeItem('leapen_profile_reauth');
+        localStorage.removeItem('leapen_profile_reauth');
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: { redirectTo: SUPABASE_REDIRECT_URL }
@@ -4650,6 +4643,7 @@
       window.startProfileReauth = async function () {
         // 실제 재인증(redirect) 전에 플래그 설정
         sessionStorage.setItem('leapen_profile_reauth', 'pending');
+        localStorage.setItem('leapen_profile_reauth', 'pending');
         sessionStorage.removeItem('leapen_forced_logout');
         try {
           const redirectTo = `${window.location.origin}${window.location.pathname}`;
@@ -4832,21 +4826,24 @@
         const grid = document.getElementById('memberDashboardGrid');
         const placeholder = document.getElementById('memberDashboardPlaceholder');
         const learningProgress = document.getElementById('memberLearningProgress');
+        const myLearning = document.getElementById('memberMyLearningCards');
         const reauthPanel = document.getElementById('profileReauthPanel');
         const profilePanel = document.getElementById('profileSettingsPanel');
-        if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel) return;
+        if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel || !myLearning) return;
 
         updateMemberMenuActive(sectionName);
         updateMemberGrowthUI();
 
         if (sectionName !== 'Profile & Settings') {
           sessionStorage.removeItem('leapen_profile_reauth');
+          localStorage.removeItem('leapen_profile_reauth');
         }
 
         if (sectionName === 'home') {
           grid.style.display = 'grid';
           placeholder.style.display = 'none';
           learningProgress.style.display = 'none';
+          myLearning.style.display = 'none';
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
         } else if (sectionName === 'Learning Progress') {
@@ -4854,17 +4851,23 @@
           placeholder.style.display = 'none';
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
-          if (window.innerWidth <= 900) {
-            learningProgress.style.display = 'block';
-          } else {
-            learningProgress.style.display = 'none';
-          }
+          myLearning.style.display = 'none';
+          learningProgress.style.display = 'block';
+        } else if (sectionName === 'My Learning') {
+          grid.style.display = 'none';
+          placeholder.style.display = 'none';
+          learningProgress.style.display = 'none';
+          reauthPanel.style.display = 'none';
+          profilePanel.style.display = 'none';
+          myLearning.style.display = 'grid';
         } else if (sectionName === 'Profile & Settings') {
           grid.style.display = 'none';
           placeholder.style.display = 'none';
           learningProgress.style.display = 'none';
+          myLearning.style.display = 'none';
           const isAdminUser = window.isAdmin === true;
-          const verified = sessionStorage.getItem('leapen_profile_reauth') === 'verified';
+          const verified = sessionStorage.getItem('leapen_profile_reauth') === 'verified'
+            || localStorage.getItem('leapen_profile_reauth') === 'verified';
           if (isAdminUser || verified) {
             reauthPanel.style.display = 'none';
             profilePanel.style.display = 'block';
@@ -4880,6 +4883,7 @@
           grid.style.display = 'none';
           placeholder.style.display = 'block';
           learningProgress.style.display = 'none';
+          myLearning.style.display = 'none';
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
           const withdrawPanel = document.getElementById('profileWithdrawPanel');
@@ -4921,6 +4925,7 @@
         clearSupabaseSessionStorage();
         sessionStorage.setItem('leapen_forced_logout', '1');
         sessionStorage.removeItem('leapen_profile_reauth');
+        localStorage.removeItem('leapen_profile_reauth');
 
         window.isMember = false;
         updateTopMenuForMember(false);
@@ -5257,7 +5262,8 @@
       window.updateMemberLoginUI = async function (authEvent) {
         const { data: { user } } = await supabase.auth.getUser();
         const forcedLogout = sessionStorage.getItem('leapen_forced_logout') === '1';
-        const reauthState = sessionStorage.getItem('leapen_profile_reauth');
+        const reauthState = sessionStorage.getItem('leapen_profile_reauth')
+          || localStorage.getItem('leapen_profile_reauth');
         const effectiveUser = forcedLogout ? null : user;
 
         // showPage 호출 전에 멤버 상태를 먼저 세팅
@@ -5267,8 +5273,9 @@
         const welcomeMsg = document.getElementById("memberWelcomeMessage");
   
         if (effectiveUser) {
-          if (reauthState !== 'pending') {
+          if (reauthState && reauthState !== 'pending') {
             sessionStorage.removeItem('leapen_profile_reauth');
+            localStorage.removeItem('leapen_profile_reauth');
           }
           if (logoutBtn) logoutBtn.style.display = "";
 
@@ -5310,8 +5317,9 @@
           const savedPath = localStorage.getItem('leapen_signup_path');
           if (signupSelect && savedPath) signupSelect.value = savedPath;
 
-          if (sessionStorage.getItem('leapen_profile_reauth') === 'pending') {
+          if (reauthState === 'pending') {
             sessionStorage.setItem('leapen_profile_reauth', 'verified');
+            localStorage.setItem('leapen_profile_reauth', 'verified');
             if (typeof showPage === "function") {
               showPage("member-dashboard");
             }
@@ -5525,14 +5533,20 @@
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
       const displayEl = document.getElementById('todaySentenceDisplay');
+      const sidebarEl = document.getElementById('todaySentenceDisplaySidebar');
+      const targetEls = [displayEl, sidebarEl].filter(Boolean);
       
-      if (!displayEl) return;
+      if (!targetEls.length) return;
       
       if (sentenceData[todayStr] && sentenceData[todayStr].sentence) {
         const sentence = sentenceData[todayStr].sentence;
-        displayEl.textContent = `"${sentence}"`;
+        targetEls.forEach((el) => {
+          el.textContent = `"${sentence}"`;
+        });
       } else {
-        displayEl.textContent = '오늘의 문장을 불러오는 중...';
+        targetEls.forEach((el) => {
+          el.textContent = '오늘의 문장을 불러오는 중...';
+        });
       }
     }
 
