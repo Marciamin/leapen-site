@@ -39,7 +39,7 @@
           <ul class="dropdown">
             <li id="menuDailyOneSentence" onclick="showPage('daily-one-sentence')">Today's English Focus</li>
             <li onclick="showPage('daily-article-news')">Today's Article/News</li>
-            <li onclick="showPage('daily-word-phrase')">PENDING 1</li>
+            <li onclick="showPage('LEAPEN-Challenge')">LEAPEN Challenge</li>
             <li onclick="showPage('daily-5min-writing')">PENDING 2</li>
           </ul>
         </li>
@@ -711,7 +711,7 @@
               </div>
               <h3>❓ Coming Soon</h3>
             </div>
-            <div class="home-grid-card daily-card" onclick="showPage('daily-word-phrase')" style="cursor: pointer;">
+            <div class="home-grid-card daily-card" onclick="showPage('LEAPEN-Challenge')" style="cursor: pointer;">
               <div class="daily-card-image">
                 <img src="PIC/ComingSoon.png" alt="Coming Soon">
               </div>
@@ -770,11 +770,244 @@
       </div>
     </div>
 
-    <div id="daily-word-phrase" class="page-section">
-      <div class="content-card">
-      <h2>✅ Today's Word / Phrase</h2>
-      <p>Every day, learn new words and expressions. 매일 새로운 단어와 표현을 배워보세요.</p>
-      <!-- 여기에 콘텐츠 추가 -->
+    <div id="LEAPEN-Challenge" class="page-section">
+      <div class="content-card discover-intro">
+        <p class="category-label">Daily Practice</p>
+        <h2>⭐ LEAPEN Challenge</h2>
+        <p>영어공부 챌린지를 통해 나만의 영어 루틴 & 습관을 만들어보세요.</p>
+      </div>
+
+      <div class="discover-grid">
+        <!-- Category 1 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h3>🌱 14-Day English Challenge<br>(Beginner to Intermediate)</h3>
+          </div>
+          <p class="category-description">영어를 꾸준히 연습하고 싶은 누구나 환영합니다!<BR>14일 동안 꾸준히 영어 공부를 해보세요.</p>
+          <div class="example-cards">
+            <button class="example-card" type="button" onclick="showPage('leapen-challenge-01')">
+              <img src="PIC/14-Day Challenge.png" alt="Coming Soon">
+              <div class="example-content">
+                <span class="example-tag">✔️ CLICK HERE!</span>
+                <h4>🎁 참여 혜택<BR>
+                  - 완주 인증서 발급<BR>
+                  - 꾸준함을 이겨낸 당신, 영어 실력 + 자신감<BR>
+                  - 다음 챌린지 참여 기회 제공<BR>
+                  📍노션 폼을 통해 간편하게 신청하세요!<BR></h4>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category 2 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h3>💼 Business English Challenge<br>(Intermediate to Advanced)</h3>
+          </div>
+          <p class="category-description">회사에서 쓰는 영어.<BR> 더 나은 업무 능력을 위한 영어 공부를 해보세요.</p>
+          <div class="example-cards">
+            <button class="example-card" type="button" onclick="showPage('leapen-challenge-02')">
+              <img src="PIC/business eng challenge.gif" alt="Coming Soon">
+              <div class="example-content">
+                <span class="example-tag">✔️ CLICK HERE!</span>
+                <h4>🎁 참여 혜택<BR>
+                  - 완주 인증서 발급<BR>
+                  - 꾸준함을 이겨낸 당신, 영어 실력 + 자신감<BR>
+                  - 다음 챌린지 참여 기회 제공<BR>
+                  📍노션 폼을 통해 간편하게 신청하세요!<BR></h4>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category 3 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h3>COMING SOON<br>Stay tuned!</h3>
+          </div>
+          <p class="category-description">내용을 여기에 넣어주세요.</p>
+          <div class="example-cards">
+            <button class="example-card" type="button" onclick="showPage('leapen-challenge-03')">
+              <img src="PIC/ComingSoon.png" alt="Coming Soon">
+              <div class="example-content">
+                <span class="example-tag">COMING SOON</span>
+                <h4>COMING SOON<BR>Stay tuned!</h4>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEAPEN Challenge Detail Pages -->
+    <div id="leapen-challenge-01" class="page-section">
+      <div class="category-board">
+        <div class="category-board-header">
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+            <button class="back-button" onclick="showPage('LEAPEN-Challenge')">← LEAPEN Challenge로 돌아가기</button>
+          </div>
+          <p class="category-label">14-Day English Challenge</p>
+          <h2>🌱 14-Day English Challenge<br>(Beginner to Intermediate)</h2>
+          <p class="category-subtitle">영어를 꾸준히 연습하고 싶은 누구나 환영합니다!<BR>14일 동안 꾸준히 영어 공부를 해보세요.</p>
+        </div>
+        <div class="content-card" style="margin-top: 1.5rem; display: flex; justify-content: center;">
+          <video controls style="width: 100%; max-width: 900px; height: auto; border-radius: 12px;">
+            <source src="videos/leapen-challenge-01.mp4" type="video/mp4">
+            이 브라우저는 video 태그를 지원하지 않습니다.
+          </video>
+        </div>
+        <div class="category-questions-box">
+          <div class="table-container">
+            <table class="board-table">
+              <thead>
+                <tr>
+                  <th>번호</th>
+                  <th>꼭 확인하세요!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b22180a2af6aff7a9009b2bd?pvs=106" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
+                  <td>01</td>
+                  <td class="question-text">📍챌린지 신청서 링크 (클릭하면 아래에 내용이 표시됩니다.)</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b22180c4947ccc87b34ccc37" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
+                  <td>02</td>
+                  <td class="question-text">14-Day Challenge Part 1.</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b221800491c0dc6420550e76" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
+                  <td>03</td>
+                  <td class="question-text">14-Day Challenge Part 2.</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b221800491c0dc6420550e76" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
+                  <td>03</td>
+                  <td class="question-text">2주 챌린지 복습하기</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="content-card" style="margin-top: 1.5rem;">
+          <h3>Challenge Details</h3>
+          <!-- Notion embed: replace src with your public Notion embed URL -->
+          <iframe
+            src="https://leapen.notion.site/ebd//1eef2065b221801b801fc68486b75890"
+            title="Notion Embed"
+            style="width: 100%; min-height: 640px; border: 1px solid #e5e7eb; border-radius: 12px;"
+            data-notion-embed
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div id="leapen-challenge-02" class="page-section">
+      <div class="category-board">
+        <div class="category-board-header">
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+            <button class="back-button" onclick="showPage('LEAPEN-Challenge')">← LEAPEN Challenge로 돌아가기</button>
+          </div>
+          <p class="category-label">카테고리 02</p>
+          <h2>카테고리 제목 02<br>(Category Title 02)</h2>
+          <p class="category-subtitle">내용을 여기에 넣어주세요.</p>
+        </div>
+        <div class="content-card" style="margin-top: 1.5rem; display: flex; justify-content: center;">
+          <video controls style="width: 100%; max-width: 900px; height: auto; border-radius: 12px;">
+            <source src="videos/leapen-challenge-02.mp4" type="video/mp4">
+            이 브라우저는 video 태그를 지원하지 않습니다.
+          </video>
+        </div>
+        <div class="category-questions-box">
+          <div class="table-container">
+            <table class="board-table">
+              <thead>
+                <tr>
+                  <th>번호</th>
+                  <th>꼭 확인하세요!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_01" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
+                  <td>01</td>
+                  <td class="question-text">📍챌린지 신청서 링크 (클릭하면 아래에 내용이 표시됩니다.)</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_02" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
+                  <td>02</td>
+                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_03" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
+                  <td>03</td>
+                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="content-card" style="margin-top: 1.5rem;">
+          <h3>Notion 페이지</h3>
+          <p>Notion 공유 링크(공개 설정)를 아래 iframe의 src에 넣으면 페이지가 표시됩니다.</p>
+          <!-- Notion embed: replace src with your public Notion embed URL -->
+          <iframe
+            src="about:blank"
+            title="Notion Embed"
+            style="width: 100%; min-height: 640px; border: 1px solid #e5e7eb; border-radius: 12px;"
+            data-notion-embed
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div id="leapen-challenge-03" class="page-section">
+      <div class="category-board">
+        <div class="category-board-header">
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+            <button class="back-button" onclick="showPage('LEAPEN-Challenge')">← LEAPEN Challenge로 돌아가기</button>
+          </div>
+          <p class="category-label">카테고리 03</p>
+          <h2>카테고리 제목 03<br>(Category Title 03)</h2>
+          <p class="category-subtitle">내용을 여기에 넣어주세요.</p>
+        </div>
+        <div class="content-card" style="margin-top: 1.5rem; display: flex; justify-content: center;">
+          <video controls style="width: 100%; max-width: 900px; height: auto; border-radius: 12px;">
+            <source src="videos/leapen-challenge-03.mp4" type="video/mp4">
+            이 브라우저는 video 태그를 지원하지 않습니다.
+          </video>
+        </div>
+        <div class="category-questions-box">
+          <div class="table-container">
+            <table class="board-table">
+              <thead>
+                <tr>
+                  <th>번호</th>
+                  <th>꼭 확인하세요!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_01" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
+                  <td>01</td>
+                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_02" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
+                  <td>02</td>
+                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                </tr>
+                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_03" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
+                  <td>03</td>
+                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="content-card" style="margin-top: 1.5rem;">
+          <h3>Notion 페이지</h3>
+          <p>Notion 공유 링크(공개 설정)를 아래 iframe의 src에 넣으면 페이지가 표시됩니다.</p>
+          <!-- Notion embed: replace src with your public Notion embed URL -->
+          <iframe
+            src="about:blank"
+            title="Notion Embed"
+            style="width: 100%; min-height: 640px; border: 1px solid #e5e7eb; border-radius: 12px;"
+            data-notion-embed
+          ></iframe>
+        </div>
       </div>
     </div>
 
@@ -5347,6 +5580,15 @@
       window.updateMemberLoginUI();
       bindWithdrawButtons();
     })();
+
+    window.setChallengeNotion = function (pageId, url) {
+      if (!pageId || !url) return;
+      const section = document.getElementById(pageId);
+      if (!section) return;
+      const iframe = section.querySelector('iframe[data-notion-embed]');
+      if (!iframe) return;
+      iframe.src = url;
+    };
     // Calendar for One Sentence Page
     let currentCalendarDate = new Date();
     let selectedDate = null;
