@@ -186,15 +186,11 @@ let isAdmin = false;
 // 로그인 상태 확인
 function checkAuthStatus() {
   const authStatus = localStorage.getItem('leapen_auth');
-  const adminSession = sessionStorage.getItem('leapen_admin_session') === '1';
-  if (authStatus === 'admin' && adminSession) {
+  if (authStatus === 'admin') {
     isAdmin = true;
     window.isAdmin = true;
     updateMenuForAuth();
     return true;
-  }
-  if (authStatus === 'admin' && !adminSession) {
-    localStorage.removeItem('leapen_auth');
   }
   isAdmin = false;
   window.isAdmin = false;
