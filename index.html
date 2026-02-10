@@ -461,7 +461,7 @@
     <div class="popup-modal">
       <button class="popup-close" onclick="closeMyPageGate()">×</button>
       <div class="popup-content">
-        <h2 class="popup-title">마이페이지</h2>
+        <h2 class="popup-title">LEAPEN 회원 전용</h2>
         <div class="popup-body" style="margin-top: 1rem;">
           <p>로그인 후 사용할 수 있습니다.</p>
         </div>
@@ -840,7 +840,7 @@
     </div>
 
     <!-- LEAPEN Challenge Detail Pages -->
-    <div id="leapen-challenge-01" class="page-section">
+    <div id="leapen-challenge-01" class="page-section" data-challenge-id="ed658571-6a1d-4fe1-b099-5e2d7f244f12" data-challenge-title="14-Day English Challenge">
       <div class="category-board">
         <div class="category-board-header">
           <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
@@ -850,49 +850,61 @@
           <h2>🌱 14-Day English Challenge<br>(Beginner to Intermediate)</h2>
           <p class="category-subtitle">영어를 꾸준히 연습하고 싶은 누구나 환영합니다!<BR>14일 동안 꾸준히 영어 공부를 해보세요.</p>
         </div>
-        <div class="content-card" style="margin-top: 1.5rem; display: flex; justify-content: center;">
-          <video controls style="width: 100%; max-width: 900px; height: auto; border-radius: 12px;">
-            <source src="videos/leapen-challenge-01.mp4" type="video/mp4">
-            이 브라우저는 video 태그를 지원하지 않습니다.
-          </video>
-        </div>
-        <div class="category-questions-box">
-          <div class="table-container">
-            <table class="board-table">
-              <thead>
-                <tr>
-                  <th>번호</th>
-                  <th>꼭 확인하세요!</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b22180a2af6aff7a9009b2bd?pvs=106" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
-                  <td>01</td>
-                  <td class="question-text">📍챌린지 신청서 링크 (클릭하면 아래에 내용이 표시됩니다.)</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b22180c4947ccc87b34ccc37" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
-                  <td>02</td>
-                  <td class="question-text">14-Day Challenge Part 1.</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b221800491c0dc6420550e76" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
-                  <td>03</td>
-                  <td class="question-text">14-Day Challenge Part 2.</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://leapen.notion.site/ebd//300f2065b221800491c0dc6420550e76" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
-                  <td>03</td>
-                  <td class="question-text">2주 챌린지 복습하기</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="challenge-detail-layout">
+          <div class="challenge-detail-left">
+            <div class="content-card challenge-video-card">
+              <video controls>
+                <source src="videos/leapen-challenge-01.mp4" type="video/mp4">
+                이 브라우저는 video 태그를 지원하지 않습니다.
+              </video>
+            </div>
+          </div>
+          <div class="challenge-detail-right">
+            <div class="challenge-lock-note" data-challenge-lock-note style="display: none;">
+              신청 확인 후 챌린지 시작 일정에 맞춰 순차 공개됩니다. (신청 후 최소 48시간 이후)
+            </div>
+            <div class="category-questions-box">
+              <div class="table-container">
+                <table class="board-table">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>꼭 확인하세요!</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="notion-question" data-default-notion="1" data-notion="https://leapen.notion.site/ebd//300f2065b22180a2af6aff7a9009b2bd" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion)" style="cursor: pointer;">
+                      <td>01</td>
+                      <td class="question-text">📍챌린지 신청서 링크 (2/25 오픈 예정)</td>
+                    </tr>
+                    <tr class="notion-question" data-requires-enrollment="1" data-notion="https://leapen.notion.site/ebd//300f2065b22180c4947ccc87b34ccc37" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion, this.dataset.requiresEnrollment)" style="cursor: pointer;">
+                      <td>02</td>
+                      <td class="question-text">14-Day Challenge Part 1.</td>
+                    </tr>
+                    <tr class="notion-question" data-requires-enrollment="1" data-notion="https://leapen.notion.site/ebd//300f2065b221800491c0dc6420550e76" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion, this.dataset.requiresEnrollment)" style="cursor: pointer;">
+                      <td>03</td>
+                      <td class="question-text">14-Day Challenge Part 2.</td>
+                    </tr>
+                    <tr class="notion-question" data-requires-enrollment="1" data-notion="https://leapen.notion.site/ebd//300f2065b221800491c0dc6420550e76" onclick="setChallengeNotion('leapen-challenge-01', this.dataset.notion, this.dataset.requiresEnrollment)" style="cursor: pointer;">
+                      <td>04</td>
+                      <td class="question-text">2주 챌린지 복습하기</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
         <div class="content-card" style="margin-top: 1.5rem;">
-          <h3>Challenge Details</h3>
+          <h3>📝 Challenge Details</h3>
+          <div class="challenge-details-message" data-challenge-details-message style="display: block;">
+            챌린지 신청을 먼저 진행해 주세요.
+          </div>
           <!-- Notion embed: replace src with your public Notion embed URL -->
           <iframe
             src="https://leapen.notion.site/ebd//1eef2065b221801b801fc68486b75890"
             title="Notion Embed"
-            style="width: 100%; min-height: 640px; border: 1px solid #e5e7eb; border-radius: 12px;"
+            style="width: 100%; min-height: 640px; border: 1px solid #e5e7eb; border-radius: 12px; display: none;"
             data-notion-embed
           ></iframe>
         </div>
@@ -909,36 +921,42 @@
           <h2>카테고리 제목 02<br>(Category Title 02)</h2>
           <p class="category-subtitle">내용을 여기에 넣어주세요.</p>
         </div>
-        <div class="content-card" style="margin-top: 1.5rem; display: flex; justify-content: center;">
-          <video controls style="width: 100%; max-width: 900px; height: auto; border-radius: 12px;">
-            <source src="videos/leapen-challenge-02.mp4" type="video/mp4">
-            이 브라우저는 video 태그를 지원하지 않습니다.
-          </video>
-        </div>
-        <div class="category-questions-box">
-          <div class="table-container">
-            <table class="board-table">
-              <thead>
-                <tr>
-                  <th>번호</th>
-                  <th>꼭 확인하세요!</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_01" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
-                  <td>01</td>
-                  <td class="question-text">📍챌린지 신청서 링크 (클릭하면 아래에 내용이 표시됩니다.)</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_02" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
-                  <td>02</td>
-                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_03" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
-                  <td>03</td>
-                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="challenge-detail-layout">
+          <div class="challenge-detail-left">
+            <div class="content-card challenge-video-card">
+              <video controls>
+                <source src="videos/leapen-challenge-02.mp4" type="video/mp4">
+                이 브라우저는 video 태그를 지원하지 않습니다.
+              </video>
+            </div>
+          </div>
+          <div class="challenge-detail-right">
+            <div class="category-questions-box">
+              <div class="table-container">
+                <table class="board-table">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>꼭 확인하세요!</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_01" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
+                      <td>01</td>
+                      <td class="question-text">📍챌린지 신청서 링크 (클릭하면 아래에 내용이 표시됩니다.)</td>
+                    </tr>
+                    <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_02" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
+                      <td>02</td>
+                      <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                    </tr>
+                    <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_03" onclick="setChallengeNotion('leapen-challenge-02', this.dataset.notion)" style="cursor: pointer;">
+                      <td>03</td>
+                      <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
         <div class="content-card" style="margin-top: 1.5rem;">
@@ -965,36 +983,42 @@
           <h2>카테고리 제목 03<br>(Category Title 03)</h2>
           <p class="category-subtitle">내용을 여기에 넣어주세요.</p>
         </div>
-        <div class="content-card" style="margin-top: 1.5rem; display: flex; justify-content: center;">
-          <video controls style="width: 100%; max-width: 900px; height: auto; border-radius: 12px;">
-            <source src="videos/leapen-challenge-03.mp4" type="video/mp4">
-            이 브라우저는 video 태그를 지원하지 않습니다.
-          </video>
-        </div>
-        <div class="category-questions-box">
-          <div class="table-container">
-            <table class="board-table">
-              <thead>
-                <tr>
-                  <th>번호</th>
-                  <th>꼭 확인하세요!</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_01" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
-                  <td>01</td>
-                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_02" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
-                  <td>02</td>
-                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
-                </tr>
-                <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_03" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
-                  <td>03</td>
-                  <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="challenge-detail-layout">
+          <div class="challenge-detail-left">
+            <div class="content-card challenge-video-card">
+              <video controls>
+                <source src="videos/leapen-challenge-03.mp4" type="video/mp4">
+                이 브라우저는 video 태그를 지원하지 않습니다.
+              </video>
+            </div>
+          </div>
+          <div class="challenge-detail-right">
+            <div class="category-questions-box">
+              <div class="table-container">
+                <table class="board-table">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>꼭 확인하세요!</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_01" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
+                      <td>01</td>
+                      <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                    </tr>
+                    <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_02" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
+                      <td>02</td>
+                      <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                    </tr>
+                    <tr class="notion-question" data-notion="https://www.notion.so/embed/YOUR_PAGE_ID_03" onclick="setChallengeNotion('leapen-challenge-03', this.dataset.notion)" style="cursor: pointer;">
+                      <td>03</td>
+                      <td class="question-text">질문 내용을 여기에 넣어주세요.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
         <div class="content-card" style="margin-top: 1.5rem;">
@@ -4519,6 +4543,10 @@
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
                 <div class="member-menu-item" data-section="Goals &amp; Challenges" onclick="showMemberDashboardSection('Goals &amp; Challenges')">🎯 Goals &amp; Challenges</div>
                 <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div class="member-menu-item" data-section="Community" onclick="showMemberDashboardSection('Community')">👥 Community</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+                <div class="member-menu-item" data-section="Q &amp; A" onclick="showMemberDashboardSection('Community')">💡 Q & A</div>
+                <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
                 <div class="member-menu-item" data-section="Profile &amp; Settings" onclick="showMemberDashboardSection('Profile &amp; Settings')">👤 Profile &amp; Settings</div>
               </div>
             </div>
@@ -4570,14 +4598,6 @@
             <div class="member-top-section" style="position: sticky; top: 80px; z-index: 5; background: var(--bg); padding: 0 0 1.5rem;">
               <div class="member-top-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; align-items: stretch;">
                 <div class="member-side-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
-                  <div class="content-card" style="margin: 0;">
-                    <h3 style="margin-top: 0;">👥 Community</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 0;">멤버 전용 커뮤니티 <BR> (준비중입니다.)</p>
-                  </div>
-                  <div class="content-card" style="margin: 0;">
-                    <h3 style="margin-top: 0;">💡 Q &amp; A</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 0;">질문과 답변 <BR> (준비중입니다.)</p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -4600,31 +4620,53 @@
             <div id="memberMyLearningCards" style="margin-top: 1.5rem; display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem;">
               <div class="content-card" style="margin: 0;">
                 <h3 style="margin-top: 0;">보이스룸 100일 챌린지</h3>
-                <div style="height: 8px; background: #eef2ff; border-radius: 999px; margin: 0.75rem 0;">
-                  <div style="width: 0%; height: 100%; background: #3b82f6; border-radius: 999px;" title="준비중입니다."></div>
-                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">매일 다른 주제로 영어 말하기 연습</p>
+
                 <button class="btn btn-primary" style="width: 100%;" onclick="showPage('voice-room-category-01')">이어하기 ></button>
               </div>
               <div class="content-card" style="margin: 0;">
                 <h3 style="margin-top: 0;">52주 필사</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9rem;">Week 12</p>
-                <div style="height: 8px; background: #eef2ff; border-radius: 999px; margin: 0.75rem 0;">
-                  <div style="width: 23%; height: 100%; background: #10b981; border-radius: 999px;" title="12/52 진행 중"></div>
-                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">52주 동안 꾸준히 필사</p>
+
                 <button class="btn btn-primary" style="width: 100%;" onclick="showPage('52weeks')">이어하기 ></button>
               </div>
             </div>
 
-            <div id="memberLearningProgress" class="content-card" style="margin-top: 1.5rem; display: none;" title="준비중입니다.">
-              <h3 style="margin-top: 0;">오늘의 학습 달성률</h3>
+            <div id="memberLearningProgress" class="content-card" style="margin-top: 1.5rem; display: none;">
+              <h3 style="margin-top: 0;">📘 52주 필사 진행률</h3>
+              <div id="member52WeeksProgress" style="display: none;">
+                <div style="height: 10px; background: #eef2ff; border-radius: 999px; margin: 0.75rem 0;">
+                  <div id="member52WeeksProgressFill" style="width: 0%; height: 100%; background: #10b981; border-radius: 999px;"></div>
+                </div>
+                <p id="member52WeeksProgressText" style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">0/52 완료</p>
+              </div>
+              <div id="member52WeeksProgressEmpty" style="color: var(--text-secondary); font-size: 0.9rem;">
+                아직 완료한 주차가 없습니다. 주차 모달에서 완료 버튼을 눌러주세요.
+              </div>
+            </div>
+
+            <div id="memberGoalsChallengesPanel" class="content-card" style="margin-top: 1.5rem; display: none;">
+              <h3 style="margin-top: 0;">🎯 오늘의 학습 달성률</h3>
               <div style="display: flex; justify-content: center; margin: 1rem 0;">
-                <div style="width: 140px; height: 140px; border-radius: 50%; border: 10px solid #dbe7ff; border-top-color: #dbe7ff; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #94a3b8; background: #fff;" title="준비중입니다.">
+                <div style="width: 140px; height: 140px; border-radius: 50%; border: 10px solid #dbe7ff; border-top-color: #dbe7ff; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #94a3b8; background: #fff;">
                   0%
                 </div>
               </div>
               <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
                 목표 시간 0분 중 0분 달성
               </p>
+              <div style="margin-top: 1.5rem;">
+                <h4 style="margin: 0 0 0.5rem;">🎙 보이스룸 100일 챌린지</h4>
+                <div id="member100DaysProgress" style="display: none;">
+                  <div style="height: 10px; background: #eef2ff; border-radius: 999px; margin: 0.5rem 0;">
+                    <div id="member100DaysProgressFill" style="width: 0%; height: 100%; background: #3b82f6; border-radius: 999px;"></div>
+                  </div>
+                  <p id="member100DaysProgressText" style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">0/100 완료</p>
+                </div>
+                <div id="member100DaysProgressEmpty" style="color: var(--text-secondary); font-size: 0.9rem;">
+                  아직 완료한 Day가 없습니다. Day 모달에서 완료 버튼을 눌러주세요.
+                </div>
+              </div>
             </div>
 
             <div id="profileReauthPanel" class="content-card" style="margin-top: 1.5rem; display: none; text-align: center;">
@@ -4717,6 +4759,10 @@
               <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">💬 Expressions &amp; Notes</div>
               <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
               <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">🎯 Goals &amp; Challenges</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">👥 Community</div>
+              <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
+              <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer; margin-bottom: 0.5rem;">💡 Q & A</div>
               <div style="width: 100%; height: 1px; background: var(--stroke); margin: 0.5rem 0;"></div>
               <div style="padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--text); cursor: pointer;">👤 Profile &amp; Settings</div>
             </div>
@@ -5060,9 +5106,10 @@
         const placeholder = document.getElementById('memberDashboardPlaceholder');
         const learningProgress = document.getElementById('memberLearningProgress');
         const myLearning = document.getElementById('memberMyLearningCards');
+        const goalsPanel = document.getElementById('memberGoalsChallengesPanel');
         const reauthPanel = document.getElementById('profileReauthPanel');
         const profilePanel = document.getElementById('profileSettingsPanel');
-        if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel || !myLearning) return;
+        if (!grid || !placeholder || !learningProgress || !reauthPanel || !profilePanel || !myLearning || !goalsPanel) return;
 
         updateMemberMenuActive(sectionName);
         updateMemberGrowthUI();
@@ -5077,6 +5124,7 @@
           placeholder.style.display = 'none';
           learningProgress.style.display = 'none';
           myLearning.style.display = 'none';
+          goalsPanel.style.display = 'none';
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
         } else if (sectionName === 'Learning Progress') {
@@ -5085,19 +5133,32 @@
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
           myLearning.style.display = 'none';
+          goalsPanel.style.display = 'none';
           learningProgress.style.display = 'block';
+          update52WeeksProgressUI();
         } else if (sectionName === 'My Learning') {
           grid.style.display = 'none';
           placeholder.style.display = 'none';
           learningProgress.style.display = 'none';
+          goalsPanel.style.display = 'none';
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
           myLearning.style.display = 'grid';
+        } else if (sectionName === 'Goals & Challenges') {
+          grid.style.display = 'none';
+          placeholder.style.display = 'none';
+          learningProgress.style.display = 'none';
+          myLearning.style.display = 'none';
+          reauthPanel.style.display = 'none';
+          profilePanel.style.display = 'none';
+          goalsPanel.style.display = 'block';
+          update100DaysProgressUI();
         } else if (sectionName === 'Profile & Settings') {
           grid.style.display = 'none';
           placeholder.style.display = 'none';
           learningProgress.style.display = 'none';
           myLearning.style.display = 'none';
+          goalsPanel.style.display = 'none';
           const isAdminUser = window.isAdmin === true;
           const verified = sessionStorage.getItem('leapen_profile_reauth') === 'verified'
             || localStorage.getItem('leapen_profile_reauth') === 'verified';
@@ -5117,6 +5178,7 @@
           placeholder.style.display = 'block';
           learningProgress.style.display = 'none';
           myLearning.style.display = 'none';
+          goalsPanel.style.display = 'none';
           reauthPanel.style.display = 'none';
           profilePanel.style.display = 'none';
           const withdrawPanel = document.getElementById('profileWithdrawPanel');
@@ -5498,6 +5560,7 @@
         const reauthState = sessionStorage.getItem('leapen_profile_reauth')
           || localStorage.getItem('leapen_profile_reauth');
         const effectiveUser = forcedLogout ? null : user;
+        const adminSession = sessionStorage.getItem('leapen_admin_session') === '1';
 
         // showPage 호출 전에 멤버 상태를 먼저 세팅
         window.isMember = !!effectiveUser;
@@ -5506,6 +5569,10 @@
         const welcomeMsg = document.getElementById("memberWelcomeMessage");
   
         if (effectiveUser) {
+          if (!adminSession && window.isAdmin) {
+            localStorage.removeItem('leapen_auth');
+            window.isAdmin = false;
+          }
           if (reauthState && reauthState !== 'pending') {
             sessionStorage.removeItem('leapen_profile_reauth');
             localStorage.removeItem('leapen_profile_reauth');
@@ -5574,6 +5641,17 @@
         if (!window.isAdmin) {
           updateTopMenuForMember(!!effectiveUser);
         }
+        if (typeof updateAllChallengeUI === 'function') {
+          updateAllChallengeUI();
+        }
+        if (effectiveUser) {
+          startChallengeAutoRefresh();
+          update52WeeksProgressUI();
+          update100DaysProgressUI();
+          loadProgressFromSupabase();
+        } else {
+          stopChallengeAutoRefresh();
+        }
       };
   
       supabase.auth.onAuthStateChange((event) => window.updateMemberLoginUI(event));
@@ -5581,12 +5659,33 @@
       bindWithdrawButtons();
     })();
 
-    window.setChallengeNotion = function (pageId, url) {
+    function setChallengeDetailsMessage(section, message) {
+      if (!section) return;
+      const messageBox = section.querySelector('[data-challenge-details-message]');
+      const iframe = section.querySelector('iframe[data-notion-embed]');
+      if (!messageBox || !iframe) return;
+      if (message) {
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+        iframe.style.display = 'none';
+      } else {
+        messageBox.style.display = 'none';
+        iframe.style.display = 'block';
+      }
+    }
+
+    window.setChallengeNotion = function (pageId, url, requiresEnrollment) {
       if (!pageId || !url) return;
       const section = document.getElementById(pageId);
       if (!section) return;
       const iframe = section.querySelector('iframe[data-notion-embed]');
       if (!iframe) return;
+      const isUnlocked = section.dataset.challengeUnlocked === '1' || window.isAdmin;
+      if (requiresEnrollment && !isUnlocked) {
+        setChallengeDetailsMessage(section, '챌린지 신청을 먼저 진행해 주세요.');
+        return;
+      }
+      setChallengeDetailsMessage(section, '');
       iframe.src = url;
     };
     // Calendar for One Sentence Page
@@ -6471,6 +6570,160 @@
     // 52주 필사 관련 함수들
     let weeksData = [];
     let currentFilter = 'all';
+    const COMPLETED_WEEKS_KEY = 'leapen_52weeks_completed';
+    const COMPLETED_DAYS_KEY = 'leapen_100days_completed';
+    const PROGRESS_TABLE = 'learning_progress';
+
+    function getCompletedWeeks() {
+      try {
+        const raw = localStorage.getItem(COMPLETED_WEEKS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function setCompletedWeeks(weeks) {
+      const unique = Array.from(new Set(weeks)).filter(n => Number.isInteger(n));
+      localStorage.setItem(COMPLETED_WEEKS_KEY, JSON.stringify(unique));
+      update52WeeksProgressUI();
+    }
+
+    function getCompletedDays() {
+      try {
+        const raw = localStorage.getItem(COMPLETED_DAYS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function setCompletedDays(days) {
+      const unique = Array.from(new Set(days)).filter(n => Number.isInteger(n));
+      localStorage.setItem(COMPLETED_DAYS_KEY, JSON.stringify(unique));
+      update100DaysProgressUI();
+    }
+
+    async function saveProgressToSupabase(kind, itemNumber) {
+      if (!window.currentUser || !window.leapenSupabaseClient) {
+        alert('Google 로그인 상태에서만 진행률이 저장됩니다.');
+        return false;
+      }
+      try {
+        const { error } = await window.leapenSupabaseClient
+          .from(PROGRESS_TABLE)
+          .upsert({
+            user_id: window.currentUser.id,
+            kind,
+            item_number: itemNumber,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,kind,item_number' });
+        if (error) {
+          console.warn('Failed to save progress:', error);
+          alert(`동기화 실패: ${error.message}`);
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.warn('Failed to save progress:', error);
+        alert(`동기화 실패: ${error.message || '잠시 후 다시 시도해주세요.'}`);
+        return false;
+      }
+    }
+
+    async function loadProgressFromSupabase() {
+      if (!window.currentUser || !window.leapenSupabaseClient) return;
+      try {
+        const { data, error } = await window.leapenSupabaseClient
+          .from(PROGRESS_TABLE)
+          .select('kind,item_number')
+          .eq('user_id', window.currentUser.id);
+        if (error) {
+          console.warn('Failed to load progress:', error);
+          return;
+        }
+        const weeks = [];
+        const days = [];
+        (data || []).forEach((row) => {
+          if (row.kind === '52weeks') weeks.push(row.item_number);
+          if (row.kind === '100days') days.push(row.item_number);
+        });
+        if (weeks.length) setCompletedWeeks(weeks);
+        if (days.length) setCompletedDays(days);
+      } catch (error) {
+        console.warn('Failed to load progress:', error);
+      }
+    }
+
+    window.markWeekCompleted = function (weekNumber) {
+      const weekNum = Number(weekNumber);
+      if (!Number.isFinite(weekNum) || weekNum <= 0) return;
+      const weeks = getCompletedWeeks();
+      if (!weeks.includes(weekNum)) {
+        weeks.push(weekNum);
+        setCompletedWeeks(weeks);
+        saveProgressToSupabase('52weeks', weekNum);
+      }
+      update52WeeksProgressUI();
+      alert(`Week ${weekNum} 완료로 저장되었습니다.`);
+    };
+
+    window.markDayCompleted = function (dayNumber) {
+      const dayNum = Number(dayNumber);
+      if (!Number.isFinite(dayNum) || dayNum <= 0) return;
+      const days = getCompletedDays();
+      if (!days.includes(dayNum)) {
+        days.push(dayNum);
+        setCompletedDays(days);
+        saveProgressToSupabase('100days', dayNum);
+      }
+      update100DaysProgressUI();
+      alert(`Day ${dayNum} 완료로 저장되었습니다.`);
+    };
+
+    function update52WeeksProgressUI() {
+      const progressWrapper = document.getElementById('member52WeeksProgress');
+      const progressFill = document.getElementById('member52WeeksProgressFill');
+      const progressText = document.getElementById('member52WeeksProgressText');
+      const progressEmpty = document.getElementById('member52WeeksProgressEmpty');
+      if (!progressWrapper || !progressFill || !progressText || !progressEmpty) return;
+      const completed = getCompletedWeeks();
+      const count = completed.length;
+      if (count <= 0) {
+        progressWrapper.style.display = 'none';
+        progressEmpty.style.display = 'block';
+        return;
+      }
+      const percent = Math.min(100, Math.round((count / 52) * 100));
+      progressFill.style.width = `${percent}%`;
+      progressText.textContent = `${count}/52 완료 (${percent}%)`;
+      progressWrapper.style.display = 'block';
+      progressEmpty.style.display = 'block';
+      progressEmpty.textContent = '완료한 주차가 반영되었습니다.';
+    }
+
+    function update100DaysProgressUI() {
+      const progressWrapper = document.getElementById('member100DaysProgress');
+      const progressFill = document.getElementById('member100DaysProgressFill');
+      const progressText = document.getElementById('member100DaysProgressText');
+      const progressEmpty = document.getElementById('member100DaysProgressEmpty');
+      if (!progressWrapper || !progressFill || !progressText || !progressEmpty) return;
+      const completed = getCompletedDays();
+      const count = completed.length;
+      if (count <= 0) {
+        progressWrapper.style.display = 'none';
+        progressEmpty.style.display = 'block';
+        return;
+      }
+      const percent = Math.min(100, Math.round((count / 100) * 100));
+      progressFill.style.width = `${percent}%`;
+      progressText.textContent = `${count}/100 완료 (${percent}%)`;
+      progressWrapper.style.display = 'block';
+      progressEmpty.style.display = 'block';
+      progressEmpty.textContent = '완료한 Day가 반영되었습니다.';
+    }
 
     // 주차 데이터 구조 예시 (나중에 노션 API로 대체)
     // 노션 API 연동 시 이 구조를 참고하여 데이터를 매핑하세요
@@ -6690,6 +6943,10 @@
       const audioButton = week.audio 
         ? `<button class="audio-btn" onclick="playAudio('${week.audio}')" title="듣기">🔊</button>`
         : '';
+      const completedWeeks = getCompletedWeeks();
+      const isWeekCompleted = completedWeeks.includes(week.week);
+      const weekButtonLabel = isWeekCompleted ? `Week ${week.week} 완료됨 ✓` : `Week ${week.week} 완료`;
+      const weekButtonDisabled = isWeekCompleted ? 'disabled' : '';
       
       detailEl.innerHTML = `
         <div class="week-header">
@@ -6716,6 +6973,10 @@
               `<li><strong>${expr.eng}</strong> : ${expr.kor}</li>`
             ).join('')}
           </ul>
+        </div>
+        <div class="week-divider"></div>
+        <div class="week-complete-actions">
+          <button class="btn btn-primary" onclick="markWeekCompleted(${week.week})" ${weekButtonDisabled}>${weekButtonLabel}</button>
         </div>
       `;
 
@@ -6929,6 +7190,10 @@
       }
 
       const detailEl = document.getElementById('dayDetail');
+      const completedDays = getCompletedDays();
+      const isDayCompleted = completedDays.includes(dayNumber);
+      const dayButtonLabel = isDayCompleted ? `Day ${dayNumber} 완료됨 ✓` : `Day ${dayNumber} 완료`;
+      const dayButtonDisabled = isDayCompleted ? 'disabled' : '';
       
       // Reading Material 내용 포맷팅 (줄바꿈 처리)
       const readingContent = day.reading.content.split('\n').map(line => {
@@ -7003,6 +7268,10 @@
             ${discussionItems}
           </ul>
         </div>
+        <div class="week-divider"></div>
+        <div class="week-complete-actions">
+          <button class="btn btn-primary" onclick="markDayCompleted(${dayNumber})" ${dayButtonDisabled}>${dayButtonLabel}</button>
+        </div>
       `;
 
       const modal = document.getElementById('dayModal');
@@ -7050,6 +7319,120 @@
       });
     }
 
+    function getChallengeMeta(section) {
+      if (!section) return null;
+      const challengeId = section.dataset.challengeId || '';
+      if (!challengeId || challengeId.includes('REPLACE_WITH_CHALLENGE_UUID')) return null;
+      const title = section.dataset.challengeTitle
+        || section.querySelector('.category-board-header h2')?.textContent?.replace(/\s+/g, ' ').trim()
+        || 'LEAPEN Challenge';
+      return { challengeId, title, pageId: section.id };
+    }
+
+    function setChallengeDefaultEmbed(section) {
+      const iframe = section?.querySelector('iframe[data-notion-embed]');
+      if (!iframe) return;
+      const isUnlocked = section.dataset.challengeUnlocked === '1' || window.isAdmin;
+      if (!isUnlocked) return;
+      const defaultRow = section.querySelector('tr[data-default-notion]') || section.querySelector('tr[data-notion]');
+      if (!defaultRow) return;
+      const url = defaultRow.dataset.notion;
+      if (url && iframe.src !== url) {
+        iframe.src = url;
+      }
+    }
+
+    function applyChallengeGate(section, isUnlocked) {
+      const rows = section.querySelectorAll('tr[data-requires-enrollment]');
+      rows.forEach((row) => {
+        row.style.display = isUnlocked ? '' : 'none';
+        row.classList.toggle('challenge-locked-row', !isUnlocked);
+      });
+      const lockNote = section.querySelector('[data-challenge-lock-note]');
+      if (lockNote) {
+        lockNote.style.display = isUnlocked ? 'none' : 'block';
+      }
+    }
+
+    async function fetchChallengeEnrollment(meta) {
+      if (!meta || !window.currentUser || !window.leapenSupabaseClient) return null;
+      const { data, error } = await window.leapenSupabaseClient
+        .from('challenge_enrollments')
+        .select('status, challenge_id')
+        .eq('challenge_id', meta.challengeId)
+        .eq('user_id', window.currentUser.id)
+        .maybeSingle();
+      if (error) {
+        console.warn('Failed to fetch enrollment:', error);
+        return null;
+      }
+      return data;
+    }
+
+    function renderMyLearningCard(meta, enrollment) {
+      if (!meta || !enrollment) return;
+      const status = (enrollment.status || '').toLowerCase();
+      const isUnlocked = window.isAdmin || status === 'approved' || status === 'active';
+      if (!isUnlocked) return;
+      const container = document.getElementById('memberMyLearningCards');
+      if (!container) return;
+      const existing = container.querySelector(`[data-challenge-id="${meta.challengeId}"]`);
+      if (existing) return;
+      const card = document.createElement('div');
+      card.className = 'content-card';
+      card.setAttribute('data-challenge-id', meta.challengeId);
+      card.style.margin = '0';
+      card.innerHTML = `
+        <h3 style="margin-top: 0;">${meta.title}</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">챌린지 진행중</p>
+        <button class="btn btn-primary" style="width: 100%;" onclick="showPage('${meta.pageId}')">바로가기 ></button>
+      `;
+      container.prepend(card);
+    }
+
+    async function updateChallengeUIForPage(pageId) {
+      const section = document.getElementById(pageId);
+      const meta = getChallengeMeta(section);
+      if (!section || !meta) return;
+      setChallengeDefaultEmbed(section);
+      const enrollment = await fetchChallengeEnrollment(meta);
+      const status = (enrollment?.status || '').toLowerCase();
+      const isUnlocked = window.isAdmin || status === 'approved' || status === 'active';
+      section.dataset.challengeUnlocked = isUnlocked ? '1' : '0';
+      applyChallengeGate(section, isUnlocked);
+      if (!isUnlocked) {
+        setChallengeDetailsMessage(section, '챌린지 신청을 먼저 진행해 주세요.');
+      } else {
+        setChallengeDetailsMessage(section, '');
+      }
+      renderMyLearningCard(meta, enrollment);
+    }
+
+    let challengeRefreshTimer = null;
+
+    function startChallengeAutoRefresh() {
+      if (challengeRefreshTimer) return;
+      updateAllChallengeUI();
+      challengeRefreshTimer = setInterval(() => {
+        if (document.hidden) return;
+        updateAllChallengeUI();
+      }, 5000);
+    }
+
+    function stopChallengeAutoRefresh() {
+      if (challengeRefreshTimer) {
+        clearInterval(challengeRefreshTimer);
+        challengeRefreshTimer = null;
+      }
+    }
+
+    async function updateAllChallengeUI() {
+      const sections = document.querySelectorAll('.page-section[data-challenge-id]');
+      for (const section of sections) {
+        await updateChallengeUIForPage(section.id);
+      }
+    }
+
     // 보이스룸 100일 챌린지 페이지 열 때 필터 초기화
     // (showPage는 script.js에서 이미 래핑되어 있으므로 여기서는 필터 초기화만 처리)
     const originalShowPageWrapper = window.showPage;
@@ -7060,6 +7443,7 @@
 
         if (pageId === 'member-dashboard') {
           updateMemberGrowthUI();
+          updateAllChallengeUI();
         }
         
         // 보이스룸 100일 챌린지 페이지 열 때 전체 필터로 초기화
@@ -7078,8 +7462,18 @@
             }
           }, 100);
         }
+
+        if (pageId && pageId.startsWith('leapen-challenge-')) {
+          updateChallengeUIForPage(pageId);
+        }
       };
     }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        updateAllChallengeUI();
+      }
+    });
     
     // 뉴스레터 구독 함수
     async function handleNewsletterSubscribe(event) {

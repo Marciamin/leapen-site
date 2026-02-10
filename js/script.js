@@ -186,11 +186,15 @@ let isAdmin = false;
 // 로그인 상태 확인
 function checkAuthStatus() {
   const authStatus = localStorage.getItem('leapen_auth');
-  if (authStatus === 'admin') {
+  const adminSession = sessionStorage.getItem('leapen_admin_session') === '1';
+  if (authStatus === 'admin' && adminSession) {
     isAdmin = true;
     window.isAdmin = true;
     updateMenuForAuth();
     return true;
+  }
+  if (authStatus === 'admin' && !adminSession) {
+    localStorage.removeItem('leapen_auth');
   }
   isAdmin = false;
   window.isAdmin = false;
@@ -273,7 +277,7 @@ function updateMenuForGuest() {
       const items = dropdown.querySelectorAll('.dropdown li');
       items.forEach(item => {
         const itemText = item.textContent.trim();
-        if (itemText === 'Today\'s English Focus') {
+        if (itemText === 'Today\'s English Focus' || itemText === 'LEAPEN Challenge') {
           item.style.display = '';
         } else {
           item.style.display = 'none';
@@ -323,6 +327,18 @@ function checkPageAccess(pageId) {
   // 멤버 전용 페이지
   if (pageId === 'member-dashboard' || pageId === 'member-study-hub') {
     return !!window.isMember;
+  }
+  if (pageId === 'LEAPEN-Challenge'
+      || pageId === 'leapen-challenge-01'
+      || pageId === 'leapen-challenge-02'
+      || pageId === 'leapen-challenge-03') {
+    if (!!window.isMember) return true;
+    if (typeof openModal === 'function') {
+      openModal('popup-mypage');
+    } else {
+      alert('로그인 후 사용하실 수 있습니다.');
+    }
+    return false;
   }
 
   // 게스트 모드에서 접근 가능한 페이지
