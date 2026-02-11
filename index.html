@@ -5808,6 +5808,7 @@
           const props = page.properties;
           const dateValue = props.Date?.date?.start;
           if (!dateValue) return;
+          const dateKey = dateValue.split('T')[0];
           
           // 필드명 확인 (공백 문제 해결)
           const sentenceAudioFile = props.SentenceAudio?.rich_text?.[0]?.plain_text || 
@@ -5853,7 +5854,7 @@
           const writing = props.writing?.rich_text?.[0]?.plain_text || 
                          props.Writing?.rich_text?.[0]?.plain_text || '';
           
-          sentenceData[dateValue] = {
+          sentenceData[dateKey] = {
             sentence: props['Today\'s Sentence']?.title?.[0]?.plain_text || '',
             sentenceAudio: sentenceAudioPath,
             meaning: props.Meaning?.rich_text?.[0]?.plain_text || '',
