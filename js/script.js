@@ -392,7 +392,8 @@ function checkPageAccess(pageId) {
 window.addEventListener('DOMContentLoaded', function() {
   checkAuthStatus();
   
-  const hash = window.location.hash.slice(1);
+  let hash = window.location.hash.slice(1);
+  if (hash === 'contact-submitted') hash = 'contact';
   if (hash && document.getElementById(hash)) {
     if (checkPageAccess(hash)) {
       showPage(hash, false);

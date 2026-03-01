@@ -529,6 +529,20 @@
     </div>
   </div>
 
+  <!-- Popup: 에러 신고 폼 제출 완료 -->
+  <div class="popup-overlay" id="popup-form-submitted">
+    <div class="popup-modal">
+      <button class="popup-close" onclick="closeModal('popup-form-submitted')">×</button>
+      <div class="popup-content">
+        <h2 class="popup-title">폼이 제출되었습니다</h2>
+        <div class="popup-body" style="margin-top: 1rem;">
+          <p>에러 신고가 정상적으로 접수되었습니다. 확인 후 연락드리겠습니다.</p>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeModal('popup-form-submitted')">확인</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Popup 7: 로그아웃 완료 -->
   <div class="popup-overlay" id="popup-logout-success">
     <div class="popup-modal">
@@ -4508,7 +4522,7 @@
                 <input type="hidden" name="_subject" value="[LEAPEN] 사이트 에러 신고">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_next" value="https://www.leapen.ca/#contact">
+                <input type="hidden" name="_next" value="https://www.leapen.ca/#contact-submitted">
                 
                 <div class="form-group">
                   <label for="reportDate">날짜</label>
@@ -7608,6 +7622,28 @@
       const el = document.getElementById('reportDate');
       if (el) el.value = getKoreanDateTimeStr();
     }
+    
+    // 에러 신고 폼 제출 후 리다이렉트 시 팝업 표시 (#contact-submitted 또는 ?submitted=1)
+    function checkFormSubmittedPopup() {
+      const hash = window.location.hash.slice(1);
+      const params = new URLSearchParams(window.location.search);
+      const isSubmitted = hash === 'contact-submitted' || params.get('submitted') === '1';
+      if (isSubmitted) {
+        if (typeof showPage === 'function') showPage('contact', false);
+        setTimeout(function() {
+          if (typeof openModal === 'function') openModal('popup-form-submitted');
+        }, 300);
+        window.history.replaceState({}, '', window.location.pathname + '#contact');
+      }
+    }
+    function runFormSubmittedCheck() {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkFormSubmittedPopup);
+      } else {
+        checkFormSubmittedPopup();
+      }
+    }
+    runFormSubmittedCheck();
     
     // 뉴스레터 구독 함수
     async function handleNewsletterSubscribe(event) {
