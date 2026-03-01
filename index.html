@@ -5,6 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEAPEN</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Contact 섹션 - 배포 시 CSS 캐시 대비 인라인 스타일 */
+    #contact .contact-two-column {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      align-items: start;
+    }
+    #contact .contact-marcia-box,
+    #contact .contact-error-report-box {
+      padding: 1.5rem;
+      background: var(--bg, #f8f9fa);
+      border-radius: 16px;
+      border: 1px solid var(--stroke, #e5e7eb);
+    }
+    #contact .contact-marcia-box h3,
+    #contact .contact-error-report-box h3 {
+      margin-top: 0;
+      margin-bottom: 1.25rem;
+      color: var(--primary-dark, #1e3a8a);
+    }
+    #contact .contact-link-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    #contact .contact-link-btn {
+      display: block !important;
+      padding: 0.85rem 1.25rem;
+      background: var(--surface, #fff);
+      color: var(--primary, #2563eb);
+      border: 1px solid var(--primary, #2563eb);
+      border-radius: 8px;
+      text-decoration: none !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    #contact .contact-link-btn:hover {
+      background: var(--primary, #2563eb);
+      color: #fff !important;
+    }
+    #contact .error-report-form .form-group {
+      margin-bottom: 1.25rem;
+    }
+    #contact .error-report-form .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      #contact .contact-two-column {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
   
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-M6YBD2ER6B"></script>
