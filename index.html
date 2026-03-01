@@ -4418,15 +4418,62 @@
       <div class="content-card">
         <h2>Contact</h2>
         <p>문의사항이 있으시면 언제든지 연락주세요!</p>
-        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg); border-radius: 16px; border: 1px solid var(--stroke);">
-          <h3>Contact Marcia 💁🏻‍♀️</h3>
-          <p><strong>✉️ 이메일:</strong> leap.english0415@gmail.com</p>
-          <p><strong>🗨️ 카카오톡 1:1 메세지:</strong> https://open.kakao.com/me/Marcia313</p>
-          <p><strong>♥️ LEAPEN 리핑 오픈챗:</strong> https://open.kakao.com/o/gHv55emg</p>
-          <p><strong>✍️ Naver 블로그:</strong> https://blog.naver.com/yycjjackjjack</p>
+        
+        <div class="contact-two-column">
+          <!-- 왼쪽: Contact Marcia + 링크 버튼 -->
+          <div class="contact-left">
+            <div class="contact-marcia-box">
+              <h3>Contact Marcia 💁🏻‍♀️</h3>
+              <div class="contact-link-buttons">
+                <a href="mailto:leap.english0415@gmail.com" class="contact-link-btn" target="_blank" rel="noopener noreferrer">
+                  ✉️ 이메일
+                </a>
+                <a href="https://open.kakao.com/me/Marcia313" class="contact-link-btn" target="_blank" rel="noopener noreferrer">
+                  🗨️ 카카오톡 메시지
+                </a>
+                <a href="https://open.kakao.com/o/gHv55emg" class="contact-link-btn" target="_blank" rel="noopener noreferrer">
+                  ♥️ 리핑 오픈챗
+                </a>
+                <a href="https://blog.naver.com/yycjjackjjack" class="contact-link-btn" target="_blank" rel="noopener noreferrer">
+                  ✍️ 네이버 블로그
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 오른쪽: 사이트 에러 신고 폼 -->
+          <div class="contact-right">
+            <div class="contact-error-report-box">
+              <h3>사이트 에러 신고하기</h3>
+              <form action="https://formsubmit.co/leap.english0415@gmail.com" method="POST" class="error-report-form" onsubmit="updateReportDateBeforeSubmit()">
+                <input type="hidden" name="_subject" value="[LEAPEN] 사이트 에러 신고">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="https://leapen.ca/#contact">
+                
+                <div class="form-group">
+                  <label for="reportDate">날짜</label>
+                  <input type="text" id="reportDate" name="날짜" readonly 
+                    style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box; font-size: 0.95rem; background: var(--bg); color: var(--text-secondary);">
+                </div>
+                <div class="form-group">
+                  <label for="reportTitle">제목</label>
+                  <input type="text" id="reportTitle" name="제목" required 
+                    placeholder="에러 내용을 간단히 적어주세요"
+                    style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box; font-size: 0.95rem;">
+                </div>
+                <div class="form-group">
+                  <label for="reportContent">내용</label>
+                  <textarea id="reportContent" name="내용" required rows="5" 
+                    placeholder="발생한 에러 상황을 자세히 설명해 주세요. (어떤 페이지에서, 어떤 동작을 했을 때 문제가 발생했는지 등)"
+                    style="width: 100%; padding: 0.75rem; border: 1px solid var(--stroke); border-radius: 8px; box-sizing: border-box; font-size: 0.95rem; resize: vertical; font-family: inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">제출하기</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
 
     <div id="login" class="page-section">
@@ -7447,6 +7494,10 @@
           updateAllChallengeUI();
         }
         
+        if (pageId === 'contact') {
+          updateContactReportDate();
+        }
+        
         // 보이스룸 100일 챌린지 페이지 열 때 전체 필터로 초기화
         if (pageId === 'voice-room-category-01') {
           setTimeout(() => {
@@ -7475,6 +7526,29 @@
         updateAllChallengeUI();
       }
     });
+    
+    // Contact 에러 신고 폼 - 한국시간 날짜 표시
+    function getKoreanDateTimeStr() {
+      const now = new Date();
+      const koreaOffset = 9 * 60;
+      const localOffset = now.getTimezoneOffset();
+      const koreaTime = new Date(now.getTime() + (koreaOffset + localOffset) * 60000);
+      const y = koreaTime.getFullYear();
+      const m = String(koreaTime.getMonth() + 1).padStart(2, '0');
+      const d = String(koreaTime.getDate()).padStart(2, '0');
+      const h = String(koreaTime.getHours()).padStart(2, '0');
+      const min = String(koreaTime.getMinutes()).padStart(2, '0');
+      const s = String(koreaTime.getSeconds()).padStart(2, '0');
+      return `${y}-${m}-${d} ${h}:${min}:${s} (KST)`;
+    }
+    function updateContactReportDate() {
+      const el = document.getElementById('reportDate');
+      if (el) el.value = getKoreanDateTimeStr();
+    }
+    function updateReportDateBeforeSubmit() {
+      const el = document.getElementById('reportDate');
+      if (el) el.value = getKoreanDateTimeStr();
+    }
     
     // 뉴스레터 구독 함수
     async function handleNewsletterSubscribe(event) {
