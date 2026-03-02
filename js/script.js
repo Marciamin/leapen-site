@@ -331,8 +331,10 @@ function checkPageAccess(pageId) {
   if (pageId === 'LEAPEN-Challenge'
       || pageId === 'leapen-challenge-01'
       || pageId === 'leapen-challenge-02'
-      || pageId === 'leapen-challenge-03') {
+      || pageId === 'leapen-challenge-03'
+      || pageId === 'voice-room-category-03') {
     if (!!window.isMember) return true;
+    sessionStorage.setItem('leapen_redirect_after_login', pageId);
     if (typeof openModal === 'function') {
       openModal('popup-mypage');
     } else {
@@ -366,6 +368,7 @@ function checkPageAccess(pageId) {
   }
   
   // 접근 불가 페이지
+  sessionStorage.setItem('leapen_redirect_after_login', pageId);
   alert('이 페이지는 로그인이 필요합니다.');
   showPage('login');
   return false;

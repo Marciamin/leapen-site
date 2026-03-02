@@ -536,7 +536,7 @@
       <div class="popup-content">
         <h2 class="popup-title">폼이 제출되었습니다</h2>
         <div class="popup-body" style="margin-top: 1rem;">
-          <p>에러 신고가 정상적으로 접수되었습니다. 확인 후 연락드리겠습니다.</p>
+          <p>에러 신고가 정상적으로 접수되었습니다. <br> 빠른 시일내에 확인 후 수정하겠습니다. 감사합니다.</p>
         </div>
         <button class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;" onclick="closeModal('popup-form-submitted')">확인</button>
       </div>
@@ -778,11 +778,11 @@
               </div>
               <h3>✍️ 52 Weeks Writing</h3>
             </div>
-            <div class="home-grid-card daily-card" onclick="showPage('daily-5min-writing')" style="cursor: pointer;">
+            <div class="home-grid-card daily-card" onclick="showPage('voice-room-category-03')" style="cursor: pointer;">
               <div class="daily-card-image">
-                <img src="PIC/ComingSoon.png" alt="Coming Soon">
+                <img src="PIC/RandomVR.png" alt="주말 깜짝 보이스룸">
               </div>
-              <h3>❓ Coming Soon</h3>
+              <h3>🎲 Weekend Random Voice Room</h3>
             </div>
             <div class="home-grid-card daily-card" onclick="showPage('LEAPEN-Challenge')" style="cursor: pointer;">
               <div class="daily-card-image">
@@ -1573,7 +1573,7 @@
       </div>
     </div>
 
-    <!-- Category 03 Page -->
+    <!-- Category 03 Page (주말 깜짝 보이스룸) -->
     <div id="voice-room-category-03" class="page-section">
       <!-- 상단: 헤더, 설명, 사진 -->
       <div class="voice-room-header-section">
@@ -1590,20 +1590,40 @@
         </div>
       </div>
       
-      <!-- 하단: 질문 카드 그리드 -->
-      <div class="voice-room-cards-grid" style="margin-top: 1.5rem;">
-        <!-- 질문 카드들 - 추후 내용 추가 예정 -->
-        <div class="voice-room-question-card">
-          <div class="question-number">01</div>
-          <p class="question-text" style="font-size: 0.9rem;">질문 내용은 추후 추가 예정입니다.</p>
+      <!-- 하단: 2컬럼 레이아웃 (왼쪽 메뉴 + 오른쪽 콘텐츠) -->
+      <div class="one-sentence-layout" style="margin-top: 1.5rem;">
+        <!-- 왼쪽 컬럼: 스터디 메뉴 -->
+        <div class="content-card one-sentence-left-col">
+          <div class="day-filter">
+            <div class="day-filter-row">
+              <button class="filter-btn active" onclick="selectWeekendVR('all', this)">전체</button>
+            </div>
+            <div class="day-filter-row">
+              <button class="filter-btn" onclick="selectWeekendVR('vr01', this)">March 8, 2026 @1000 (KST) Mark Carney - World Economic Forum in Davos</button>
+            </div>
+            <div class="day-filter-row">
+              <button class="filter-btn" onclick="selectWeekendVR('vr02', this)">추후 업데이트 될 예정입니다.</button>
+            </div>
+            <div class="day-filter-row">
+              <button class="filter-btn" onclick="selectWeekendVR('vr03', this)">추후 업데이트 될 예정입니다.</button>
+            </div>
+            <div class="day-filter-row">
+              <button class="filter-btn" onclick="selectWeekendVR('vr04', this)">추후 업데이트 될 예정입니다.</button>
+            </div>
+            <div class="day-filter-row">
+              <button class="filter-btn" onclick="selectWeekendVR('vr05', this)">추후 업데이트 될 예정입니다.</button>
+            </div>
+          </div>
         </div>
-        <div class="voice-room-question-card">
-          <div class="question-number">02</div>
-          <p class="question-text" style="font-size: 0.9rem;">질문 내용은 추후 추가 예정입니다.</p>
-        </div>
-        <div class="voice-room-question-card">
-          <div class="question-number">03</div>
-          <p class="question-text" style="font-size: 0.9rem;">질문 내용은 추후 추가 예정입니다.</p>
+        
+        <!-- 오른쪽 컬럼: 콘텐츠 영역 -->
+        <div class="content-card one-sentence-right-col" style="min-height: 500px;">
+          <div id="weekendVRContent">
+            <p style="color: var(--text-secondary); margin-top: 2rem; font-size: 1.2rem; text-align: center;">해당 날짜의 스터디 메뉴를 눌러주세요.</p>
+          </div>
+          <div id="weekendVRNotion" style="display: none; width: 100%; height: 600px;">
+            <iframe src="https://leapen.notion.site/ebd//308f2065b22180cdbf2bc0481772a793" frameborder="0" allowfullscreen allow="fullscreen" style="width: 100%; height: 100%; min-height: 500px; border-radius: 8px;"></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -4517,7 +4537,7 @@
           <!-- 오른쪽: 사이트 에러 신고 폼 -->
           <div class="contact-right">
             <div class="contact-error-report-box">
-              <h3>사이트 에러 신고하기</h3>
+              <h3>사이트 에러 신고하기 🚨</h3>
               <form action="https://formsubmit.co/leap.english0415@gmail.com" method="POST" class="error-report-form" onsubmit="updateReportDateBeforeSubmit()">
                 <input type="hidden" name="_subject" value="[LEAPEN] 사이트 에러 신고">
                 <input type="hidden" name="_captcha" value="false">
@@ -5689,6 +5709,7 @@
         const welcomeMsg = document.getElementById("memberWelcomeMessage");
   
         if (effectiveUser) {
+          window.currentUser = effectiveUser;
           if (!adminSession && window.isAdmin) {
             localStorage.removeItem('leapen_auth');
             window.isAdmin = false;
@@ -5699,7 +5720,15 @@
           }
           if (logoutBtn) logoutBtn.style.display = "";
 
-          window.currentUser = effectiveUser;
+          // 로그인 유도 후 로그인한 경우: 즉시 요청했던 페이지로 이동 (await 전에 실행)
+          if (reauthState !== 'pending') {
+            const redirectPage = sessionStorage.getItem('leapen_redirect_after_login');
+            if (redirectPage && document.getElementById(redirectPage) && typeof showPage === "function") {
+              sessionStorage.removeItem('leapen_redirect_after_login');
+              showPage(redirectPage);
+            }
+          }
+
           await upsertSupabaseUser(effectiveUser);
 
           const visitResult = authEvent === 'SIGNED_IN'
@@ -5745,7 +5774,6 @@
             }
             showMemberDashboardSection('Profile & Settings');
           }
-          // 로그인 후에도 기존 홈/메뉴 유지 (자동 이동 없음)
         } else {
           if (logoutBtn) logoutBtn.style.display = "none";
           if (welcomeMsg) welcomeMsg.textContent = "멤버 전용 페이지입니다.";
@@ -7407,6 +7435,30 @@
       // 모달이 닫힐 때 오디오 정지
       stopAudio();
     }
+
+    // 주말 깜짝 보이스룸 메뉴 선택
+    window.selectWeekendVR = function(id, btnElement) {
+      const filterBtns = document.querySelectorAll('#voice-room-category-03 .filter-btn');
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      
+      const contentEl = document.getElementById('weekendVRContent');
+      const notionEl = document.getElementById('weekendVRNotion');
+      if (!contentEl || !notionEl) return;
+      
+      if (id === 'all') {
+        contentEl.style.display = 'block';
+        contentEl.innerHTML = '<p style="color: var(--text-secondary); margin-top: 2rem; font-size: 1.2rem; text-align: center;">해당 날짜의 스터디 메뉴를 눌러주세요.</p>';
+        notionEl.style.display = 'none';
+      } else if (id === 'vr01') {
+        contentEl.style.display = 'none';
+        notionEl.style.display = 'block';
+      } else {
+        contentEl.style.display = 'block';
+        contentEl.innerHTML = '<p style="color: var(--text-secondary); margin-top: 2rem; font-size: 1.2rem; text-align: center;">추후 업데이트 될 예정입니다.</p>';
+        notionEl.style.display = 'none';
+      }
+    };
 
     // Day 필터 함수 (보이스룸 100일 챌린지)
     function filterDays(range, btnElement) {

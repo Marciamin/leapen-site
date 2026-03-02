@@ -2362,6 +2362,14 @@ footer {
   transform: scale(1.1);
 }
 
+/* 주말 깜짝 보이스룸 - 왼쪽 메뉴 버튼 */
+#voice-room-category-03 .day-filter-row .filter-btn {
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) {
   .one-sentence-layout {
     grid-template-columns: 1fr;
