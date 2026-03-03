@@ -159,6 +159,15 @@ function toggleMobileMenu() {
   navMenu.classList.toggle('active');
 }
 
+// Contact 메뉴 전용 라우팅 (모바일 터치 누락 방지)
+function openContactPage() {
+  const navMenu = document.getElementById('navMenu');
+  if (navMenu) {
+    navMenu.classList.remove('active');
+  }
+  showPage('contact');
+}
+
 // Initialize는 아래의 인증 상태 확인과 통합됨
 
 // 뒤로가기/앞으로가기 지원
