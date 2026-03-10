@@ -7195,6 +7195,12 @@
           return;
         }
         
+        const getRichTextContent = (property) => {
+          const richTextArray = property?.rich_text || [];
+          if (!Array.isArray(richTextArray) || richTextArray.length === 0) return '';
+          return richTextArray.map(item => item?.plain_text || '').join('');
+        };
+
         // 노션 데이터를 daysData 형식으로 변환
         data.results.forEach(page => {
           const props = page.properties;
@@ -7204,19 +7210,19 @@
           if (dayNum === 0) return; // Day가 없으면 스킵
           
           // Title: Rich Text 타입
-          const title = props.Title?.rich_text?.[0]?.plain_text || '';
+          const title = getRichTextContent(props.Title);
           
           // Goal: Rich Text 타입
-          const goalContent = props.Goal?.rich_text?.[0]?.plain_text || '';
+          const goalContent = getRichTextContent(props.Goal);
           
           // Introduction: Rich Text 타입
-          const introductionContent = props.Introduction?.rich_text?.[0]?.plain_text || '';
+          const introductionContent = getRichTextContent(props.Introduction);
           
           // Reading Material: Rich Text 타입
-          const readingContent = props['Reading Material']?.rich_text?.[0]?.plain_text || '';
+          const readingContent = getRichTextContent(props['Reading Material']);
           
           // Reading Audio: Rich Text 타입 (파일명)
-          const readingAudio = props['Reading Audio']?.rich_text?.[0]?.plain_text || '';
+          const readingAudio = getRichTextContent(props['Reading Audio']);
           
           // Reading Audio 경로 설정 (100DAYVR 폴더, 확장자 자동 처리)
           let readingAudioPath = '';
@@ -7232,7 +7238,7 @@
           }
           
           // Vocabulary: Rich Text 타입 (형식: "단어 - 정의\n단어2 - 정의2")
-          const vocabularyText = props.Vocabulary?.rich_text?.[0]?.plain_text || '';
+          const vocabularyText = getRichTextContent(props.Vocabulary);
           const vocabularyItems = vocabularyText
             ? vocabularyText.split('\n').filter(line => line.trim()).map(line => {
                 const parts = line.split(' - ').map(s => s.trim());
@@ -7244,10 +7250,10 @@
             : [];
           
           // Activity: Rich Text 타입
-          const activityContent = props.Activity?.rich_text?.[0]?.plain_text || '';
+          const activityContent = getRichTextContent(props.Activity);
           
           // Discussion: Rich Text 타입 (형식: "질문1\n질문2\n질문3")
-          const discussionText = props.Discussion?.rich_text?.[0]?.plain_text || '';
+          const discussionText = getRichTextContent(props.Discussion);
           const discussionItems = discussionText
             ? discussionText.split('\n').filter(line => line.trim())
             : [];
