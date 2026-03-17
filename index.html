@@ -5952,6 +5952,17 @@
         const response = await fetch('https://260101.leap-english0415.workers.dev/');
         const data = await response.json();
         
+        const sanitizeAudioFileName = (raw) => {
+          if (!raw) return '';
+          // 보이지 않는 문자/따옴표 제거 + 확장자 대소문자 대응
+          return raw
+            .normalize('NFKC')
+            .replace(/[\u200B-\u200D\uFEFF]/g, '')
+            .replace(/^["'\s]+|["'\s]+$/g, '')
+            // 파일명에 허용되지 않는 문자 제거(숨은 문자/개행/특수문자 대응)
+            .replace(/[^a-zA-Z0-9._-]/g, '');
+        };
+
         data.results.forEach(page => {
           const props = page.properties;
           const dateValue = props.Date?.date?.start;
@@ -5973,9 +5984,9 @@
           // Sentence Audio 경로 설정 (Daily1Sentence 폴더, 확장자 자동 처리)
           let sentenceAudioPath = '';
           if (sentenceAudioFile) {
-            const audioFileName = sentenceAudioFile.trim();
+            const audioFileName = sanitizeAudioFileName(sentenceAudioFile);
             // 확장자가 이미 포함되어 있는지 확인
-            if (audioFileName.endsWith('.mp3') || audioFileName.endsWith('.mp4')) {
+            if (/\.(mp3|mp4)$/i.test(audioFileName)) {
               sentenceAudioPath = `Audio/Daily1Sentence/${audioFileName}`;
             } else {
               // 확장자가 없으면 .mp3를 기본으로 사용
@@ -5987,9 +5998,9 @@
           // Example Audio 경로 설정 (Daily1Sentence 폴더, 확장자 자동 처리)
           let exampleAudioPath = '';
           if (exampleAudioFile) {
-            const audioFileName = exampleAudioFile.trim();
+            const audioFileName = sanitizeAudioFileName(exampleAudioFile);
             // 확장자가 이미 포함되어 있는지 확인
-            if (audioFileName.endsWith('.mp3') || audioFileName.endsWith('.mp4')) {
+            if (/\.(mp3|mp4)$/i.test(audioFileName)) {
               exampleAudioPath = `Audio/Daily1Sentence/${audioFileName}`;
             } else {
               // 확장자가 없으면 .mp3를 기본으로 사용
@@ -6384,9 +6395,10 @@
     function playAudio(audioSrc) {
       // 디버깅: 오디오 경로 확인
       console.log('playAudio called with:', audioSrc);
+      const normalizedSrc = audioSrc && audioSrc.startsWith('Audio/') ? `/${audioSrc}` : audioSrc;
       
       // 빈 경로 체크
-      if (!audioSrc || audioSrc.trim() === '') {
+      if (!normalizedSrc || normalizedSrc.trim() === '') {
         console.error('Empty audio source');
         alert('오디오 파일 경로가 없습니다.');
         return;
@@ -6399,7 +6411,7 @@
       }
       
       // 100DAYVR 폴더의 오디오 파일인 경우, 확장자 자동 처리
-      if (audioSrc.includes('100DAYVR/')) {
+      if (normalizedSrc.includes('100DAYVR/')) {
         const tryPlayAudio = (src) => {
           return new Promise((resolve, reject) => {
             const audio = new Audio(src);
@@ -6414,8 +6426,8 @@
         };
         
         // .mp3 파일 시도
-        if (!audioSrc.endsWith('.mp4')) {
-          tryPlayAudio(audioSrc)
+        if (!normalizedSrc.endsWith('.mp4')) {
+          tryPlayAudio(normalizedSrc)
             .then(audio => {
               currentAudio = audio;
               audio.loop = true;
@@ -6426,7 +6438,7 @@
             })
             .catch(() => {
               // .mp3 실패 시 .mp4 시도
-              const mp4Src = audioSrc.replace(/\.mp3$/, '.mp4');
+              const mp4Src = normalizedSrc.replace(/\.mp3$/, '.mp4');
               tryPlayAudio(mp4Src)
                 .then(audio => {
                   currentAudio = audio;
@@ -6437,36 +6449,54 @@
                   });
                 })
                 .catch(() => {
-                  console.error('Failed to load audio:', audioSrc);
+                  console.error('Failed to load audio:', normalizedSrc);
                   alert('오디오 파일을 불러올 수 없습니다.');
                 });
             });
         } else {
           // 이미 .mp4인 경우 그대로 재생
-          currentAudio = new Audio(audioSrc);
+          currentAudio = new Audio(normalizedSrc);
           currentAudio.loop = true;
           currentAudio.play().catch((e) => {
-            console.error('Failed to play audio:', audioSrc, e);
+            console.error('Failed to play audio:', normalizedSrc, e);
             alert('오디오 파일을 재생할 수 없습니다.');
           });
         }
       } else {
         // 다른 경로의 오디오는 기존 방식대로 (Daily1Sentence 포함)
-        console.log('Playing audio from path:', audioSrc);
-        currentAudio = new Audio(audioSrc);
+        console.log('Playing audio from path:', normalizedSrc);
+        currentAudio = new Audio(normalizedSrc);
         currentAudio.loop = true;
         
         // 오디오 로드 성공 확인
         currentAudio.oncanplaythrough = () => {
-          console.log('Audio can play:', audioSrc);
+          console.log('Audio can play:', normalizedSrc);
         };
         
+        let retriedWithCacheBust = false;
         currentAudio.onerror = (e) => {
-          console.error('Audio load error:', e, 'Source:', audioSrc);
+          console.error('Audio load error:', e, 'Source:', normalizedSrc);
           console.error('Audio error details:', currentAudio.error);
+          // Chrome에서 이전 404 캐시가 남는 경우를 대비해 1회 cache-busting 재시도
+          if (!retriedWithCacheBust) {
+            retriedWithCacheBust = true;
+            const joiner = normalizedSrc.includes('?') ? '&' : '?';
+            const retrySrc = `${normalizedSrc}${joiner}v=${Date.now()}`;
+            console.log('Retrying audio with cache-busting:', retrySrc);
+            currentAudio = new Audio(retrySrc);
+            currentAudio.loop = true;
+            currentAudio.onerror = () => {
+              let errorMsg = '오디오 파일을 불러올 수 없습니다.\n';
+              errorMsg += '경로: ' + normalizedSrc + '\n\n';
+              errorMsg += '파일이 해당 경로에 존재하는지 확인해주세요.';
+              alert(errorMsg);
+            };
+            currentAudio.play().catch(() => {});
+            return;
+          }
           // 더 자세한 에러 정보
           let errorMsg = '오디오 파일을 불러올 수 없습니다.\n';
-          errorMsg += '경로: ' + audioSrc + '\n\n';
+          errorMsg += '경로: ' + normalizedSrc + '\n\n';
           errorMsg += '파일이 해당 경로에 존재하는지 확인해주세요.';
           alert(errorMsg);
         };
@@ -6476,7 +6506,7 @@
         
         // 재생 시도
         currentAudio.play().catch((e) => {
-          console.error('Failed to play audio:', audioSrc, e);
+          console.error('Failed to play audio:', normalizedSrc, e);
           // load()와 play()가 거의 동시에 일어나므로, 에러는 onerror에서 처리됨
         });
       }
