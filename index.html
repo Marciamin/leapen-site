@@ -5965,7 +5965,7 @@
 
         data.results.forEach(page => {
           const props = page.properties;
-          const dateValue = props.Date?.date?.start;
+          const dateValue = props.date?.date?.start;
           if (!dateValue) return;
           const dateKey = dateValue.split('T')[0];
           
@@ -6010,14 +6010,13 @@
           }
           
           // Writing 필드 읽기
-          const writing = props.writing?.rich_text?.[0]?.plain_text || 
-                         props.Writing?.rich_text?.[0]?.plain_text || '';
+          const writing = props.writing_topic?.rich_text?.[0]?.plain_text || '';
           
           sentenceData[dateKey] = {
-            sentence: props['Today\'s Sentence']?.title?.[0]?.plain_text || '',
+            sentence: props["today's sentence"]?.title?.[0]?.plain_text || '',
             sentenceAudio: sentenceAudioPath,
-            meaning: props.Meaning?.rich_text?.[0]?.plain_text || '',
-            example: props.Example?.rich_text?.[0]?.plain_text || '',
+            meaning: props.meaning?.rich_text?.[0]?.plain_text || '',
+            example: props.example?.rich_text?.[0]?.plain_text || '',
             exampleAudio: exampleAudioPath,
             writing: writing
           };
