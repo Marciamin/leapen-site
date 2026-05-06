@@ -194,17 +194,9 @@ let isAdmin = false;
 
 // 로그인 상태 확인
 function checkAuthStatus() {
-  const authStatus = localStorage.getItem('leapen_auth');
-  const adminSession = sessionStorage.getItem('leapen_admin_session') === '1';
-  if (authStatus === 'admin' && adminSession) {
-    isAdmin = true;
-    window.isAdmin = true;
-    updateMenuForAuth();
-    return true;
-  }
-  if (authStatus === 'admin' && !adminSession) {
-    localStorage.removeItem('leapen_auth');
-  }
+  // Legacy admin id/pw 로그인 흔적 정리
+  localStorage.removeItem('leapen_auth');
+  sessionStorage.removeItem('leapen_admin_session');
   isAdmin = false;
   window.isAdmin = false;
   updateMenuForGuest();
@@ -214,22 +206,19 @@ function checkAuthStatus() {
 // 로그인 처리
 function handleLogin(event) {
   event.preventDefault();
-  const id = document.getElementById('loginId').value.trim();
-  const password = document.getElementById('loginPassword').value;
+  const idInput = document.getElementById('loginId');
+  const passwordInput = document.getElementById('loginPassword');
   const errorDiv = document.getElementById('loginError');
-  
-  if (id === 'Admin' && password === 'admin0415') {
-    localStorage.setItem('leapen_auth', 'admin');
-    sessionStorage.setItem('leapen_admin_session', '1');
-    isAdmin = true;
-    window.isAdmin = true;
-    sessionStorage.removeItem('leapen_forced_logout');
-    errorDiv.style.display = 'none';
-    updateMenuForAuth();
-    showPage('home');
-    alert('로그인 성공! 모든 메뉴에 접근할 수 있습니다.');
-  } else {
-    errorDiv.textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
+
+  if (idInput) idInput.value = '';
+  if (passwordInput) passwordInput.value = '';
+
+  isAdmin = false;
+  window.isAdmin = false;
+  updateMenuForGuest();
+
+  if (errorDiv) {
+    errorDiv.textContent = 'Admin ID/PW 로그인은 보안상 제거되었습니다. Google 로그인 버튼을 이용해주세요.';
     errorDiv.style.display = 'block';
   }
 }
