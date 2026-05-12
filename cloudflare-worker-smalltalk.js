@@ -19,35 +19,43 @@ export default {
     const DATABASE_ID = 'YOUR_DATABASE_ID_HERE';
 
     try {
-      // Notion API 호출
-      const response = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${NOTION_API_KEY}`,
-          'Notion-Version': '2022-06-28',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({})
-      });
+      let allResults = [];
+      let hasMore = true;
+      let startCursor = undefined;
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        return new Response(
-          JSON.stringify({ 
-            error: 'Failed to fetch from Notion', 
-            details: errorData 
-          }),
-          { 
-            status: response.status,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          }
-        );
+      while (hasMore) {
+        const response = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${NOTION_API_KEY}`,
+            'Notion-Version': '2022-06-28',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(startCursor ? { start_cursor: startCursor } : {})
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          return new Response(
+            JSON.stringify({ 
+              error: 'Failed to fetch from Notion', 
+              details: errorData 
+            }),
+            { 
+              status: response.status,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            }
+          );
+        }
+
+        const data = await response.json();
+        allResults = allResults.concat(data.results || []);
+        hasMore = !!data.has_more;
+        startCursor = data.next_cursor || undefined;
       }
 
-      const data = await response.json();
-      
       // 데이터 파싱 및 변환
-      const parsedData = data.results.map(page => {
+      const parsedData = allResults.map(page => {
         const properties = page.properties;
         
         // Date 필드 파싱 (Date 타입)
