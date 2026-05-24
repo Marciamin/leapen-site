@@ -63,6 +63,61 @@
         grid-template-columns: 1fr !important;
       }
     }
+
+    /* Floating audio controls */
+    .audio-floating-controls {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.6rem;
+      background: #ffffff;
+      border: 1px solid var(--stroke, #e5e5e5);
+      border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .audio-floating-controls.visible {
+      display: flex;
+    }
+
+    .audio-floating-controls button {
+      background: #014369;
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      transition: transform 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .audio-floating-controls button:hover {
+      transform: scale(1.08);
+      background: #013052;
+    }
+
+    .audio-floating-controls .audio-speed-display {
+      min-width: 2.75rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text, #1a1a1a);
+      user-select: none;
+    }
+
+    @media (max-width: 768px) {
+      .audio-floating-controls {
+        right: 0.75rem;
+        bottom: 0.75rem;
+      }
+    }
   </style>
   
   <!-- Google tag (gtag.js) -->
@@ -6387,6 +6442,72 @@
 
     // Play audio function
     let currentAudio = null;
+    let currentPlaybackRate = 1;
+
+    function showAudioFloatingControls() {
+      syncAudioFloatingControlsVisibility();
+    }
+
+    function hideAudioFloatingControls() {
+      syncAudioFloatingControlsVisibility();
+    }
+
+    function pageHasVisibleAudioButton() {
+      const activeSection = document.querySelector('.page-section.active');
+      if (activeSection && activeSection.querySelector('.audio-btn')) {
+        return true;
+      }
+      const activeModal = document.querySelector('.week-modal.active');
+      if (activeModal && activeModal.querySelector('.audio-btn')) {
+        return true;
+      }
+      return false;
+    }
+
+    function syncAudioFloatingControlsVisibility() {
+      const el = document.getElementById('audioFloatingControls');
+      if (!el) return;
+      const shouldShow = !!currentAudio || pageHasVisibleAudioButton();
+      el.classList.toggle('visible', shouldShow);
+      el.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+      updateAudioSpeedDisplay();
+    }
+
+    function initAudioFloatingControlsObserver() {
+      if (window.__audioFloatingControlsObserver) return;
+      window.__audioFloatingControlsObserver = new MutationObserver(() => {
+        syncAudioFloatingControlsVisibility();
+      });
+      window.__audioFloatingControlsObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class']
+      });
+      syncAudioFloatingControlsVisibility();
+    }
+
+    function updateAudioSpeedDisplay() {
+      const display = document.getElementById('audioSpeedDisplay');
+      if (display) {
+        display.textContent = `${currentPlaybackRate.toFixed(1)}x`;
+      }
+    }
+
+    function registerCurrentAudio(audio) {
+      currentAudio = audio;
+      currentPlaybackRate = 1;
+      audio.playbackRate = 1;
+      showAudioFloatingControls();
+    }
+
+    function adjustAudioSpeed(delta) {
+      if (!currentAudio) return;
+      const nextRate = Math.round((currentPlaybackRate + delta) * 10) / 10;
+      currentPlaybackRate = Math.max(0.5, Math.min(2.0, nextRate));
+      currentAudio.playbackRate = currentPlaybackRate;
+      updateAudioSpeedDisplay();
+    }
     
     function playAudio(audioSrc) {
       // 디버깅: 오디오 경로 확인
@@ -6425,10 +6546,12 @@
         if (!normalizedSrc.endsWith('.mp4')) {
           tryPlayAudio(normalizedSrc)
             .then(audio => {
-              currentAudio = audio;
+              registerCurrentAudio(audio);
               audio.loop = true;
               audio.play().catch(e => {
                 console.error('Audio play error:', e);
+                currentAudio = null;
+                hideAudioFloatingControls();
                 alert('오디오 파일을 재생할 수 없습니다.');
               });
             })
@@ -6437,10 +6560,12 @@
               const mp4Src = normalizedSrc.replace(/\.mp3$/, '.mp4');
               tryPlayAudio(mp4Src)
                 .then(audio => {
-                  currentAudio = audio;
+                  registerCurrentAudio(audio);
                   audio.loop = true;
                   audio.play().catch(e => {
                     console.error('Audio play error:', e);
+                    currentAudio = null;
+                    hideAudioFloatingControls();
                     alert('오디오 파일을 재생할 수 없습니다.');
                   });
                 })
@@ -6451,45 +6576,54 @@
             });
         } else {
           // 이미 .mp4인 경우 그대로 재생
-          currentAudio = new Audio(normalizedSrc);
-          currentAudio.loop = true;
-          currentAudio.play().catch((e) => {
+          const audio = new Audio(normalizedSrc);
+          registerCurrentAudio(audio);
+          audio.loop = true;
+          audio.play().catch((e) => {
             console.error('Failed to play audio:', normalizedSrc, e);
+            currentAudio = null;
+            hideAudioFloatingControls();
             alert('오디오 파일을 재생할 수 없습니다.');
           });
         }
       } else {
         // 다른 경로의 오디오는 기존 방식대로 (Daily1Sentence 포함)
         console.log('Playing audio from path:', normalizedSrc);
-        currentAudio = new Audio(normalizedSrc);
-        currentAudio.loop = true;
+        const audio = new Audio(normalizedSrc);
+        registerCurrentAudio(audio);
+        audio.loop = true;
         
         // 오디오 로드 성공 확인
-        currentAudio.oncanplaythrough = () => {
+        audio.oncanplaythrough = () => {
           console.log('Audio can play:', normalizedSrc);
         };
         
         let retriedWithCacheBust = false;
-        currentAudio.onerror = (e) => {
+        audio.onerror = (e) => {
           console.error('Audio load error:', e, 'Source:', normalizedSrc);
-          console.error('Audio error details:', currentAudio.error);
+          console.error('Audio error details:', audio.error);
           // Chrome에서 이전 404 캐시가 남는 경우를 대비해 1회 cache-busting 재시도
           if (!retriedWithCacheBust) {
             retriedWithCacheBust = true;
             const joiner = normalizedSrc.includes('?') ? '&' : '?';
             const retrySrc = `${normalizedSrc}${joiner}v=${Date.now()}`;
             console.log('Retrying audio with cache-busting:', retrySrc);
-            currentAudio = new Audio(retrySrc);
-            currentAudio.loop = true;
-            currentAudio.onerror = () => {
+            const retryAudio = new Audio(retrySrc);
+            registerCurrentAudio(retryAudio);
+            retryAudio.loop = true;
+            retryAudio.onerror = () => {
+              currentAudio = null;
+              hideAudioFloatingControls();
               let errorMsg = '오디오 파일을 불러올 수 없습니다.\n';
               errorMsg += '경로: ' + normalizedSrc + '\n\n';
               errorMsg += '파일이 해당 경로에 존재하는지 확인해주세요.';
               alert(errorMsg);
             };
-            currentAudio.play().catch(() => {});
+            retryAudio.play().catch(() => {});
             return;
           }
+          currentAudio = null;
+          hideAudioFloatingControls();
           // 더 자세한 에러 정보
           let errorMsg = '오디오 파일을 불러올 수 없습니다.\n';
           errorMsg += '경로: ' + normalizedSrc + '\n\n';
@@ -6498,10 +6632,10 @@
         };
         
         // 오디오 로드 시작
-        currentAudio.load();
+        audio.load();
         
         // 재생 시도
-        currentAudio.play().catch((e) => {
+        audio.play().catch((e) => {
           console.error('Failed to play audio:', normalizedSrc, e);
           // load()와 play()가 거의 동시에 일어나므로, 에러는 onerror에서 처리됨
         });
@@ -6514,6 +6648,7 @@
         currentAudio.currentTime = 0;
         currentAudio = null;
       }
+      hideAudioFloatingControls();
     }
 
     // Initialize calendar when page loads
@@ -6694,6 +6829,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
+      initAudioFloatingControlsObserver();
+
       // 체크박스 이벤트 리스너 설정
       setupPopupCheckboxListeners();
 
@@ -7804,6 +7941,13 @@
       }
     }
   </script>
+
+  <div id="audioFloatingControls" class="audio-floating-controls" aria-hidden="true" role="toolbar" aria-label="오디오 재생 컨트롤">
+    <button type="button" onclick="adjustAudioSpeed(-0.1)" title="재생 속도 줄이기" aria-label="재생 속도 줄이기">−</button>
+    <span id="audioSpeedDisplay" class="audio-speed-display">1.0x</span>
+    <button type="button" onclick="adjustAudioSpeed(0.1)" title="재생 속도 올리기" aria-label="재생 속도 올리기">+</button>
+    <button type="button" onclick="stopAudio()" title="재생 정지" aria-label="재생 정지">⏹</button>
+  </div>
 </body>
 </html>
 
