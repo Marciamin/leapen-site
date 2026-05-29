@@ -37,6 +37,21 @@ function showPage(pageId, pushHistory = true) {
     }, 100);
   }
   
+  // 5분 Writing 페이지 열 때 달력 초기화 (데이터는 ensurePageDataLoaded에서 선로드)
+  if (pageId === 'daily-5min-writing') {
+    if (typeof renderWritingCalendar === 'function') {
+      currentWritingCalendarDate = new Date();
+      renderWritingCalendar();
+      setTimeout(() => {
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+        if (typeof selectWritingDate === 'function') {
+          selectWritingDate(todayStr);
+        }
+      }, 100);
+    }
+  }
+
   // Small Talk 보이스룸 페이지 열 때 오늘 날짜로 초기화
   if (pageId === 'voice-room-category-02') {
     if (typeof renderSmallTalkCalendar === 'function') {

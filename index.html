@@ -64,27 +64,41 @@
       }
     }
 
-    /* Floating audio controls */
+    /* Floating audio controls — default: right center (avoids TOP button at bottom-right) */
     .audio-floating-controls {
       position: fixed;
       right: 1.25rem;
-      bottom: 1.25rem;
+      top: 50%;
+      bottom: auto;
+      left: auto;
+      transform: translateY(-50%);
       z-index: 1100;
       display: none;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.45rem 0.6rem;
+      padding: 0.45rem 0.55rem 0.45rem 0.35rem;
       background: #ffffff;
       border: 1px solid var(--stroke, #e5e5e5);
       border-radius: 999px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      touch-action: none;
+    }
+
+    .audio-floating-controls.is-custom-position {
+      right: auto;
+      transform: none;
+    }
+
+    .audio-floating-controls.is-dragging {
+      transition: none;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
     }
 
     .audio-floating-controls.visible {
       display: flex;
     }
 
-    .audio-floating-controls button {
+    .audio-floating-controls button:not(.audio-floating-drag-handle) {
       background: #014369;
       color: #ffffff;
       border: none;
@@ -98,9 +112,28 @@
       flex-shrink: 0;
     }
 
-    .audio-floating-controls button:hover {
+    .audio-floating-controls button:not(.audio-floating-drag-handle):hover {
       transform: scale(1.08);
       background: #013052;
+    }
+
+    .audio-floating-controls .audio-floating-drag-handle {
+      background: transparent;
+      color: #6b7280;
+      border: none;
+      border-radius: 8px;
+      width: 28px;
+      height: 36px;
+      cursor: grab;
+      font-size: 1rem;
+      line-height: 1;
+      flex-shrink: 0;
+      padding: 0;
+      touch-action: none;
+    }
+
+    .audio-floating-controls.is-dragging .audio-floating-drag-handle {
+      cursor: grabbing;
     }
 
     .audio-floating-controls .audio-speed-display {
@@ -113,9 +146,8 @@
     }
 
     @media (max-width: 768px) {
-      .audio-floating-controls {
+      .audio-floating-controls:not(.is-custom-position) {
         right: 0.75rem;
-        bottom: 0.75rem;
       }
     }
   </style>
@@ -981,7 +1013,7 @@
         <div class="challenge-detail-layout">
           <div class="challenge-detail-left">
             <div class="content-card challenge-video-card">
-              <video controls>
+              <video controls preload="none">
                 <source src="videos/leapen-challenge-01.mp4" type="video/mp4">
                 이 브라우저는 video 태그를 지원하지 않습니다.
               </video>
@@ -1030,8 +1062,10 @@
           </div>
           <!-- Notion embed: replace src with your public Notion embed URL -->
           <iframe
-            src="https://leapen.notion.site/ebd//1eef2065b221801b801fc68486b75890"
+            src="about:blank"
+            data-notion-src="https://leapen.notion.site/ebd//1eef2065b221801b801fc68486b75890"
             title="Notion Embed"
+            loading="lazy"
             style="width: 100%; min-height: 640px; border: 1px solid #e5e7eb; border-radius: 12px; display: none;"
             data-notion-embed
           ></iframe>
@@ -1052,7 +1086,7 @@
         <div class="challenge-detail-layout">
           <div class="challenge-detail-left">
             <div class="content-card challenge-video-card">
-              <video controls>
+              <video controls preload="none">
                 <source src="videos/leapen-challenge-02.mp4" type="video/mp4">
                 이 브라우저는 video 태그를 지원하지 않습니다.
               </video>
@@ -1114,7 +1148,7 @@
         <div class="challenge-detail-layout">
           <div class="challenge-detail-left">
             <div class="content-card challenge-video-card">
-              <video controls>
+              <video controls preload="none">
                 <source src="videos/leapen-challenge-03.mp4" type="video/mp4">
                 이 브라우저는 video 태그를 지원하지 않습니다.
               </video>
@@ -1677,7 +1711,7 @@
             <p style="color: var(--text-secondary); margin-top: 2rem; font-size: 1.2rem; text-align: center;">해당 날짜의 스터디 메뉴를 눌러주세요.</p>
           </div>
           <div id="weekendVRNotion" style="display: none; width: 100%; height: 600px;">
-            <iframe src="https://leapen.notion.site/ebd//308f2065b22180cdbf2bc0481772a793" frameborder="0" allowfullscreen allow="fullscreen" style="width: 100%; height: 100%; min-height: 500px; border-radius: 8px;"></iframe>
+            <iframe src="about:blank" data-notion-src="https://leapen.notion.site/ebd//308f2065b22180cdbf2bc0481772a793" loading="lazy" frameborder="0" allowfullscreen allow="fullscreen" style="width: 100%; height: 100%; min-height: 500px; border-radius: 8px;"></iframe>
           </div>
         </div>
       </div>
@@ -5886,7 +5920,7 @@
         return;
       }
       setChallengeDetailsMessage(section, '');
-      iframe.src = url;
+      lazyLoadNotionIframe(iframe, url);
     };
     // Calendar for One Sentence Page
     let currentCalendarDate = new Date();
@@ -5901,17 +5935,122 @@
     // Calendar for Writing Page
     let currentWritingCalendarDate = new Date();
     let selectedWritingDate = null;
+
+    const API_FETCH_TIMEOUT_MS = 15000;
+    let sentencesLoadPromise = null;
+    let smallTalkLoadPromise = null;
+    let weeksLoadPromise = null;
+    let daysLoadPromise = null;
+
+    function fetchWithTimeout(url, options = {}, timeoutMs = API_FETCH_TIMEOUT_MS) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+      return fetch(url, { ...options, signal: controller.signal })
+        .finally(() => clearTimeout(timeoutId));
+    }
+
+    function ensureSentencesLoaded() {
+      if (!sentencesLoadPromise) {
+        sentencesLoadPromise = loadSentencesFromNotion().catch((err) => {
+          sentencesLoadPromise = null;
+          throw err;
+        });
+      }
+      return sentencesLoadPromise;
+    }
+
+    function ensureSmallTalkLoaded() {
+      if (!smallTalkLoadPromise) {
+        smallTalkLoadPromise = loadSmallTalkFromNotion().catch((err) => {
+          smallTalkLoadPromise = null;
+          throw err;
+        });
+      }
+      return smallTalkLoadPromise;
+    }
+
+    function ensureWeeksLoaded() {
+      if (!weeksLoadPromise) {
+        weeksLoadPromise = loadWeeksData().catch((err) => {
+          weeksLoadPromise = null;
+          throw err;
+        });
+      }
+      return weeksLoadPromise;
+    }
+
+    function ensureDaysLoaded() {
+      if (!daysLoadPromise) {
+        daysLoadPromise = loadDaysData().catch((err) => {
+          daysLoadPromise = null;
+          throw err;
+        });
+      }
+      return daysLoadPromise;
+    }
+
+    function pageNeedsSentencesAwait(pageId) {
+      return pageId === 'member-dashboard'
+        || pageId === 'daily-one-sentence'
+        || pageId === 'daily-5min-writing';
+    }
+
+    async function ensurePageDataLoaded(pageId) {
+      if (!pageId) return;
+      if (pageId === 'home') {
+        ensureSentencesLoaded().then(() => updateTodaySentence()).catch(() => {});
+        return;
+      }
+      if (pageNeedsSentencesAwait(pageId)) {
+        await ensureSentencesLoaded();
+        if (pageId === 'member-dashboard') {
+          updateTodaySentence();
+        }
+      }
+      if (pageId === 'voice-room-category-02') {
+        await ensureSmallTalkLoaded();
+      }
+      if (pageId === '52weeks') {
+        await ensureWeeksLoaded();
+      }
+      if (pageId === 'voice-room-category-01') {
+        await ensureDaysLoaded();
+      }
+    }
+
+    function scheduleHomeDataPrefetch() {
+      const run = () => {
+        ensureSentencesLoaded()
+          .then(() => updateTodaySentence())
+          .catch(() => {});
+      };
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(run, { timeout: 3000 });
+      } else {
+        setTimeout(run, 200);
+      }
+    }
+
+    function lazyLoadNotionIframe(iframe, url) {
+      if (!iframe || !url) return;
+      if (iframe.dataset.loadedUrl === url) return;
+      iframe.src = url;
+      iframe.dataset.loadedUrl = url;
+    }
+
+    function activateNotionIframe(iframe) {
+      if (!iframe) return;
+      lazyLoadNotionIframe(iframe, iframe.dataset.notionSrc || '');
+    }
     
     // Small Talk 데이터를 Notion에서 불러오기
     async function loadSmallTalkFromNotion() {
       try {
-        const response = await fetch('https://pmvr.leap-english0415.workers.dev/');
+        const response = await fetchWithTimeout('https://pmvr.leap-english0415.workers.dev/');
         if (!response.ok) {
           throw new Error('Failed to fetch from Notion');
         }
         const data = await response.json();
-        
-        console.log('Small Talk Notion data:', data);
         
         // API 응답 형식에 따라 데이터 배열 추출
         const items = data.results || data;
@@ -5933,13 +6072,11 @@
             if (dateValue) {
               dateStr = dateValue.split('T')[0]; // 시간 부분 제거
             }
-            console.log(`Item ${index} properties keys:`, Object.keys(props));
           } else {
             // 직접 배열 형식인 경우
             if (item.date) {
               dateStr = item.date.split('T')[0]; // 시간 부분 제거
             }
-            console.log(`Item ${index} keys:`, Object.keys(item));
           }
           
           if (!dateStr) {
@@ -5992,7 +6129,6 @@
           };
         });
         
-        console.log('Small Talk data loaded:', smallTalkData);
       } catch (error) {
         console.error('Failed to load Small Talk from Notion:', error);
       }
@@ -6001,8 +6137,15 @@
     // Notion에서 데이터 불러오기
     async function loadSentencesFromNotion() {
       try {
-        const response = await fetch('https://260101.leap-english0415.workers.dev/');
+        const response = await fetchWithTimeout('https://260101.leap-english0415.workers.dev/');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
+        if (!data?.results || !Array.isArray(data.results)) {
+          console.warn('Invalid sentences API response');
+          return;
+        }
         
         const sanitizeAudioFileName = (raw) => {
           if (!raw) return '';
@@ -6028,11 +6171,6 @@
                                    props['ExampleAudio']?.rich_text?.[0]?.plain_text ||
                                    props.ExampleAudio?.rich_text?.[0]?.plain_text || '';
           
-          // 디버깅: 필드명 확인
-          console.log('Date:', dateValue);
-          console.log('SentenceAudio field:', sentenceAudioFile);
-          console.log('ExampleAudio field:', exampleAudioFile);
-          
           // Sentence Audio 경로 설정 (Daily1Sentence 폴더, 확장자 자동 처리)
           let sentenceAudioPath = '';
           if (sentenceAudioFile) {
@@ -6044,7 +6182,6 @@
               // 확장자가 없으면 .mp3를 기본으로 사용
               sentenceAudioPath = `Audio/Daily1Sentence/${audioFileName}.mp3`;
             }
-            console.log('SentenceAudio path:', sentenceAudioPath);
           }
           
           // Example Audio 경로 설정 (Daily1Sentence 폴더, 확장자 자동 처리)
@@ -6058,7 +6195,6 @@
               // 확장자가 없으면 .mp3를 기본으로 사용
               exampleAudioPath = `Audio/Daily1Sentence/${audioFileName}.mp3`;
             }
-            console.log('ExampleAudio path:', exampleAudioPath);
           }
           
           // Writing 필드 읽기
@@ -6074,8 +6210,6 @@
           };
         });
         
-        console.log('Notion data loaded:', sentenceData);
-        updateTodaySentence();
       } catch (error) {
         console.error('Failed to load from Notion:', error);
       }
@@ -6169,11 +6303,6 @@
       
       if (sentenceData[dateStr]) {
         const data = sentenceData[dateStr];
-        
-        // 디버깅: 데이터 확인
-        console.log('Selected date data:', dateStr, data);
-        console.log('SentenceAudio path:', data.sentenceAudio);
-        console.log('ExampleAudio path:', data.exampleAudio);
         
         // 오디오 버튼 (경로가 있을 때만 표시)
         const sentenceAudioBtn = data.sentenceAudio 
@@ -6441,8 +6570,17 @@
     }
 
     // Play audio function
+    const AUDIO_PLAYBACK_RATE_KEY = 'leapen_audio_playback_rate';
+    const AUDIO_CONTROLS_POS_KEY = 'leapen_audio_controls_pos';
+
     let currentAudio = null;
-    let currentPlaybackRate = 1;
+    let currentPlaybackRate = (function loadSavedPlaybackRate() {
+      try {
+        const saved = parseFloat(localStorage.getItem(AUDIO_PLAYBACK_RATE_KEY));
+        if (!Number.isNaN(saved) && saved >= 0.5 && saved <= 2.0) return saved;
+      } catch (e) { /* ignore */ }
+      return 1;
+    })();
 
     function showAudioFloatingControls() {
       syncAudioFloatingControlsVisibility();
@@ -6473,17 +6611,104 @@
       updateAudioSpeedDisplay();
     }
 
-    function initAudioFloatingControlsObserver() {
-      if (window.__audioFloatingControlsObserver) return;
-      window.__audioFloatingControlsObserver = new MutationObserver(() => {
-        syncAudioFloatingControlsVisibility();
+    function clampAudioControlsPosition(left, top, el) {
+      const margin = 8;
+      const w = el.offsetWidth || 200;
+      const h = el.offsetHeight || 48;
+      const maxLeft = Math.max(margin, window.innerWidth - w - margin);
+      const maxTop = Math.max(margin, window.innerHeight - h - margin);
+      return {
+        left: Math.min(Math.max(margin, left), maxLeft),
+        top: Math.min(Math.max(margin, top), maxTop)
+      };
+    }
+
+    function applyAudioControlsPosition(left, top) {
+      const el = document.getElementById('audioFloatingControls');
+      if (!el) return;
+      const pos = clampAudioControlsPosition(left, top, el);
+      el.classList.add('is-custom-position');
+      el.style.left = `${pos.left}px`;
+      el.style.top = `${pos.top}px`;
+      el.style.right = 'auto';
+      el.style.transform = 'none';
+      try {
+        localStorage.setItem(AUDIO_CONTROLS_POS_KEY, JSON.stringify(pos));
+      } catch (e) { /* ignore */ }
+    }
+
+    function restoreAudioControlsPosition() {
+      const el = document.getElementById('audioFloatingControls');
+      if (!el) return;
+      try {
+        const raw = localStorage.getItem(AUDIO_CONTROLS_POS_KEY);
+        if (!raw) return;
+        const pos = JSON.parse(raw);
+        if (typeof pos.left !== 'number' || typeof pos.top !== 'number') return;
+        applyAudioControlsPosition(pos.left, pos.top);
+      } catch (e) { /* ignore */ }
+    }
+
+    function initAudioFloatingControlsDrag() {
+      const el = document.getElementById('audioFloatingControls');
+      const handle = el?.querySelector('.audio-floating-drag-handle');
+      if (!el || !handle || handle.dataset.dragBound === '1') return;
+      handle.dataset.dragBound = '1';
+
+      let dragPointerId = null;
+      let dragStartX = 0;
+      let dragStartY = 0;
+      let dragStartLeft = 0;
+      let dragStartTop = 0;
+
+      function finishDrag(e) {
+        if (dragPointerId === null || e.pointerId !== dragPointerId) return;
+        el.classList.remove('is-dragging');
+        try {
+          if (handle.hasPointerCapture(e.pointerId)) {
+            handle.releasePointerCapture(e.pointerId);
+          }
+        } catch (err) { /* ignore */ }
+        const left = parseFloat(el.style.left) || 0;
+        const top = parseFloat(el.style.top) || 0;
+        applyAudioControlsPosition(left, top);
+        dragPointerId = null;
+      }
+
+      handle.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        const rect = el.getBoundingClientRect();
+        el.classList.add('is-custom-position', 'is-dragging');
+        el.style.left = `${rect.left}px`;
+        el.style.top = `${rect.top}px`;
+        el.style.right = 'auto';
+        el.style.transform = 'none';
+        dragPointerId = e.pointerId;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        dragStartLeft = rect.left;
+        dragStartTop = rect.top;
+        handle.setPointerCapture(e.pointerId);
       });
-      window.__audioFloatingControlsObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['class']
+
+      handle.addEventListener('pointermove', (e) => {
+        if (dragPointerId === null || e.pointerId !== dragPointerId) return;
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        const pos = clampAudioControlsPosition(dragStartLeft + dx, dragStartTop + dy, el);
+        el.style.left = `${pos.left}px`;
+        el.style.top = `${pos.top}px`;
       });
+
+      handle.addEventListener('pointerup', finishDrag);
+      handle.addEventListener('pointercancel', finishDrag);
+    }
+
+    function initAudioFloatingControls() {
+      restoreAudioControlsPosition();
+      initAudioFloatingControlsDrag();
+      updateAudioSpeedDisplay();
       syncAudioFloatingControlsVisibility();
     }
 
@@ -6496,17 +6721,20 @@
 
     function registerCurrentAudio(audio) {
       currentAudio = audio;
-      currentPlaybackRate = 1;
-      audio.playbackRate = 1;
+      audio.playbackRate = currentPlaybackRate;
       showAudioFloatingControls();
     }
 
     function adjustAudioSpeed(delta) {
-      if (!currentAudio) return;
       const nextRate = Math.round((currentPlaybackRate + delta) * 10) / 10;
       currentPlaybackRate = Math.max(0.5, Math.min(2.0, nextRate));
-      currentAudio.playbackRate = currentPlaybackRate;
+      if (currentAudio) {
+        currentAudio.playbackRate = currentPlaybackRate;
+      }
       updateAudioSpeedDisplay();
+      try {
+        localStorage.setItem(AUDIO_PLAYBACK_RATE_KEY, String(currentPlaybackRate));
+      } catch (e) { /* ignore */ }
     }
     
     function playAudio(audioSrc) {
@@ -6828,53 +7056,20 @@
       btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
     }
 
-    document.addEventListener('DOMContentLoaded', async function() {
-      initAudioFloatingControlsObserver();
-
-      // 체크박스 이벤트 리스너 설정
+    document.addEventListener('DOMContentLoaded', function() {
+      initAudioFloatingControls();
       setupPopupCheckboxListeners();
-
-      // 홈 페이지일 때만 팝업 표시
       checkAndShowPopups();
+      updateScrollTopButton();
+      scheduleHomeDataPrefetch();
 
-      // 페이지 해시 변경 시 (페이지 이동 시) 팝업 체크
       window.addEventListener('hashchange', function() {
         checkAndShowPopups();
+        const hash = window.location.hash.slice(1);
+        if (hash) {
+          ensurePageDataLoaded(hash).catch(() => {});
+        }
       });
-
-      await loadSentencesFromNotion();
-      await loadSmallTalkFromNotion();
-      updateTodaySentence();
-      if (document.getElementById('calendarDays')) {
-        renderCalendar();
-      }
-      if (document.getElementById('smallTalkCalendarDays')) {
-        renderSmallTalkCalendar();
-        // 오늘 날짜를 기본으로 선택
-        const today = new Date();
-        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-        setTimeout(() => {
-          selectSmallTalkDate(todayStr);
-        }, 100);
-      }
-      if (document.getElementById('smallTalkCalendarDays')) {
-        renderWritingCalendar();
-        // 오늘 날짜를 기본으로 선택
-        const today = new Date();
-        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-        setTimeout(() => {
-          selectWritingDate(todayStr);
-        }, 100);
-      }
-      // 52주 필사 초기화
-      if (document.getElementById('weeksGrid')) {
-        await loadWeeksData();
-      }
-      // 보이스룸 100일 챌린지 초기화
-      if (document.getElementById('voiceRoomCardsGrid')) {
-        await loadDaysData();
-      }
-      updateScrollTopButton();
     });
 
     window.addEventListener('scroll', updateScrollTopButton);
@@ -7043,15 +7238,13 @@
     async function loadWeeksData() {
       try {
         // 52주 필사용 Cloudflare Workers 엔드포인트 호출
-        const response = await fetch('https://52writing.leap-english0415.workers.dev/');
+        const response = await fetchWithTimeout('https://52writing.leap-english0415.workers.dev/');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        console.log('Raw Notion data:', data);
-        
         // results가 없거나 빈 배열인 경우 확인
         if (!data.results || data.results.length === 0) {
           console.warn('No data found in Notion response');
@@ -7342,15 +7535,13 @@
     // Notion에서 데이터 불러오기
     async function loadDaysData() {
       try {
-        const response = await fetch('https://100dayvr.leap-english0415.workers.dev/');
+        const response = await fetchWithTimeout('https://100dayvr.leap-english0415.workers.dev/');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        console.log('Raw Notion data:', data);
-        
         if (!data.results || data.results.length === 0) {
           console.warn('No data found in Notion response');
           daysData = {};
@@ -7622,6 +7813,7 @@
       } else if (id === 'vr01') {
         contentEl.style.display = 'none';
         notionEl.style.display = 'block';
+        activateNotionIframe(notionEl.querySelector('iframe'));
       } else {
         contentEl.style.display = 'block';
         contentEl.innerHTML = '<p style="color: var(--text-secondary); margin-top: 2rem; font-size: 1.2rem; text-align: center;">추후 업데이트 될 예정입니다.</p>';
@@ -7679,8 +7871,8 @@
       const defaultRow = section.querySelector('tr[data-default-notion]') || section.querySelector('tr[data-notion]');
       if (!defaultRow) return;
       const url = defaultRow.dataset.notion;
-      if (url && iframe.src !== url) {
-        iframe.src = url;
+      if (url) {
+        lazyLoadNotionIframe(iframe, url);
       }
     }
 
@@ -7777,41 +7969,48 @@
 
     // 보이스룸 100일 챌린지 페이지 열 때 필터 초기화
     // (showPage는 script.js에서 이미 래핑되어 있으므로 여기서는 필터 초기화만 처리)
+    function runAfterPageShown(pageId) {
+      syncAudioFloatingControlsVisibility();
+
+      if (pageId === 'member-dashboard') {
+        updateMemberGrowthUI();
+        updateAllChallengeUI();
+      }
+
+      if (pageId === 'contact') {
+        updateContactReportDate();
+      }
+
+      if (pageId === 'voice-room-category-01') {
+        setTimeout(() => {
+          const allBtn = document.querySelector('#voice-room-category-01 .filter-btn[onclick*="all"]');
+          if (allBtn) {
+            const filterBtns = document.querySelectorAll('#voice-room-category-01 .filter-btn');
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            allBtn.classList.add('active');
+
+            const cards = document.querySelectorAll('#voice-room-category-01 .voice-room-question-card');
+            cards.forEach(card => {
+              card.style.display = 'block';
+            });
+          }
+        }, 100);
+      }
+
+      if (pageId && pageId.startsWith('leapen-challenge-')) {
+        updateChallengeUIForPage(pageId);
+      }
+    }
+
     const originalShowPageWrapper = window.showPage;
     if (typeof originalShowPageWrapper === 'function') {
       window.showPage = function(pageId, pushHistory = true) {
-        // script.js의 접근 제어를 통과한 경우에만 실행
-        originalShowPageWrapper(pageId, pushHistory);
-
-        if (pageId === 'member-dashboard') {
-          updateMemberGrowthUI();
-          updateAllChallengeUI();
-        }
-        
-        if (pageId === 'contact') {
-          updateContactReportDate();
-        }
-        
-        // 보이스룸 100일 챌린지 페이지 열 때 전체 필터로 초기화
-        if (pageId === 'voice-room-category-01') {
-          setTimeout(() => {
-            const allBtn = document.querySelector('#voice-room-category-01 .filter-btn[onclick*="all"]');
-            if (allBtn) {
-              const filterBtns = document.querySelectorAll('#voice-room-category-01 .filter-btn');
-              filterBtns.forEach(btn => btn.classList.remove('active'));
-              allBtn.classList.add('active');
-              
-              const cards = document.querySelectorAll('#voice-room-category-01 .voice-room-question-card');
-              cards.forEach(card => {
-                card.style.display = 'block';
-              });
-            }
-          }, 100);
-        }
-
-        if (pageId && pageId.startsWith('leapen-challenge-')) {
-          updateChallengeUIForPage(pageId);
-        }
+        ensurePageDataLoaded(pageId)
+          .catch((err) => console.warn('Page data preload failed:', err))
+          .finally(() => {
+            originalShowPageWrapper(pageId, pushHistory);
+            runAfterPageShown(pageId);
+          });
       };
     }
 
@@ -7943,6 +8142,7 @@
   </script>
 
   <div id="audioFloatingControls" class="audio-floating-controls" aria-hidden="true" role="toolbar" aria-label="오디오 재생 컨트롤">
+    <button type="button" class="audio-floating-drag-handle" aria-label="드래그하여 위치 이동" title="드래그하여 위치 이동">⠿</button>
     <button type="button" onclick="adjustAudioSpeed(-0.1)" title="재생 속도 줄이기" aria-label="재생 속도 줄이기">−</button>
     <span id="audioSpeedDisplay" class="audio-speed-display">1.0x</span>
     <button type="button" onclick="adjustAudioSpeed(0.1)" title="재생 속도 올리기" aria-label="재생 속도 올리기">+</button>
