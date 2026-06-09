@@ -64,7 +64,7 @@
       }
     }
 
-    /* Floating audio controls — default: right center (avoids TOP button at bottom-right) */
+    /* Floating audio controls — desktop: right center; mobile: bottom-right + safe area */
     .audio-floating-controls {
       position: fixed;
       right: 1.25rem;
@@ -72,7 +72,7 @@
       bottom: auto;
       left: auto;
       transform: translateY(-50%);
-      z-index: 1100;
+      z-index: 10100;
       display: none;
       align-items: center;
       gap: 0.35rem;
@@ -81,7 +81,8 @@
       border: 1px solid var(--stroke, #e5e5e5);
       border-radius: 999px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      touch-action: none;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
 
     .audio-floating-controls.is-custom-position {
@@ -147,7 +148,11 @@
 
     @media (max-width: 768px) {
       .audio-floating-controls:not(.is-custom-position) {
-        right: 0.75rem;
+        top: auto;
+        bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+        right: calc(0.75rem + env(safe-area-inset-right, 0px));
+        left: auto;
+        transform: none;
       }
     }
   </style>
@@ -6595,8 +6600,12 @@
       if (activeSection && activeSection.querySelector('.audio-btn')) {
         return true;
       }
-      const activeModal = document.querySelector('.week-modal.active');
-      if (activeModal && activeModal.querySelector('.audio-btn')) {
+      const activeWeekModal = document.querySelector('.week-modal.active');
+      if (activeWeekModal && activeWeekModal.querySelector('.audio-btn')) {
+        return true;
+      }
+      const activeDayModal = document.querySelector('.day-modal.active');
+      if (activeDayModal && activeDayModal.querySelector('.audio-btn')) {
         return true;
       }
       return false;
@@ -6609,6 +6618,13 @@
       el.classList.toggle('visible', shouldShow);
       el.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
       updateAudioSpeedDisplay();
+      if (shouldShow) {
+        requestAnimationFrame(() => {
+          if (!isAudioControlsOnScreen(el)) {
+            resetAudioControlsDefaultPosition();
+          }
+        });
+      }
     }
 
     function clampAudioControlsPosition(left, top, el) {
@@ -6637,15 +6653,51 @@
       } catch (e) { /* ignore */ }
     }
 
+    function resetAudioControlsDefaultPosition() {
+      const el = document.getElementById('audioFloatingControls');
+      if (!el) return;
+      el.classList.remove('is-custom-position');
+      el.style.left = '';
+      el.style.top = '';
+      el.style.right = '';
+      el.style.transform = '';
+    }
+
+    function isAudioControlsOnScreen(el) {
+      if (!el) return true;
+      const rect = el.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) return true;
+      const margin = 4;
+      return (
+        rect.right > margin &&
+        rect.bottom > margin &&
+        rect.left < window.innerWidth - margin &&
+        rect.top < window.innerHeight - margin
+      );
+    }
+
     function restoreAudioControlsPosition() {
       const el = document.getElementById('audioFloatingControls');
       if (!el) return;
+      // 모바일은 항상 기본 위치(우하단) 사용 — PC에서 저장한 좌표가 화면 밖으로 밀리는 문제 방지
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        resetAudioControlsDefaultPosition();
+        return;
+      }
       try {
         const raw = localStorage.getItem(AUDIO_CONTROLS_POS_KEY);
         if (!raw) return;
         const pos = JSON.parse(raw);
         if (typeof pos.left !== 'number' || typeof pos.top !== 'number') return;
         applyAudioControlsPosition(pos.left, pos.top);
+        requestAnimationFrame(() => {
+          if (!isAudioControlsOnScreen(el)) {
+            resetAudioControlsDefaultPosition();
+            try {
+              localStorage.removeItem(AUDIO_CONTROLS_POS_KEY);
+            } catch (e) { /* ignore */ }
+          }
+        });
       } catch (e) { /* ignore */ }
     }
 
@@ -6705,11 +6757,36 @@
       handle.addEventListener('pointercancel', finishDrag);
     }
 
+    function initAudioFloatingControlsObserver() {
+      if (window.__audioFloatingControlsObserver) return;
+      window.__audioFloatingControlsObserver = new MutationObserver(() => {
+        syncAudioFloatingControlsVisibility();
+      });
+      window.__audioFloatingControlsObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    }
+
     function initAudioFloatingControls() {
+      initAudioFloatingControlsObserver();
       restoreAudioControlsPosition();
       initAudioFloatingControlsDrag();
       updateAudioSpeedDisplay();
       syncAudioFloatingControlsVisibility();
+      window.addEventListener('resize', () => {
+        const el = document.getElementById('audioFloatingControls');
+        if (!el || !el.classList.contains('is-custom-position')) return;
+        const left = parseFloat(el.style.left);
+        const top = parseFloat(el.style.top);
+        if (Number.isNaN(left) || Number.isNaN(top)) return;
+        applyAudioControlsPosition(left, top);
+        if (!isAudioControlsOnScreen(el)) {
+          resetAudioControlsDefaultPosition();
+        }
+      });
     }
 
     function updateAudioSpeedDisplay() {
