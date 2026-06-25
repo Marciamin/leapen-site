@@ -6618,13 +6618,16 @@
       el.classList.toggle('visible', shouldShow);
       el.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
       updateAudioSpeedDisplay();
-      if (shouldShow) {
-        requestAnimationFrame(() => {
-          if (!isAudioControlsOnScreen(el)) {
-            resetAudioControlsDefaultPosition();
-          }
-        });
-      }
+    }
+
+    function ensureAudioControlsOnScreen() {
+      const el = document.getElementById('audioFloatingControls');
+      if (!el || !el.classList.contains('visible') || !el.classList.contains('is-custom-position')) return;
+      if (isAudioControlsOnScreen(el)) return;
+      resetAudioControlsDefaultPosition();
+      try {
+        localStorage.removeItem(AUDIO_CONTROLS_POS_KEY);
+      } catch (e) { /* ignore */ }
     }
 
     function clampAudioControlsPosition(left, top, el) {
@@ -6690,14 +6693,7 @@
         const pos = JSON.parse(raw);
         if (typeof pos.left !== 'number' || typeof pos.top !== 'number') return;
         applyAudioControlsPosition(pos.left, pos.top);
-        requestAnimationFrame(() => {
-          if (!isAudioControlsOnScreen(el)) {
-            resetAudioControlsDefaultPosition();
-            try {
-              localStorage.removeItem(AUDIO_CONTROLS_POS_KEY);
-            } catch (e) { /* ignore */ }
-          }
-        });
+        requestAnimationFrame(ensureAudioControlsOnScreen);
       } catch (e) { /* ignore */ }
     }
 
@@ -6757,25 +6753,12 @@
       handle.addEventListener('pointercancel', finishDrag);
     }
 
-    function initAudioFloatingControlsObserver() {
-      if (window.__audioFloatingControlsObserver) return;
-      window.__audioFloatingControlsObserver = new MutationObserver(() => {
-        syncAudioFloatingControlsVisibility();
-      });
-      window.__audioFloatingControlsObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['class']
-      });
-    }
-
     function initAudioFloatingControls() {
-      initAudioFloatingControlsObserver();
       restoreAudioControlsPosition();
       initAudioFloatingControlsDrag();
       updateAudioSpeedDisplay();
       syncAudioFloatingControlsVisibility();
+      requestAnimationFrame(ensureAudioControlsOnScreen);
       window.addEventListener('resize', () => {
         const el = document.getElementById('audioFloatingControls');
         if (!el || !el.classList.contains('is-custom-position')) return;
@@ -6783,9 +6766,7 @@
         const top = parseFloat(el.style.top);
         if (Number.isNaN(left) || Number.isNaN(top)) return;
         applyAudioControlsPosition(left, top);
-        if (!isAudioControlsOnScreen(el)) {
-          resetAudioControlsDefaultPosition();
-        }
+        ensureAudioControlsOnScreen();
       });
     }
 
